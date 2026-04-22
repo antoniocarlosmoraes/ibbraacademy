@@ -3,301 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibbra Academy - Radar do Conhecimento</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");
-        :root {
-            --azul-ibbra: #011e40;
-            --azul-painel: #022c5a;
-            --azul-highlight: #005cb9;
-            --creme-ibbra: #eae1dc;
-            --vermelho-ibbra: #ff4614;
-            --vermelho-erro: #e74c3c;
-            --branco: #ffffff;
-            --cinza-borda: #cccccc;
-            --cinza-fundo: #f5f0ed;
-            --cinza-texto: #555555;
-            --verde-sucesso: #27ae60;
-            --ouro: #f1c40f;
-        }
-        body { margin: 0; font-family: "Montserrat", sans-serif; background-color: var(--cinza-fundo); color: var(--azul-ibbra); }
-        
-        /* NAVBAR */
-        .navbar { position: fixed; top: 0; width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; background: linear-gradient(to bottom, rgba(234, 225, 220, 0.95) 0%, rgba(234, 225, 220, 0) 100%); z-index: 1000; transition: 0.4s ease; }
-        .navbar.scrolled { background-color: var(--branco); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
-        .nav-left { display: flex; align-items: center; gap: 40px; }
-        .logo-img { max-height: 35px; cursor: pointer; filter: brightness(0) sepia(1) hue-rotate(200deg) saturate(3) contrast(1.2); }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { color: var(--azul-ibbra); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--azul-highlight); font-weight: 600; }
-        .nav-item-dropdown { position: relative; padding: 20px 0; }
-        .dropdown-trigger { cursor: pointer; }
-        .nav-right { display: flex; align-items: center; gap: 20px; }
-        .icon-btn { background: none; border: none; color: var(--azul-ibbra); font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
-        .icon-btn:hover { transform: scale(1.1); color: var(--azul-highlight); }
-        .coin-balance { background: rgba(241, 196, 15, 0.1); border: 1px solid var(--ouro); padding: 6px 15px; border-radius: 20px; display: flex; align-items: center; gap: 5px; color: var(--azul-ibbra); font-size: 1.1rem; }
-        
-        /* LAYOUT GERAL */
-        .dashboard-container { padding: 120px 4% 50px 4%; max-width: 1200px; margin: 0 auto; }
-        .admin-section { animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* HERO E STATS */
-        .welcome-banner { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: var(--branco); padding: 25px; border-radius: 12px; border: 1px solid var(--cinza-borda); box-shadow: 0 5px 15px rgba(1, 30, 64, 0.03); flex-wrap: wrap; gap: 20px;}
-        .fa-contact-card { display: flex; align-items: center; gap: 15px; background: var(--creme-ibbra); padding: 15px 25px; border-radius: 8px; border-left: 4px solid var(--ouro);}
-        .stats-ribbon { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-box { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .stat-info { display: flex; flex-direction: column; }
-        .stat-title { font-size: 0.85rem; color: var(--cinza-texto); text-transform: uppercase; font-weight: bold; }
-        .stat-value { font-family: "Playfair Display", serif; font-size: 1.8rem; color: var(--azul-ibbra); line-height: 1.2; }
-        
-        /* GRIDS */
-        .dash-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; }
-        .dash-card { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: 12px; padding: 25px; box-shadow: 0 5px 15px rgba(1, 30, 64, 0.03); display: flex; flex-direction: column;}
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 10px;}
-        .card-title { font-size: 1.2rem; margin: 0; color: var(--azul-ibbra); font-weight: 700; text-transform: uppercase;}
-        .section-title { font-family: "Playfair Display", serif; font-size: 1.8rem; color: var(--azul-ibbra); margin: 40px 0 20px 0; border-bottom: 2px solid var(--cinza-borda); padding-bottom: 10px;}
-        
-        /* AULAS PENDENTES */
-        .pending-videos-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; max-height: 280px; overflow-y: auto; padding-right: 5px; }
-        .pending-video-item { display: flex; align-items: center; gap: 15px; background: var(--creme-ibbra); padding: 15px; border-radius: 8px; border-left: 4px solid var(--cinza-borda); transition: 0.2s; }
-        .pending-video-item:hover { background: rgba(0, 92, 185, 0.05); }
-        .pending-video-item.urgent { border-left-color: var(--azul-highlight); background: var(--branco); box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-top: 1px solid var(--cinza-borda); border-right: 1px solid var(--cinza-borda); border-bottom: 1px solid var(--cinza-borda);}
-        .pending-video-item.locked { opacity: 0.6; }
-        .play-btn-small { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--azul-ibbra); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
-        .play-btn-small:hover:not([disabled]) { background: var(--azul-highlight); transform: scale(1.1); }
-        .play-btn-small[disabled] { background: var(--cinza-borda); cursor: not-allowed; }
-        .video-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-        .video-info strong { color: var(--azul-ibbra); font-size: 0.95rem; }
-        .video-info span { color: var(--cinza-texto); font-size: 0.75rem; text-transform: uppercase; font-weight: bold; }
-        .status-tag { font-size: 0.7rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; background: rgba(0, 92, 185, 0.1); color: var(--azul-highlight); }
-        .status-tag.new { background: rgba(39, 174, 96, 0.1); color: var(--verde-sucesso); }
-        .status-tag.locked-tag { background: transparent; color: var(--cinza-texto); border: 1px solid var(--cinza-borda); }
-        .progress-bar-mini { width: 100%; height: 4px; background: var(--cinza-borda); border-radius: 2px; margin-top: 5px; }
-        .progress-fill-mini { height: 100%; background: var(--vermelho-ibbra); border-radius: 2px; }
-        
-        /* CENTRAL DE MISSÕES (QUESTS) */
-        .quests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .quest-card { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: 0.3s; position: relative; overflow: hidden;}
-        .quest-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-color: var(--azul-highlight); }
-        .quest-card.ready { border-color: var(--verde-sucesso); background: rgba(39, 174, 96, 0.02); }
-        .quest-icon { width: 50px; height: 50px; background: rgba(0, 92, 185, 0.1); color: var(--azul-highlight); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 15px; }
-        .quest-content { flex: 1; }
-        .quest-content h3 { margin: 0 0 5px 0; color: var(--azul-ibbra); font-size: 1.1rem; }
-        .quest-content p { margin: 0 0 15px 0; color: var(--cinza-texto); font-size: 0.85rem; line-height: 1.4; }
-        .quest-progress { margin-bottom: 15px; }
-        .progress-text { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: bold; color: var(--cinza-texto); margin-bottom: 5px; text-transform: uppercase; }
-        .quest-reward { display: flex; align-items: center; justify-content: space-between; border-top: 1px dashed var(--cinza-borda); padding-top: 15px; }
-        .quest-reward span { font-size: 0.75rem; color: var(--cinza-texto); text-transform: uppercase; font-weight: bold; }
-        .quest-reward strong { font-size: 1.2rem; color: var(--ouro); }
-        
-        /* BOTOES GERAIS */
-        .btn-primary { background: var(--azul-highlight); color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 600; font-family: "Montserrat", sans-serif; cursor: pointer; transition: 0.3s;}
-        .btn-primary:hover { background: var(--azul-ibbra); transform: translateY(-2px);}
-        .btn-outline-small { background: transparent; border: 1px solid var(--azul-ibbra); color: var(--azul-ibbra); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: 0.3s;}
-        .btn-outline-small:hover:not([disabled]) { background: var(--azul-ibbra); color: white; }
-        .btn-outline-small[disabled] { border-color: var(--cinza-borda); color: var(--cinza-texto); cursor: not-allowed; }
-        
-        /* SALA DE TROFÉUS */
-        .trophies-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; background: var(--branco); border: 1px solid var(--cinza-borda); padding: 40px; border-radius: 12px; }
-        .trophy-item { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 120px; text-align: center; transition: 0.3s; }
-        .trophy-item img { width: 80px; height: 80px; object-fit: contain; transition: 0.3s; }
-        .trophy-item.locked img { filter: grayscale(100%) opacity(0.3); }
-        .trophy-item.unlocked:hover img { transform: scale(1.1) rotate(5deg); }
-        .trophy-item span { font-size: 0.8rem; font-weight: bold; color: var(--cinza-texto); }
-        .trophy-item.unlocked span { color: var(--azul-ibbra); }
-        
-        /* TOAST E MODAIS */
-        .points-toast { position: fixed; bottom: 30px; right: 30px; background: var(--ouro); color: var(--azul-ibbra); padding: 15px 25px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); transform: translateY(100px); opacity: 0; transition: 0.4s ease; z-index: 2000; }
-        .points-toast.show { transform: translateY(0); opacity: 1; }
-        .cmd-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(1, 30, 64, 0.7); backdrop-filter: blur(8px); z-index: 9999; display: flex; justify-content: center; align-items: flex-start; padding-top: 10vh; animation: fadeInModal 0.2s ease-out; }
-        .cmd-modal { background: var(--branco); width: 90%; max-width: 700px; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); overflow: hidden; border: 1px solid var(--cinza-borda); }
-        .cmd-input-container { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--cinza-borda); background: var(--branco); }
-        .cmd-icon { font-size: 1.5rem; color: var(--azul-highlight); margin-right: 15px; }
-        .cmd-input { flex: 1; border: none; outline: none; font-size: 1.4rem; color: var(--azul-ibbra); font-family: 'Montserrat', sans-serif; background: transparent; }
-        .cmd-esc { font-size: 0.7rem; font-weight: bold; background: var(--creme-ibbra); color: var(--cinza-texto); padding: 5px 8px; border-radius: 4px; border: 1px solid var(--cinza-borda); cursor: pointer; }
-        .cmd-content-area { padding: 20px; max-height: 50vh; overflow-y: auto; }
-        .cmd-item { display: flex; align-items: center; padding: 12px 15px; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-bottom: 5px; }
-        .cmd-item:hover { background: rgba(0, 92, 185, 0.05); }
-        .cmd-item-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-right: 15px; }
-        .cmd-item-text strong { color: var(--azul-ibbra); font-size: 1rem; display:block; }
-        .cmd-empty { text-align: center; color: var(--cinza-texto); padding: 40px 20px; line-height: 1.6; }
-        
-        /* RESPONSIVIDADE MOBILE E TABLET */
-        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; cursor: pointer; padding: 0; }
-        .mobile-overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(1, 30, 64, 0.6); z-index: 1005; display: none; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s; }
-        .mobile-overlay-bg.show { display: block; opacity: 1; }
-        .mobile-sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--branco); z-index: 1006; box-shadow: 5px 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; transition: left 0.3s ease; overflow-y: auto; }
-        .mobile-sidebar.open { left: 0; }
-        .mobile-sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--azul-ibbra); color: white; }
-        .close-mobile-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-        .mobile-sidebar-content { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
-        .mobile-link { display: block; padding: 12px 15px; color: var(--azul-ibbra); text-decoration: none; font-weight: 600; border-radius: 6px; font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .mobile-link.active { background: rgba(0, 92, 185, 0.1); color: var(--azul-highlight); }
-        .mobile-sidebar-footer { padding: 20px; border-top: 1px solid var(--cinza-borda); background: var(--creme-ibbra); }
-        
-        @media (max-width: 900px) {
-            .desktop-only { display: none !important; }
-            .mobile-menu-btn, .mobile-search-btn { display: block; }
-            .dash-grid-2 { grid-template-columns: 1fr; }
-            .welcome-banner { flex-direction: column; align-items: flex-start; }
-            .cmd-modal { width: 95%; margin-top: 10px; }
-        }
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .desktop-only { display: none !important; }
-            .mobile-menu-btn, .mobile-search-btn { display: block !important; background: none; border: none; font-size: 1.8rem; color: var(--azul-ibbra); cursor: pointer; padding: 0; }
-            .nav-left { gap: 20px; }
-            .dash-grid-2 { grid-template-columns: repeat(2, 1fr) !important; gap: 20px; }
-            .cmd-modal, .modal-content { width: 85%; padding: 30px; }
-        }
-    </style>
+    <title>Ibbra Academy - Sala de Aula</title>
+    <link rel="stylesheet" href="area-aluno.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
 </head>
 <body>
 
-    <nav class="navbar" id="navbar">
-        <div class="nav-left">
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()"> ☰ </button>
-            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="logo-img" onclick="window.location.href='index.html'" style="cursor: pointer;">
-            <div class="nav-links desktop-only">
-                <a href="area-aluno.html">Área do Aluno</a>
-                <div class="nav-item-dropdown">
-                    <a href="#" class="dropdown-trigger">Todos os Cursos ▾ </a>
-                </div>
-                <a href="lista.html">Minha Lista</a>
-                <a href="#" class="active">Radar de Desempenho</a>
-            </div>
-        </div>
-        <div class="nav-right desktop-only">
-            <div class="coin-balance">
-                <span class="coin-icon"> ⭐ </span>
-                <strong id="saldo-nav">2.150</strong>
-            </div>
-            <button class="icon-btn" title="Buscar (Cmd+K)" onclick="abrirCommandCenter()"> 🔍 </button>
-            <a href="configuracoes.html" class="icon-btn" style="text-decoration: none;" title="Configurações"> ⚙️ </a>
-            <button class="icon-btn" onclick="window.location.href='index.html'" title="Sair"> 🚪 Sair</button>
-        </div>
-        <button class="icon-btn mobile-search-btn" title="Buscar" onclick="abrirCommandCenter()"> 🔍 </button>
-    </nav>
-    
-    <div class="mobile-overlay-bg" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
-    <div class="mobile-sidebar" id="mobile-sidebar">
-        <div class="mobile-sidebar-header">
-            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" style="height: 25px; filter: brightness(0) invert(1);">
-            <button class="close-mobile-btn" onclick="toggleMobileMenu()"> ✕ </button>
-        </div>
-        <div class="mobile-sidebar-content">
-            <a href="area-aluno.html" class="mobile-link"> 🏠 Área do Aluno</a>
-            <a href="lista.html" class="mobile-link"> 📋 Minha Lista</a>
-            <a href="#" class="mobile-link active" onclick="toggleMobileMenu()"> 📊 Radar de Desempenho</a>
-            <a href="recompensas.html" class="mobile-link"> 🛍️ Loja de Recompensas</a>
-        </div>
-        <div class="mobile-sidebar-footer">
-            <div class="coin-balance" style="justify-content: center; margin-bottom: 15px;">
-                <span class="coin-icon"> ⭐ </span><strong>2.150</strong>
-            </div>
-            <a href="configuracoes.html" class="mobile-link"> ⚙️ Configurações</a>
-            <a href="index.html" class="mobile-link" style="color: var(--vermelho-ibbra);"> 🚪 Sair da Conta</a>
-        </div>
-    </div>
+    <header class="navbar">
+        <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="logo">
+        <nav>
+            <a href="area-aluno.html">Início</a>
+            <a href="#">Cursos</a>
+            <a href="lista.html">Minha Lista</a>
+            <a href="radar-conhecimento.html">Radar do Conhecimento</a>
+        </nav>
+    </header>
 
-    <main class="dashboard-container">
-        <div class="welcome-banner">
-            <div>
-                <h1 style="margin: 0; font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--azul-ibbra);">Seu Radar de Conhecimento</h1>
-                <p style="margin: 5px 0 0 0; color: var(--cinza-texto);">Acompanhe a sua evolução, complete missões e desbloqueie recompensas.</p>
-            </div>
-            <div class="fa-contact-card" style="border-left-color: var(--verde-sucesso);">
-                <div style="display: flex; flex-direction: column; text-align: right;">
-                    <span style="font-size: 0.75rem; color: var(--cinza-texto); text-transform: uppercase; font-weight: bold;">Status Atual</span>
-                    <strong style="color: var(--verde-sucesso);">Investidor em Treinamento</strong>
-                </div>
-                <span style="font-size: 2.5rem; margin-left: 15px;"> 🎓 </span>
-            </div>
-        </div>
-        
-        <div class="stats-ribbon">
-            <div class="stat-box">
-                <span class="stat-icon" style="background: rgba(0, 92, 185, 0.1); color: var(--azul-highlight);"> ⏳ </span>
-                <div class="stat-info">
-                    <span class="stat-title">Horas de Estudo</span>
-                    <strong class="stat-value">14h 30m</strong>
-                </div>
-            </div>
-            <div class="stat-box">
-                <span class="stat-icon" style="background: rgba(241, 196, 15, 0.1); color: #b8860b;"> 🔥 </span>
-                <div class="stat-info">
-                    <span class="stat-title">Ofensiva (Dias)</span>
-                    <strong class="stat-value">3 Dias</strong>
-                </div>
-            </div>
-            <div class="stat-box">
-                <span class="stat-icon" style="background: rgba(39, 174, 96, 0.1); color: var(--verde-sucesso);"> 🎯 </span>
-                <div class="stat-info">
-                    <span class="stat-title">Média nos Quizzes</span>
-                    <strong class="stat-value" style="color: var(--verde-sucesso);">88%</strong>
-                </div>
-            </div>
-        </div>
-
-        <section class="admin-section active">
-            <div class="dash-grid-2" style="margin-bottom: 40px;">
-                <div class="dash-card" style="border-color: var(--azul-highlight);">
-                    <div class="card-header"><h2 class="card-title">Mapa de Proficiência</h2></div>
-                    <p style="font-size: 0.85rem; color: var(--cinza-texto); margin-top: 0;">Sua nota nos 6 Pilares baseada em aulas e quizzes.</p>
-                    <div style="width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; margin-top: 15px;">
-                        <canvas id="graficoEvolucaoAluno"></canvas>
-                    </div>
-                </div>
+    <main>
+        <section class="hero-container">
+            <div class="hero-content">
+                <p class="welcome-text">Olá, <span id="nome-aluno">Estudante</span>!</p>
+                <h1 class="destaque-titulo">Masterclass: Liberdade Financeira</h1>
+                <p class="descricao">
+                    Descubra as estratégias mais avançadas de alocação de ativos e planejamento patrimonial 
+                    utilizadas pelos maiores escritórios do Brasil.
+                </p>
                 
-                <div class="dash-card">
-                    <div class="card-header">
-                        <h2 class="card-title">O Que Falta Assistir</h2>
-                        <span style="font-size: 0.75rem; color: var(--cinza-texto); font-weight: bold; letter-spacing: 1px;">TRILHA ATIVA</span>
-                    </div>
-                    <p style="font-size: 0.85rem; color: var(--cinza-texto); margin-top: 0;">Retome de onde parou ou inicie a próxima aula.</p>
-                    <div class="pending-videos-list">
-                        <div class="pending-video-item urgent">
-                            <button class="play-btn-small" onclick="window.open('#', '_blank')"> ▶ </button>
-                            <div class="video-info">
-                                <strong>2. A Regra 50/30/20</strong>
-                                <span>Pilar 1: Planejamento Financeiro</span>
-                                <div class="progress-bar-mini"><div class="progress-fill-mini" style="width: 65%;"></div></div>
-                            </div>
-                            <span class="status-tag">Continuar</span>
-                        </div>
-                        <div class="pending-video-item">
-                            <button class="play-btn-small" onclick="window.open('#', '_blank')"> ▶ </button>
-                            <div class="video-info">
-                                <strong>1. O que é a Reserva de Emergência?</strong>
-                                <span>Pilar 1: Planejamento Financeiro</span>
-                                <div class="progress-bar-mini"><div class="progress-fill-mini" style="width: 0%;"></div></div>
-                            </div>
-                            <span class="status-tag new">Nova</span>
-                        </div>
-                        <div class="pending-video-item locked">
-                            <button class="play-btn-small" disabled> 🔒 </button>
-                            <div class="video-info">
-                                <strong>1. Blindagem Patrimonial</strong>
-                                <span>Pilar 2: Gestão de Risco</span>
-                            </div>
-                            <span class="status-tag locked-tag">Bloqueada</span>
-                        </div>
-                    </div>
+                <div class="buttons">
+                    <button class="btn-play">
+                        <i class="fas fa-play"></i> &nbsp; Assistir Agora
+                    </button>
+                    <button class="btn-info">
+                        <i class="fas fa-circle-info"></i> &nbsp; Mais Informações
+                    </button>
                 </div>
             </div>
+        </section>
 
-            <h2 class="section-title">Central de Missões (Quests)</h2>
-            <div class="quests-grid">
-                <div class="quest-card">
-                    <div class="quest-icon"> 🏃‍♂️ </div>
-                    <div class="quest-content">
-                        <h3>Maratona Ibbra</h3>
-                        <p>Assista a 5 aulas completas nesta semana.</p>
-                        <div class="quest-progress">
-                            <div class="progress-text"><span>Progresso</span> <span>3/5</span></div>
-                            <div class="progress-bar-mini"><div class="progress-fill-mini" style="width: 60%; background: var(--azul-highlight);"></div></div>
-                        </div>
-                    </div>
+        <section class="trilha-conhecimento">
+            <h3>Sua Trilha de Conhecimento</h3>
+            <div class="grid-cursos">
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+            </div>
+        </section>
+
+        <section class="trilha-conhecimento">
+            <h3>Especiais para Você</h3>
+            <div class="grid-cursos">
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+                <div class="card-curso"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="area-aluno.js"></script>
+</body>
+</html>
