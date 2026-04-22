@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Paleta Modo Cinema */
+  --fundo-escuro: #141414; /* Preto Netflix */
+  --texto-claro: #e5e5e5;
+  --destaque-ibbra: #E50914; /* Vermelho vibrante para contraste */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--fundo-escuro);
+  color: var(--texto-claro);
+  overflow-x: hidden; /* Evita barra de rolagem horizontal na tela inteira */
+}
+
+/* NAVBAR TRANSPARENTE SOBRE O VÍDEO */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 20px 4%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.logo { height: 40px; margin-right: 40px; }
+
+.navbar nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 20px;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.navbar nav a:hover { color: #b3b3b3; }
+
+/* BANNER DE DESTAQUE (HERO) */
+.hero-container {
+  height: 85vh; /* Ocupa 85% da altura da tela */
+  /* Coloquei uma imagem de mercado financeiro temporária de fundo com um degradê para escurecer */
+  background-image: linear-gradient(to right, rgba(20,20,20,0.95) 0%, rgba(20,20,20,0.6) 50%, rgba(20,20,20,0) 100%), url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 0 4%;
+}
+
+.hero-content {
+  max-width: 650px;
+  z-index: 2;
+  margin-top: 50px;
+}
+
+.welcome-text {
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+.destaque-titulo {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+.descricao {
+  font-size: 1.2rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+  margin-bottom: 30px;
+}
+
+/* BOTÕES ESTILO NETFLIX */
+.buttons { display: flex; gap: 15px; }
+
+.btn-play {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.btn-play:hover { background-color: rgba(255,255,255,0.75); }
+
+.btn-info {
+  background-color: rgba(109, 109, 110, 0.7);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-info:hover { background-color: rgba(109, 109, 110, 0.4); }
+
+/* CARROSSEL DE CURSOS (As "Prateleiras") */
+.trilha-conhecimento {
+  padding: 20px 4%;
+  margin-top: -80px; /* Sobe um pouco para invadir o banner de cima */
+  position: relative;
+  z-index: 5;
+}
+
+.trilha-conhecimento h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #e5e5e5;
+}
+
+.grid-cursos {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto; /* Permite rolagem horizontal */
+  padding-bottom: 20px;
+  scrollbar-width: none; /* Esconde a barra feia no Firefox */
+}
+
+.grid-cursos::-webkit-scrollbar {
+  display: none; /* Esconde a barra feia no Chrome/Edge */
+}
+
+.card-curso {
+  min-width: 280px;
+  height: 160px;
+  background-color: #222;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  /* Imagem genérica para os cards por enquanto */
+  background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=600&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+
+.card-curso:hover {
+  transform: scale(1.05); /* Efeito de dar zoom quando passa o mouse */
+}
