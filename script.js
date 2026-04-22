@@ -53,8 +53,8 @@ function realizarLogin(event) {
 }
 
 function selecionarPerfil(nomePerfil) {
-  alert(`Entrando como ${nomePerfil}...`);
-  window.open("https://codepen.io/ibbraacademy/full/emdZMMd", "_blank");
+    localStorage.setItem("ibbra_perfil", nomePerfil);
+    window.location.href = "area-aluno.html";
 }
 
 function voltarAoLogin() {
