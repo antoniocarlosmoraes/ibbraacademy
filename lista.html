@@ -7,110 +7,123 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
     
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap");
         
         :root {
-            --fundo-escuro: #141414;
-            --texto-claro: #e5e5e5;
-            --vermelho-netflix: #E50914;
-            --cinza-escuro: #222222;
+            --azul-ibbra: #011e40; /* Sua Cor Oficial */
+            --bege-ibbra: #eae1dc; /* Sua Cor Oficial */
+            --azul-destaque: #005cb9;
+            --branco: #ffffff;
+            --texto-escuro: #011e40;
+            --texto-suave: #555555;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--fundo-escuro);
-            color: var(--texto-claro);
-            overflow-x: hidden;
+            background-color: var(--bege-ibbra); /* Fundo Bege conforme seu prompt */
+            color: var(--azul-ibbra);
+            min-height: 100vh;
         }
 
-        /* NAVBAR IDÊNTICA À ÁREA DO ALUNO */
+        /* NAVBAR COM CORES IBBRA */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 25px 5%;
-            background: rgba(20, 20, 20, 0.95);
+            padding: 20px 5%;
+            background-color: var(--azul-ibbra); /* Navbar Azul */
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .nav-left { display: flex; align-items: center; }
-        .logo { height: 40px; margin-right: 45px; cursor: pointer; }
+        .logo { height: 35px; margin-right: 40px; cursor: pointer; filter: brightness(0) invert(1); }
         
         .navbar nav a {
-            color: #fff; text-decoration: none; margin-right: 25px;
-            font-size: 0.95rem; font-weight: 500; transition: 0.3s;
+            color: var(--bege-ibbra); /* Links Bege sobre fundo Azul */
+            text-decoration: none; 
+            margin-right: 25px;
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            transition: 0.3s;
         }
-        .navbar nav a:hover, .navbar nav a.active { color: var(--vermelho-netflix); font-weight: 600; }
+        .navbar nav a:hover, .navbar nav a.active { color: var(--branco); font-weight: 700; }
 
-        .nav-right { display: flex; align-items: center; gap: 20px; }
-        .btn-sair { color: #fff; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-sair:hover { color: var(--vermelho-netflix); }
+        .btn-sair { color: var(--bege-ibbra); text-decoration: none; font-weight: bold; }
 
-        /* LAYOUT DA LISTA */
-        .lista-container { padding: 120px 5% 50px; min-height: 100vh; }
+        /* CONTEÚDO DA LISTA */
+        .lista-container { padding: 120px 5% 50px; }
         
-        .titulo-pagina { font-size: 2.5rem; font-weight: 700; margin-bottom: 40px; display: flex; align-items: center; gap: 15px; }
+        .titulo-pagina { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.8rem; 
+            color: var(--azul-ibbra); 
+            margin-bottom: 40px; 
+            border-bottom: 3px solid var(--azul-ibbra);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
         
-        /* GRID DE CURSOS SALVOS */
         .grid-lista {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
         }
 
         .card-curso {
-            position: relative;
-            height: 160px;
-            background-color: var(--cinza-escuro);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.4s ease;
-            background-size: cover;
-            background-position: center;
+            background-color: var(--branco);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 8px 20px rgba(1, 30, 64, 0.1);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(1, 30, 64, 0.1);
         }
 
-        .card-curso:hover { transform: scale(1.05); z-index: 10; border: 2px solid #fff; }
+        .card-curso:hover { transform: translateY(-8px); border-color: var(--azul-ibbra); }
 
-        /* IMAGENS DE FUNDO DOS CARDS */
-        .bg-1 { background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600&auto=format&fit=crop'); }
-        .bg-2 { background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=600&auto=format&fit=crop'); }
-        .bg-3 { background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=600&auto=format&fit=crop'); }
-
-        .card-info {
-            position: absolute;
-            bottom: 0; width: 100%; padding: 15px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-            display: flex; justify-content: space-between; align-items: flex-end;
+        .card-image {
+            height: 170px;
+            background-color: var(--azul-ibbra);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--bege-ibbra);
         }
 
-        .card-titulo { font-size: 1rem; font-weight: 600; margin-bottom: 5px; }
-        .card-progresso { font-size: 0.8rem; color: #aaa; }
-        
+        .card-body { padding: 20px; }
+        .card-titulo { font-size: 1.2rem; font-weight: 700; color: var(--azul-ibbra); margin-bottom: 10px; }
+        .card-sub { font-size: 0.85rem; color: var(--texto-suave); font-weight: 600; text-transform: uppercase; }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--bege-ibbra);
+        }
+
+        .btn-assistir {
+            background-color: var(--azul-ibbra);
+            color: var(--bege-ibbra);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-assistir:hover { background-color: var(--azul-destaque); }
+
         .btn-remover {
-            background: rgba(255, 255, 255, 0.2); border: none; color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;
+            background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 1.1rem;
         }
-        .btn-remover:hover { background: var(--vermelho-netflix); transform: scale(1.1); }
-
-        /* ESTADO VAZIO */
-        .mensagem-vazia {
-            text-align: center; margin-top: 80px; color: #888;
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
-        }
-        .mensagem-vazia i { font-size: 4rem; color: #444; }
-        .btn-explorar {
-            background-color: #fff; color: #000; padding: 12px 30px; font-weight: bold;
-            text-decoration: none; border-radius: 4px; margin-top: 15px; transition: 0.3s;
-        }
-        .btn-explorar:hover { background-color: #ccc; }
 
     </style>
 </head>
@@ -121,9 +134,8 @@
             <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="logo" onclick="window.location.href='area-aluno.html'">
             <nav>
                 <a href="area-aluno.html">Início</a>
-                <a href="#">Cursos</a>
                 <a href="lista.html" class="active">Minha Lista</a>
-                <a href="radar-conhecimento.html">Radar do Conhecimento</a>
+                <a href="radar-conhecimento.html">Radar</a>
                 <a href="recompensas.html">Loja VIP</a>
             </nav>
         </div>
@@ -133,72 +145,34 @@
     </header>
 
     <main class="lista-container">
-        <h1 class="titulo-pagina"><i class="fas fa-bookmark"></i> Minha Lista</h1>
+        <h1 class="titulo-pagina">Minha Lista</h1>
         
-        <div class="grid-lista" id="minha-lista-grid">
-            
-            <div class="card-curso bg-1">
-                <div class="card-info">
-                    <div>
-                        <div class="card-titulo">Estratégias de Sucessão</div>
-                        <div class="card-progresso">Pilar 5 • 40% Concluído</div>
+        <div class="grid-lista">
+            <div class="card-curso">
+                <div class="card-image"><i class="fas fa-chart-line"></i></div>
+                <div class="card-body">
+                    <span class="card-sub">Pilar 3: Ativos</span>
+                    <h3 class="card-titulo">Estratégias de Dividendos</h3>
+                    <div class="card-footer">
+                        <button class="btn-assistir">Assistir</button>
+                        <button class="btn-remover" title="Remover"><i class="fas fa-trash-alt"></i></button>
                     </div>
-                    <button class="btn-remover" title="Remover da Lista" onclick="removerItem(this)"><i class="fas fa-times"></i></button>
                 </div>
             </div>
 
-            <div class="card-curso bg-2">
-                <div class="card-info">
-                    <div>
-                        <div class="card-titulo">O Segredo dos Dividendos</div>
-                        <div class="card-progresso">Pilar 3 • Iniciar</div>
+            <div class="card-curso">
+                <div class="card-image"><i class="fas fa-shield-alt"></i></div>
+                <div class="card-body">
+                    <span class="card-sub">Pilar 2: Risco</span>
+                    <h3 class="card-titulo">Blindagem Patrimonial</h3>
+                    <div class="card-footer">
+                        <button class="btn-assistir">Assistir</button>
+                        <button class="btn-remover" title="Remover"><i class="fas fa-trash-alt"></i></button>
                     </div>
-                    <button class="btn-remover" title="Remover da Lista" onclick="removerItem(this)"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-
-            <div class="card-curso bg-3">
-                <div class="card-info">
-                    <div>
-                        <div class="card-titulo">Blindagem Offshore</div>
-                        <div class="card-progresso">Masterclass • 15% Concluído</div>
-                    </div>
-                    <button class="btn-remover" title="Remover da Lista" onclick="removerItem(this)"><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-
         </div>
-
-        <div class="mensagem-vazia" id="mensagem-vazia" style="display: none;">
-            <i class="far fa-folder-open"></i>
-            <h2>Sua lista está vazia</h2>
-            <p>Adicione séries e cursos à sua lista para assistir mais tarde.</p>
-            <a href="area-aluno.html" class="btn-explorar">Explorar Cursos</a>
-        </div>
-
     </main>
 
-    <script>
-        // Função simples para dar a sensação de exclusão real
-        function removerItem(botao) {
-            const card = botao.closest('.card-curso');
-            card.style.transform = 'scale(0.8)';
-            card.style.opacity = '0';
-            
-            setTimeout(() => {
-                card.remove();
-                verificarListaVazia();
-            }, 300);
-        }
-
-        function verificarListaVazia() {
-            const grid = document.getElementById('minha-lista-grid');
-            const mensagem = document.getElementById('mensagem-vazia');
-            
-            if (grid.children.length === 0) {
-                mensagem.style.display = 'flex';
-            }
-        }
-    </script>
 </body>
 </html>
