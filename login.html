@@ -1,98 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ibbra Academy - Login</title>
-    
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #011e40; color: #eae1dc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: #ffffff; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px; color: #011e40; text-align: center; }
+        .logo { width: 150px; margin-bottom: 30px; cursor: pointer; }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn-entrar { background: #011e40; color: white; width: 100%; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; margin-top: 10px; }
+    </style>
 </head>
 <body>
-<div class="login-container">
-  <main class="login-card" id="etapa-login" aria-labelledby="titulo-login">
-    <header class="login-header">
-      <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Logotipo da Ibbra Academy" class="login-logo" onclick="window.open('https://codepen.io/ibbraacademy/full/GgjobGe', '_blank')" style="cursor:pointer;">
-      <h2 id="titulo-login" class="login-title">Bem-vindo de volta</h2>
-      <p class="login-subtitle">Aceda à sua trilha de conhecimento financeiro.</p>
-    </header>
-    <section class="social-login" aria-label="Acesso rápido com redes sociais">
-      <button type="button" class="btn-social btn-linkedin" onclick="loginSocial('LinkedIn')" aria-label="Entrar usando a sua conta do LinkedIn">
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-        </svg>
-        Entrar com o LinkedIn
-      </button>
-      <button type="button" class="btn-social btn-google" onclick="loginSocial('Google')" aria-label="Entrar usando a sua conta do Google">
-        <img aria-hidden="true" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Ícone do Google"> Entrar com o Google
-      </button>
-    </section>
-    <div class="divider-text" aria-hidden="true">ou continue com e-mail</div>
-    <form id="login-form" onsubmit="realizarLogin(event)" aria-label="Formulário de acesso com e-mail e senha">
-      <div class="input-group">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" class="input-field" placeholder="O seu e-mail de acesso" required aria-required="true">
-      </div>
-      <div class="input-group">
-        <label for="senha">Senha</label>
-        <div class="password-wrapper">
-          <input type="password" id="senha" class="input-field" placeholder="Digite a sua senha" required aria-required="true" aria-describedby="senha-erro">
-          <button type="button" class="btn-eye" onclick="toggleSenha()" id="icone-olho" aria-label="Mostrar senha" aria-pressed="false" aria-controls="senha"> 👁️ </button>
+    <div class="login-card">
+        <a href="index.html"><img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" class="logo" alt="Logo"></a>
+        <h2>Acessar Conta</h2>
+        <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" placeholder="seu@email.com">
         </div>
-        <div id="senha-erro" class="error-msg" role="alert" aria-live="assertive">A senha deve conter pelo menos 1 letra maiúscula e 1 caractere especial (!@#$...).</div>
-        <div id="caps-aviso" class="warning-msg" role="alert" aria-live="polite"> ⚠️  O Caps Lock está ativado.</div>
-      </div>
-      <div class="form-actions">
-        <label class="remember-me">
-          <input type="checkbox" id="lembrar" checked>
-          <span class="checkmark" aria-hidden="true"></span>
-          Lembrar-me
-        </label>
-        <a href="#" class="forgot-pass" aria-label="Página para recuperar a sua senha esquecida">Esqueceu a senha?</a>
-      </div>
-      <button type="submit" class="btn-submit" id="btn-entrar" aria-live="polite">Entrar na Plataforma</button>
-    </form>
-    <footer class="login-footer">
-      <p>Ainda não é aluno? <a href="https://codepen.io/ibbraacademy/full/emdJqpe" target="_blank" aria-label="Conheça os nossos programas de ensino">Assine agora</a></p>
-    </footer>
-  </main>
-  <main class="login-card profile-selection-card" id="etapa-perfis" style="display: none;" aria-labelledby="titulo-perfis">
-    <header class="login-header">
-      <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Logotipo da Ibbra Academy" class="login-logo" style="margin-bottom: 15px;">
-      <h2 id="titulo-perfis" class="login-title" style="font-size: 2.2rem;">Quem está a assistir?</h2>
-    </header>
-    <div class="profiles-grid">
-      <div class="profile-item" onclick="selecionarPerfil('Carlos')">
-        <div class="profile-avatar" style="background-color: var(--azul-ibbra);">
-          <span class="avatar-initials">C</span>
+        <div class="form-group">
+            <label>Senha</label>
+            <input type="password" placeholder="••••••••">
         </div>
-        <span class="profile-name">Carlos</span>
-      </div>
-      <div class="profile-item" onclick="selecionarPerfil('Mariana')">
-        <div class="profile-avatar" style="background-color: var(--ouro);">
-          <span class="avatar-initials" style="color: var(--azul-ibbra);">M</span>
-        </div>
-        <span class="profile-name">Mariana</span>
-      </div>
-      <div class="profile-item" onclick="selecionarPerfil('Lucas (Teen)')">
-        <div class="profile-avatar" style="background-color: var(--verde-sucesso);">
-          <span class="avatar-initials">L</span>
-        </div>
-        <span class="profile-name">Lucas (Teen)</span>
-      </div>
-      <div class="profile-item add-profile" onclick="alert('Para adicionar mais perfis, faça upgrade para o Plano VIP.')">
-        <div class="profile-avatar" style="background-color: transparent; border: 2px dashed var(--cinza-borda);">
-          <span class="avatar-initials" style="color: var(--cinza-texto); font-size: 2rem;">+</span>
-        </div>
-        <span class="profile-name" style="color: var(--cinza-texto);">Adicionar</span>
-      </div>
+        <a href="area-aluno.html" class="btn-entrar">Entrar na Plataforma</a>
     </div>
-    <footer class="login-footer" style="margin-top: 40px;">
-      <button class="btn-outline" style="width: auto; padding: 10px 20px; font-size: 0.85rem;" onclick="voltarAoLogin()">Gerir Perfis</button>
-    </footer>
-  </main>
-</div>
-<script src="script.js"></script>
 </body>
 </html>
