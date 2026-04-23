@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibbra Academy - Sala de Aula</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap");
+        
+        :root {
+            --azul-ibbra: #011e40;
+            --bege-ibbra: #eae1dc;
+            --azul-destaque: #005cb9;
+            --branco: #ffffff;
+            --preto-video: #0a0a0a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bege-ibbra);
+            color: var(--azul-ibbra);
+        }
+
+        /* NAVBAR REDUZIDA PARA FOCO */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--azul-ibbra);
+            color: var(--bege-ibbra);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-back { display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none; color: inherit; }
+        .logo-back img { height: 25px; filter: brightness(0) invert(1); }
+
+        /* LAYOUT SALA DE AULA */
+        .main-aula {
+            display: grid;
+            grid-template-columns: 1fr 350px; /* Video e Lista de aulas */
+            height: calc(100vh - 65px);
+        }
+
+        /* LADO ESQUERDO: PLAYER E DESCRIÇÃO */
+        .content-area {
+            overflow-y: auto;
+            background-color: var(--preto-video);
+            padding-bottom: 50px;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #000;
+            position: relative;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .aula-info {
+            padding: 40px 8%;
+            background-color: var(--bege-ibbra);
+            border-radius: 30px 30px 0 0;
+            margin-top: -20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .aula-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .aula-tags { display: flex; gap: 10px; margin-bottom: 25px; }
+        .tag {
+            background-color: rgba(1, 30, 64, 0.1);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .aula-desc {
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .materiais-box {
+            background-color: var(--branco);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .material-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            text-decoration: none;
+            color: var(--azul-ibbra);
+            font-weight: 600;
+        }
+        .material-item:last-child { border: none; }
+        .material-item i { color: var(--azul-destaque); }
+
+        /* LADO DIREITO: PLAYLIST */
+        .sidebar-playlist {
+            background-color: var(--branco);
+            border-left: 1px solid rgba(1, 30, 64, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar-titulo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-aula {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .item-aula:hover { background-color: rgba(1, 30, 64, 0.05); }
+        .item-aula.active { background-color: var(--azul-ibbra); color: var(--bege-ibbra); }
+
+        .thumb-min {
+            width: 80px;
+            height: 45px;
+            background-color: #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .aula-meta h5 { font-size: 0.85rem; margin-bottom: 3px; }
+        .aula-meta span { font-size: 0.7rem; opacity: 0.7; }
+
+        @media (max-width: 1000px) {
+            .main-aula { grid-template-columns: 1fr; height: auto; }
+            .sidebar-playlist { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="area-aluno.html" class="logo-back">
+            <i class="fas fa-chevron-left"></i>
+            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy">
+            <span>Voltar ao Início</span>
+        </a>
+        <div class="user-status">
+            <span style="font-size: 0.8rem; opacity: 0.8;">Módulo 1: Fundamentos</span>
+        </div>
+    </header>
+
+    <main class="main-aula">
+        <section class="content-area">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            </div>
+
+            <div class="aula-info">
+                <div class="aula-tags">
+                    <span class="tag">Pilar 1</span>
+                    <span class="tag">Intermediário</span>
+                </div>
+                <h1 class="aula-titulo">Gestão de Caixa e Liquidez</h1>
+                <p class="aula-desc">
+                    Nesta aula, exploramos a diferença entre lucro e caixa, e como as maiores holdings familiares estruturam suas reservas para aproveitar oportunidades em momentos de crise. Entenda os conceitos de liquidez imediata vs. estratégica.
+                </p>
+
+                <div class="materiais-box">
+                    <h4 style="margin-bottom: 15px;"><i class="fas fa-paperclip"></i> Materiais de Apoio</h4>
+                    <a href="#" class="material-item">
+                        <span>Planilha de Fluxo de Caixa VIP.xlsx</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <a href="#" class="material-item">
+                        <span>Guia de Alocação de Liquidez.pdf</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <aside class="sidebar-playlist">
+            <h4 class="sidebar-titulo"><i class="fas fa-list-ul"></i> Conteúdo do Curso</h4>
+            
+            <div class="item-aula active">
+                <div class="thumb-min"><i class="fas fa-play"></i></div>
+                <div class="aula-meta">
+                    <h5>1. Introdução ao Pilar 1</h5>
+                    <span>12:45</span>
+                </div>
+            </div>
+
+            <div class="item-aula">
+                <div class="thumb-min"><i class="fas fa-play"></i></div>
+                <div class="aula-meta">
+                    <h5>2. Fluxo de Caixa Familiar</h5>
+                    <span>24:10</span>
+                </div>
+            </div>
+
+            <div class="item-aula">
+                <div class="thumb-min"><i class="fas fa-lock"></i></div>
+                <div class="aula-meta">
+                    <h5>3. Blindagem de Reservas</h5>
+                    <span>Próxima aula</span>
+                </div>
+            </div>
+
+            <div class="item-aula">
+                <div class="thumb-min"><i class="fas fa-lock"></i></div>
+                <div class="aula-meta">
+                    <h5>4. Quiz de Certificação</h5>
+                    <span>Exame</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+</body>
+</html>
