@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibbra Academy - A sua Liberdade Financeira</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
+        
+        :root {
+            --azul-ibbra: #011e40;
+            --azul-painel: #022c5a;
+            --azul-highlight: #005cb9;
+            --creme-ibbra: #eae1dc;
+            --vermelho-ibbra: #ff4614;
+            --branco: #ffffff;
+            --cinza-borda: #cccccc;
+            --cinza-texto: #555555;
+            --verde-sucesso: #27ae60;
+        }
+
+        body { margin: 0; font-family: "Montserrat", sans-serif; background-color: var(--creme-ibbra); color: var(--azul-ibbra); overflow-x: hidden; }
+
+        /* BACKGROUND E NAV */
+        .landing-background { position: relative; min-height: 90vh; border-bottom: 8px solid rgba(1, 30, 64, 0.05); background: linear-gradient(to top, var(--creme-ibbra) 0%, rgba(234, 225, 220, 0.7) 60%, rgba(234, 225, 220, 0.95) 100%), url("https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=1600&auto=format&fit=crop") center/cover no-repeat; display: flex; flex-direction: column; }
+        .landing-nav { display: flex; justify-content: flex-end; align-items: center; padding: 30px 5%; position: absolute; top: 0; left: 0; width: 100%; box-sizing: border-box; z-index: 10; }
+        
+        .btn-login { background-color: var(--azul-ibbra); color: white; text-decoration: none; padding: 10px 25px; border-radius: 6px; font-weight: 600; transition: 0.3s; border: 1px solid var(--azul-ibbra); }
+        .btn-login:hover { background-color: var(--azul-highlight); transform: translateY(-2px); }
+
+        /* HERO SECTION */
+        .hero-section { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 20px 80px 20px; z-index: 2; }
+        .hero-container { max-width: 900px; margin: 0 auto; animation: fadeIn 1s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hero-logo { max-height: 70px; display: block; margin: 0 auto 30px auto; filter: brightness(0) sepia(1) hue-rotate(200deg) saturate(3) contrast(1.2); }
+        .hero-title { font-family: "Playfair Display", serif; font-size: 3.5rem; margin: 0 0 20px 0; line-height: 1.1; color: var(--azul-ibbra); }
+        .hero-subtitle { font-size: 1.3rem; color: var(--cinza-texto); margin: 0 0 25px 0; line-height: 1.5; font-weight: 500; }
+        .hero-highlight { font-size: 1.2rem; color: var(--azul-highlight); font-weight: 700; margin: 0 0 30px 0; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .benefits-box { background: var(--branco); border: 1px solid var(--cinza-borda); padding: 25px 40px; border-radius: 12px; display: inline-block; text-align: left; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(1, 30, 64, 0.05); }
+        .benefit-item { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; color: var(--azul-ibbra); font-weight: 600; }
+        .benefit-item:last-child { margin-bottom: 0; }
+        .check { font-size: 1.2rem; color: var(--azul-highlight); }
+        .hero-price { font-size: 1.3rem; color: var(--azul-ibbra); margin: 0 0 20px 0; font-weight: 600; }
+
+        .cta-form { display: flex; justify-content: center; max-width: 750px; margin: 0 auto; }
+        .cta-input { flex: 1; padding: 22px 25px; font-size: 1.2rem; border: 1px solid var(--cinza-borda); border-radius: 6px 0 0 6px; background: var(--branco); color: var(--azul-ibbra); outline: none; font-family: "Montserrat", sans-serif; transition: 0.3s; }
+        .cta-input:focus { border-color: var(--azul-highlight); }
+        .cta-btn { padding: 20px 40px; font-size: 1.3rem; font-weight: 700; background: var(--vermelho-ibbra); color: white; border: none; border-radius: 0 6px 6px 0; cursor: pointer; font-family: "Montserrat", sans-serif; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        .cta-btn:hover { background: #e03e10; }
+
+        /* AUTORIDADE E CATALOGO */
+        .authority-bar { display: flex; justify-content: center; gap: 50px; background-color: var(--azul-highlight); padding: 20px; flex-wrap: wrap; border-bottom: 4px solid var(--vermelho-ibbra); }
+        .auth-item { font-size: 0.95rem; font-weight: 600; color: white; display: flex; align-items: center; gap: 10px; }
+        
+        .catalog-section { padding: 70px 0 70px 5%; background-color: var(--azul-ibbra); overflow: hidden; border-bottom: 8px solid rgba(255, 255, 255, 0.05); }
+        .section-heading { font-family: "Playfair Display", serif; font-size: 2.5rem; margin: 0 0 10px 0; color: var(--creme-ibbra); }
+        .section-subheading { font-size: 1.1rem; color: #a3a3a3; margin: 0 0 40px 0; }
+        
+        .netflix-row { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 30px; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; }
+        .netflix-row::-webkit-scrollbar { display: none; }
+        .movie-card { flex: 0 0 300px; background: var(--branco); border-radius: 8px; overflow: hidden; transition: transform 0.4s ease; border: 1px solid var(--cinza-borda); cursor: pointer; }
+        .movie-card:hover { transform: scale(1.05); z-index: 10; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-color: var(--azul-highlight); }
+        .movie-card img { width: 100%; height: 170px; object-fit: cover; border-bottom: 2px solid var(--azul-highlight); }
+        .card-info { padding: 15px; }
+        .match-text { color: var(--azul-highlight); font-weight: 800; font-size: 0.85rem; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-info h4 { margin: 0 0 8px 0; color: var(--azul-ibbra); font-size: 1.1rem; }
+        .card-info p { margin: 0; color: var(--cinza-texto); font-size: 0.85rem; line-height: 1.4; }
+
+        /* FEATURES E TESTEMUNHOS */
+        .features-section { padding: 80px 5%; background-color: var(--branco); border-bottom: 8px solid rgba(1, 30, 64, 0.05); }
+        .feature-row { display: flex; align-items: center; justify-content: space-between; gap: 50px; max-width: 1200px; margin: 0 auto 100px auto; }
+        .feature-row:last-child { margin-bottom: 0; }
+        .feature-row.reverse { flex-direction: row-reverse; }
+        .feature-text { flex: 1; }
+        .feature-text h2 { font-family: "Playfair Display", serif; font-size: 2.8rem; color: var(--azul-ibbra); margin: 0 0 20px 0; line-height: 1.1; }
+        .feature-text p { font-size: 1.1rem; color: var(--cinza-texto); line-height: 1.6; margin: 0; }
+        .feature-visual { flex: 1; display: flex; justify-content: center; }
+        
+        .mockup-box { width: 100%; max-width: 450px; height: 300px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--cinza-borda); box-shadow: 0 20px 50px rgba(1, 30, 64, 0.1); text-align: center; padding: 20px; box-sizing: border-box; }
+        
+        .testimonials-section { padding: 80px 5%; background-color: var(--branco); border-bottom: 8px solid rgba(1, 30, 64, 0.05); }
+        .testimonials-container { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .testimonials-title { font-family: "Playfair Display", serif; font-size: 3rem; color: var(--azul-ibbra); margin: 0 0 50px 0; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .testimonial-card { background: var(--branco); border: 1px solid var(--cinza-borda); padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02); text-align: left; transition: 0.3s; position: relative; }
+        .testimonial-card:hover { transform: translateY(-5px); border-color: var(--azul-highlight); }
+        .testimonial-card::before { content: '"'; font-family: "Playfair Display", serif; font-size: 8rem; color: rgba(0, 92, 185, 0.08); position: absolute; top: -20px; left: 10px; }
+        .testimonial-text { font-size: 1.1rem; color: var(--cinza-texto); line-height: 1.6; margin-bottom: 25px; position: relative; z-index: 2; }
+        .testimonial-user { display: flex; align-items: center; gap: 15px; border-top: 1px solid rgba(0, 0, 0, 0.05); padding-top: 15px; }
+        .testimonial-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+
+        /* PRICING */
+        .pricing-section { padding: 80px 5%; background-color: var(--creme-ibbra); border-bottom: 8px solid rgba(1, 30, 64, 0.05); }
+        .pricing-container { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .pricing-title { font-family: "Playfair Display", serif; font-size: 3rem; color: var(--azul-ibbra); margin: 0 0 10px 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; align-items: stretch; margin-top: 50px; }
+        .pricing-card { background: var(--branco); border: 1px solid var(--cinza-borda); padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03); display: flex; flex-direction: column; text-align: left; transition: 0.3s; position: relative; }
+        .pricing-card:hover { transform: translateY(-5px); border-color: var(--azul-highlight); }
+        .pricing-card.featured { border: 3px solid var(--azul-highlight); box-shadow: 0 10px 30px rgba(1, 30, 64, 0.1); }
+        .featured-badge { background-color: var(--azul-highlight); color: var(--branco); font-weight: 700; font-size: 0.75rem; padding: 5px 15px; border-radius: 20px; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); text-transform: uppercase; }
+        .pricing-header h3 { font-family: "Playfair Display", serif; font-size: 2.2rem; color: var(--azul-ibbra); margin: 0; }
+        .pricing-header p { color: var(--cinza-texto); font-size: 0.9rem; margin: 5px 0 20px 0; }
+        .pricing-price { display: flex; align-items: baseline; margin-bottom: 25px; border-bottom: 1px solid rgba(0, 0, 0, 0.05); padding-bottom: 20px; }
+        .pricing-price h2 { font-size: 2.8rem; margin: 0; color: var(--azul-highlight); font-weight: 700; }
+        .pricing-price p { font-size: 1rem; color: var(--cinza-texto); margin: 0; }
+        .pricing-features { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+        .pricing-features li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 0.95rem; color: var(--azul-ibbra); font-weight: 500; }
+        .pricing-features li.disabled { color: var(--cinza-texto); opacity: 0.6; }
+        
+        .btn-primary-pricing { background: var(--azul-highlight); color: white; border: none; padding: 15px 30px; border-radius: 6px; font-weight: 700; font-size: 1.1rem; font-family: "Montserrat", sans-serif; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 30px; }
+        .btn-primary-pricing:hover { background: var(--azul-ibbra); transform: scale(1.02); }
+        .featured .btn-primary-pricing { background-color: var(--vermelho-ibbra); }
+        .featured .btn-primary-pricing:hover { background-color: #e03e10; }
+
+        /* FAQ E RODAPÉ */
+        .faq-section { padding: 70px 20px; background-color: var(--creme-ibbra); }
+        .faq-title { text-align: center; font-family: "Playfair Display", serif; font-size: 3rem; margin: 0 0 40px 0; color: var(--azul-ibbra); }
+        .faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .faq-item { background-color: var(--branco); border: 1px solid var(--cinza-borda); border-radius: 8px; transition: 0.3s; }
+        .faq-item:hover { border-color: var(--azul-highlight); }
+        .faq-question { width: 100%; text-align: left; background: none; border: none; padding: 25px 30px; font-size: 1.3rem; color: var(--azul-ibbra); font-weight: 600; font-family: "Montserrat", sans-serif; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-icon { font-size: 2.5rem; font-weight: 300; transition: transform 0.3s; color: var(--azul-highlight); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background-color: var(--branco); border-radius: 0 0 8px 8px; }
+        .faq-answer p { padding: 0 30px 30px 30px; margin: 0; font-size: 1.1rem; line-height: 1.6; color: var(--cinza-texto); }
+        .faq-item.open .faq-icon { transform: rotate(45deg); color: var(--vermelho-ibbra); }
+        .faq-item.open .faq-answer { max-height: 500px; }
+        
+        .site-footer { padding: 50px 20px; background-color: var(--azul-ibbra); color: #a3a3a3; border-top: 4px solid var(--azul-highlight); text-align: center; }
+
+        /* COOKIES BANNER */
+        .cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--branco); box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05); border-top: 1px solid var(--cinza-borda); z-index: 9999; padding: 20px 50px; box-sizing: border-box; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); display: none; }
+        .cookie-banner.show { transform: translateY(0); display: block; }
+        .cookie-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+        .cookie-content p { color: var(--cinza-texto); font-size: 0.85rem; margin: 0; line-height: 1.6; flex: 1; text-align: left; }
+        .cookie-actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+        .cookie-link { color: var(--azul-highlight); text-decoration: underline; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
+        .btn-cookie-accept { background-color: var(--vermelho-ibbra); color: white; border: none; padding: 10px 25px; border-radius: 6px; font-weight: 600; font-family: "Montserrat", sans-serif; cursor: pointer; transition: 0.3s; }
+
+        /* MENU MOBILE */
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 2rem; cursor: pointer; padding: 0; }
+        .mobile-overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(1, 30, 64, 0.6); z-index: 1005; display: none; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s; }
+        .mobile-overlay-bg.show { display: block; opacity: 1; }
+        .mobile-sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--branco); z-index: 1006; box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; transition: left 0.3s ease; overflow-y: auto; }
+        .mobile-sidebar.open { left: 0; }
+        .mobile-sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--azul-ibbra); color: white; }
+        .close-mobile-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .mobile-sidebar-content { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .mobile-link { display: block; padding: 12px 15px; color: var(--azul-ibbra); text-decoration: none; font-weight: 600; border-radius: 6px; font-size: 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+        .mobile-link:hover { background: var(--creme-ibbra); }
+        .mobile-sidebar-footer { padding: 20px; border-top: 1px solid var(--cinza-borda); background: var(--creme-ibbra); }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; }
+            .cta-form { flex-direction: column; gap: 15px; }
+            .cta-input { border-radius: 6px; width: 100%; box-sizing: border-box; }
+            .cta-btn { border-radius: 6px; justify-content: center; }
+            .authority-bar { flex-direction: column; gap: 15px; text-align: center; }
+            .feature-row, .feature-row.reverse { flex-direction: column; gap: 30px; text-align: center; }
+            .feature-text h2 { font-size: 2.2rem; }
+            .cookie-banner { padding: 20px; }
+            .cookie-content { flex-direction: column; text-align: center; gap: 15px; }
+            .cookie-actions { width: 100%; justify-content: center; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .btn-login { display: none; }
+            .mobile-menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="landing-background">
+        <nav class="landing-nav">
+            <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" style="color: var(--azul-ibbra);"> ☰ </button>
+                <div style="flex: 1;"></div>
+                <a href="index.html" class="btn-login">Entrar</a>
+            </div>
+        </nav>
+        <header class="hero-section">
+            <div class="hero-container">
+                <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="hero-logo">
+                <h1 class="hero-title">Aprenda a cuidar do seu dinheiro hoje e pare de se preocupar com o amanhã.</h1>
+                <p class="hero-subtitle">Domine as suas finanças, do orçamento aos investimentos, e foque no que realmente importa: viver o presente.</p>
+                <p class="hero-highlight">Conteúdos e cursos sobre investimentos, riqueza, renda passiva e muito mais!</p>
+                <div class="benefits-box">
+                    <div class="benefit-item"><span class="check"> ✔️ </span> Sem compromisso, cancele quando quiser.</div>
+                    <div class="benefit-item"><span class="check"> ✔️ </span> Conteúdo de altíssimo nível sem fim, por um preço baixo.</div>
+                    <div class="benefit-item"><span class="check"> ✔️ </span> Todos os professores são certificados CFP®.</div>
+                </div>
+                <p class="hero-price">A partir de R$ 49,90. Cancele quando quiser.</p>
+                <form class="cta-form" onsubmit="abrirCheckout(event)">
+                    <input type="email" placeholder="O seu endereço de e-mail" class="cta-input" required>
+                    <button type="submit" class="cta-btn">Começar Agora ❯ </button>
+                </form>
+            </div>
+        </header>
+    </div>
+
+    <div class="mobile-overlay-bg" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-sidebar" id="mobile-sidebar">
+        <div class="mobile-sidebar-header">
+            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" style="height: 25px; filter: brightness(0) invert(1);">
+            <button class="close-mobile-btn" onclick="toggleMobileMenu()"> ✕ </button>
+        </div>
+        <div class="mobile-sidebar-content">
+            <a href="#pricing" class="mobile-link" onclick="toggleMobileMenu()">Planos e Preços</a>
+            <a href="#" class="mobile-link" onclick="toggleMobileMenu()">Depoimentos</a>
+            <a href="#" class="mobile-link" onclick="toggleMobileMenu()">Perguntas Frequentes</a>
+        </div>
+        <div class="mobile-sidebar-footer">
+            <a href="index.html" class="btn-login" style="display: block; text-align: center;">Entrar na Conta</a>
+        </div>
+    </div>
+
+    <div class="authority-bar">
+        <div class="auth-item"> 🎓 Profissionais Certificados CFP®</div>
+        <div class="auth-item"> 📱 Assista no Celular, PC ou Tablet</div>
+        <div class="auth-item"> 🔒 7 Dias de Garantia Incondicional</div>
+    </div>
+
+    <section class="catalog-section">
+        <h2 class="section-heading">Um vislumbre do seu novo ecossistema financeiro</h2>
+        <p class="section-subheading">Do zero à liberdade. Explore os 6 Pilares da Riqueza disponíveis instantaneamente.</p>
+        <div class="netflix-row">
+            <div class="movie-card"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=400&auto=format&fit=crop" alt="Pilar 1">
+                <div class="card-info"><span class="match-text">98% Relevante</span>
+                    <h4>1. Planejamento Financeiro</h4>
+                    <p>Orçamento, Regra 50/30/20 e Reserva.</p>
+                </div>
+            </div>
+            <div class="movie-card"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=400&auto=format&fit=crop" alt="Pilar 2">
+                <div class="card-info"><span class="match-text">Crucial</span>
+                    <h4>2. Gestão de Risco</h4>
+                    <p>Blindagem patrimonial e seguros de vida.</p>
+                </div>
+            </div>
+            <div class="movie-card"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=400&auto=format&fit=crop" alt="Pilar 3">
+                <div class="card-info"><span class="match-text">Avançado</span>
+                    <h4>3. Acumulação de Ativos</h4>
+                    <p>Onde investir e multiplicar o dinheiro.</p>
+                </div>
+            </div>
+            <div class="movie-card"><img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=400&auto=format&fit=crop" alt="Pilar 4">
+                <div class="card-info"><span class="match-text">Estratégico</span>
+                    <h4>4. Planejamento Fiscal</h4>
+                    <p>Otimize o seu Imposto de Renda legalmente.</p>
+                </div>
+            </div>
+            <div class="movie-card"><img src="https://images.unsplash.com/photo-1611926653458-09294b3142bf?q=80&w=400&auto=format&fit=crop" alt="Pilar 5">
+                <div class="card-info"><span class="match-text">Masterclass</span>
+                    <h4>5. Planejamento Sucessório</h4>
+                    <p>Proteja a sua família e a sua herança.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="feature-row">
+            <div class="feature-text">
+                <h2>O seu próprio Family Office Digital.</h2>
+                <p>Não é apenas teoria. A Ibbra Academy conta com o <strong>Radar Financeiro</strong>: um painel de controle com 8 calculadoras patrimoniais inteligentes. Descubra se deve comprar ou alugar, otimize a sua amortização e encontre o seu "Número de Liberdade Financeira" com poucos cliques.</p>
+            </div>
+            <div class="feature-visual">
+                <div class="mockup-box" style="background: linear-gradient(135deg, var(--branco), var(--creme-ibbra)); border-color: var(--azul-highlight);">
+                    <span style="font-size: 4rem;"> 📊 </span>
+                    <div style="margin-top: 20px; font-weight: bold; color: var(--azul-highlight);">Simuladores de Liberdade Financeira</div>
+                </div>
+            </div>
+        </div>
+        <div class="feature-row reverse">
+            <div class="feature-text">
+                <h2>Uma experiência de cinema.</h2>
+                <p>Esqueça as plataformas de cursos antigas e enfadonhas. Desenhamos uma sala de aula imersiva. Ative o Modo Cinema, faça anotações sincronizadas com os minutos do vídeo e faça download do seu caderno de anotações, em Word, ao final de cada aula.</p>
+            </div>
+            <div class="feature-visual">
+                <div class="mockup-box" style="background: linear-gradient(135deg, var(--azul-ibbra), var(--azul-painel)); border-color: #d4af37;">
+                    <span style="font-size: 4rem;"> 🍿 </span>
+                    <div style="margin-top: 20px; font-weight: bold; color: var(--creme-ibbra);">Modo Cinema 100% Livre de Distrações</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <div class="testimonials-container">
+            <h2 class="testimonials-title">Histórias de quem assumiu o controle</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A Ibbra Academy foi um divisor de águas. Finalmente entendi onde meu dinheiro estava indo e, usando o Radar Financeiro, consegui planejar a compra do meu imóvel sem comprometer o futuro da minha família."</p>
+                    <div class="testimonial-user"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Roberto F." class="testimonial-avatar">
+                        <div><strong>Roberto F.</strong><br><span style="font-size: 0.8rem; color:var(--cinza-texto);">Engenheiro</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Sempre ganhei bem, mas nunca soube investir. Com o Pilar 3, consegui montar uma carteira blindada e o Pilar 4 me ajudou a otimizar meu IR de forma legal. Recomendo a todos."</p>
+                    <div class="testimonial-user"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana L." class="testimonial-avatar">
+                        <div><strong>Ana L.</strong><br><span style="font-size: 0.8rem; color:var(--cinza-texto);">Médica</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing-section">
+        <div class="pricing-container">
+            <h2 class="pricing-title">Escolha o seu nível de acesso</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Essential</h3>
+                        <p>Para quem quer começar sozinho</p>
+                    </div>
+                    <div class="pricing-price">
+                        <h2>R$ 49,90</h2>
+                        <p>/mês</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li> ✔️ Acesso Completo aos 6 Pilares</li>
+                        <li> ✔️ Sala de Aula Modo Cinema</li>
+                        <li> ✔️ Cadernos de Anotação Downloadable</li>
+                        <li class="disabled"> ❌ Radar Financeiro (Calculadoras)</li>
+                        <li class="disabled"> ❌ Consultor Fiduciário (FA)</li>
+                    </ul>
+                    <button class="btn-primary-pricing" onclick="abrirNovaAba('https://codepen.io/ibbraacademy/full/emdJqpe')">Começar Essential</button>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="featured-badge">Mais Popular</div>
+                    <div class="pricing-header">
+                        <h3>Pro</h3>
+                        <p>O seu Family Office Digital</p>
+                    </div>
+                    <div class="pricing-price">
+                        <h2>R$ 119,90</h2>
+                        <p>/mês</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li> ✔️ Tudo do plano Essential</li>
+                        <li> ✔️ <strong>Radar Financeiro (8 Calculadoras)</strong></li>
+                        <li> ✔️ Hack da Amortização</li>
+                        <li> ✔️ Simulador de Aposentadoria (FIRE)</li>
+                        <li class="disabled"> ❌ Consultor Fiduciário (FA)</li>
+                    </ul>
+                    <button class="btn-primary-pricing" onclick="abrirNovaAba('https://codepen.io/ibbraacademy/full/emdJqpe')">Viver de Renda</button>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>VIP</h3>
+                        <p>Consultoria e Alta Renda</p>
+                    </div>
+                    <div class="pricing-price">
+                        <h2>R$ 299,90</h2>
+                        <p>/mês</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li> ✔️ Tudo do plano Pro</li>
+                        <li> ✔️ <strong>Consultor Fiduciário CFP® (Acompanhamento)</strong></li>
+                        <li> ✔️ Suporte VIP e Direto</li>
+                        <li> ✔️ Loja de Recompensas</li>
+                        <li> ✔️ Trilha Personalizada</li>
+                    </ul>
+                    <button class="btn-primary-pricing" onclick="abrirNovaAba('https://codepen.io/ibbraacademy/full/emdJqpe')">Acesso VIP</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <h2 class="faq-title">Perguntas Frequentes</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">O que é a Ibbra Academy? <span class="faq-icon">+</span></button>
+                <div class="faq-answer"><p>A Ibbra Academy é uma plataforma de streaming educacional focada na construção e proteção do seu patrimônio.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Qual é o valor do investimento na Ibbra Academy? <span class="faq-icon">+</span></button>
+                <div class="faq-answer"><p>Acesso completo a partir de apenas R$ 49,90/mês. Sem taxas escondidas.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Como faço para cancelar? <span class="faq-icon">+</span></button>
+                <div class="faq-answer"><p>Acreditamos em liberdade. Não há burocracia ou multas. Você pode cancelar a sua assinatura facilmente a qualquer momento através do seu painel.</p></div>
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 50px; font-size: 1.1rem; color: var(--azul-ibbra);">Pronto para começar? Digite o seu e-mail para criar ou reiniciar a sua assinatura.</p>
+        <form class="cta-form" onsubmit="abrirCheckout(event)" style="margin-top: 20px;">
+            <input type="email" placeholder="O seu endereço de e-mail" class="cta-input" required>
+            <button type="submit" class="cta-btn">Começar Agora ❯ </button>
+        </form>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p class="footer-contact">Dúvidas? Entre em contato: <a href="mailto:contato@ibbraacademy.com.br" style="color: var(--azul-highlight); text-decoration: none;">contato@ibbraacademy.com.br</a></p>
+            <p class="footer-copy">Ibbra Academy © 2026. Todos os direitos reservados. Transformando a educação financeira.</p>
+        </div>
+    </footer>
+
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-content">
+            <p>A Ibbra Academy usa cookies para fins de personalização. Leia mais aqui ou altere suas preferências selecionando “Saiba mais”. Ao interagir com este site, você concorda com o uso de cookies.</p>
+            <div class="cookie-actions">
+                <a href="#" class="cookie-link">Saiba Mais...</a>
+                <button class="btn-cookie-accept" onclick="aceitarCookies()">Aceitar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções do Menu Mobile
+        function toggleMobileMenu() {
+            document.getElementById('mobile-sidebar').classList.toggle('open');
+            const overlay = document.getElementById('mobile-overlay');
+            if(overlay.classList.contains('show')) {
+                overlay.classList.remove('show');
+                setTimeout(() => overlay.style.display = 'none', 300);
+            } else {
+                overlay.style.display = 'block';
+                setTimeout(() => overlay.classList.add('show'), 10);
+            }
+        }
+
+        // Sistema de Perguntas Frequentes (Acordeão)
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                
+                // Fecha as outras abertas (opcional, deixa o design mais limpo)
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem) item.classList.remove('open');
+                });
+                
+                // Abre/Fecha a clicada
+                faqItem.classList.toggle('open');
+            });
+        });
+
+        // Banner de Cookies
+        function aceitarCookies() {
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+        
+        // Exibir o banner de cookies após 2 segundos
+        setTimeout(() => {
+            document.getElementById('cookie-banner').classList.add('show');
+        }, 2000);
+
+        // Links de Checkout
+        function abrirCheckout(event) {
+            event.preventDefault(); // Evita recarregar a página
+            window.location.href = '#pricing'; // Rola a página para os planos
+        }
+
+        function abrirNovaAba(url) {
+            window.open(url, "_blank");
+        }
+    </script>
+</body>
+</html>
