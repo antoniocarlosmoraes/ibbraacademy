@@ -1,1 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibbra Academy - Pagamento Seguro</title>
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap");
 
+        :root {
+            --azul-ibbra: #011e40;
+            --creme-ibbra: #eae1dc;
+            --azul-highlight: #005cb9;
+            --verde-sucesso: #27ae60;
+            --vermelho-ibbra: #ff4614;
+            --branco: #ffffff;
+            --cinza-borda: #cccccc;
+            --cinza-texto: #555555;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Montserrat", sans-serif;
+            background-color: var(--creme-ibbra);
+            color: var(--azul-ibbra);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .checkout-header {
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--branco);
+            border-bottom: 1px solid var(--cinza-borda);
+            box-sizing: border-box;
+            margin-bottom: 40px;
+        }
+        .checkout-header img { height: 35px; }
+        .secure-checkout-badge { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; color: var(--verde-sucesso); }
+
+        .checkout-wrapper {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
+            max-width: 1000px; width: 100%; background-color: var(--branco);
+            padding: 40px; border-radius: 12px; box-shadow: 0 15px 30px rgba(1, 30, 64, 0.05);
+            border: 1px solid var(--cinza-borda); margin-bottom: 50px; box-sizing: border-box;
+        }
+        .step-indicator { font-size: 0.8rem; color: var(--azul-highlight); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; display: block; }
+
+        h2 { font-family: "Playfair Display", serif; font-size: 1.8rem; margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid var(--cinza-borda); padding-bottom: 15px; color: var(--azul-ibbra); }
+
+        .form-group { margin-bottom: 20px; display: flex; flex-direction: column; }
+        label { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: var(--azul-ibbra); }
+        input { padding: 12px 15px; border-radius: 6px; border: 1px solid var(--cinza-borda); background-color: var(--creme-ibbra); color: var(--azul-ibbra); font-family: "Montserrat", sans-serif; font-size: 1rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--azul-highlight); background-color: var(--branco); box-shadow: 0 0 5px rgba(0, 92, 185, 0.2); }
+        
+        .grid-2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .checkbox-group { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 15px; }
+        .checkbox-group input { margin-top: 4px; }
+        .checkbox-group label { font-size: 0.85rem; font-weight: normal; color: var(--cinza-texto); }
+
+        .order-summary { background-color: rgba(0, 92, 185, 0.05); padding: 20px; border-radius: 8px; margin-top: 40px; border: 1px dashed var(--azul-highlight); }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 600; font-size: 0.95rem; }
+        .price-anchor { text-decoration: line-through; color: var(--cinza-texto); font-size: 0.8rem; margin-right: 5px; font-weight: normal; }
+        .summary-total { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0, 0, 0, 0.1); font-size: 1.2rem; font-weight: 700; color: var(--azul-highlight); }
+        .guarantee { margin-top: 15px; font-size: 0.8rem; color: var(--verde-sucesso); font-weight: bold; text-align: center; }
+
+        .payment-methods { display: flex; gap: 10px; margin-bottom: 15px; }
+        .method-btn { flex: 1; padding: 12px; background: var(--creme-ibbra); border: 1px solid var(--cinza-borda); color: var(--cinza-texto); border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; font-family: "Montserrat", sans-serif;}
+        .method-btn.active { background-color: var(--azul-ibbra); color: white; border-color: var(--azul-ibbra); }
+
+        .order-bump-box { margin-top: 25px; border: 2px dashed var(--vermelho-ibbra); background-color: rgba(255, 70, 20, 0.03); border-radius: 8px; padding: 20px; transition: all 0.3s ease; }
+        .order-bump-box.active { background-color: rgba(39, 174, 96, 0.1); border-color: var(--verde-sucesso); }
+        .bump-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .bump-title-row { display: flex; gap: 10px; align-items: center; }
+        .bump-title { font-weight: bold; color: var(--vermelho-ibbra); cursor: pointer; margin: 0;}
+        .bump-price { font-weight: bold; color: var(--azul-ibbra); }
+        .bump-content h4 { margin: 0 0 5px 0; color: var(--azul-ibbra); font-size: 1rem;}
+        .bump-content p { margin: 0; font-size: 0.85rem; color: var(--cinza-texto); line-height: 1.4;}
+
+        .legal-consent-box { margin-top: 30px; }
+        .legal-text { font-size: 0.75rem; color: var(--cinza-texto); line-height: 1.4; margin-bottom: 10px; }
+
+        .checkout-btn { width: 100%; padding: 18px; background-color: var(--verde-sucesso); color: white; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 10px; transition: 0.3s; font-family: "Montserrat", sans-serif; }
+        .checkout-btn:hover { background-color: #219653; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3); }
+
+        /* MODAIS (UPSELL E BOAS VINDAS) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(1, 30, 64, 0.96); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background-color: var(--branco); padding: 40px; border-radius: 12px; max-width: 600px; width: 90%; text-align: center; position: relative; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .progress-steps-upsell { margin-bottom: 20px; }
+        .progress-bar-upsell { width: 100%; height: 8px; background: var(--creme-ibbra); border-radius: 4px; margin-bottom: 5px; overflow: hidden; }
+        .progress-fill-upsell { height: 100%; background: var(--verde-sucesso); }
+        .upsell-warning { color: var(--vermelho-ibbra); margin: 0; font-size: 1.2rem; text-transform: uppercase; }
+        
+        .btn-upsell-yes { background: var(--verde-sucesso); color: white; border: none; padding: 15px; border-radius: 6px; font-size: 1.1rem; font-weight: bold; width: 100%; cursor: pointer; margin-top: 20px; transition: 0.3s; font-family: "Montserrat", sans-serif;}
+        .btn-upsell-yes:hover { background: #219653; }
+        .btn-upsell-no { display: block; margin-top: 15px; color: var(--cinza-texto); text-decoration: underline; font-size: 0.9rem; cursor: pointer;}
+        
+        .btn-primario { background: var(--azul-highlight); color: white; border: none; padding: 15px; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; font-family: "Montserrat", sans-serif; width: 100%;}
+        .btn-primario:hover { background: var(--azul-ibbra); }
+        
+        .radar-options { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+        .radar-option { background: var(--creme-ibbra); border: 2px solid var(--cinza-borda); padding: 15px; border-radius: 8px; font-weight: bold; color: var(--azul-ibbra); cursor: pointer; transition: 0.3s; font-family: "Montserrat", sans-serif; font-size: 1rem;}
+        .radar-option:hover { border-color: var(--azul-highlight); }
+        .radar-option.selecionado { background: rgba(0, 92, 185, 0.1); border-color: var(--azul-highlight); }
+
+        @media (max-width: 768px) {
+            .checkout-wrapper { grid-template-columns: 1fr; padding: 20px; gap: 30px;}
+        }
+    </style>
+</head>
+<body>
+
+    <header class="checkout-header">
+        <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" style="filter: brightness(0) sepia(1) hue-rotate(200deg) saturate(3) contrast(1.2);">
+        <div class="secure-checkout-badge">🔒 Ambiente 100% Seguro</div>
+    </header>
+
+    <div class="checkout-wrapper">
+        <div class="left-col">
+            <span class="step-indicator">Passo 1 de 2</span>
+            <h2>Seus Dados</h2>
+            
+            <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" placeholder="Como você quer ser chamado?">
+            </div>
+
+            <div class="form-group">
+                <label>E-mail <span style="font-weight: normal; color: var(--cinza-texto); font-size: 0.75rem;">(Onde você receberá o acesso)</span></label>
+                <input type="email" id="email-checkout" placeholder="seu@email.com" onblur="salvarLeadCarrinho(this.value)">
+            </div>
+
+            <div class="form-group">
+                <label>Crie uma Senha</label>
+                <input type="password" placeholder="Mínimo de 8 caracteres">
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="marketing">
+                <label for="marketing">Quero receber ofertas especiais e dicas de aprendizado.</label>
+            </div>
+
+            <div class="order-summary">
+                <div class="summary-item">
+                    <span>Plano Ibbra Academy</span>
+                    <span><span class="price-anchor">R$ 97,00</span> R$ 49,90/mês</span>
+                </div>
+                <div class="summary-item" id="summary-bump" style="display: none; color: var(--verde-sucesso); border-top: 1px dashed rgba(0,0,0,0.1); padding-top: 10px; margin-top: 10px;">
+                    <span>Planilha Master de Rebalanceamento</span>
+                    <span>R$ 19,90</span>
+                </div>
+                <div class="summary-total">
+                    <span>Total a pagar hoje</span>
+                    <span id="total-price">R$ 49,90</span>
+                </div>
+                <div class="guarantee">🛡️ Risco Zero: 7 dias de garantia incondicional. Cancele com um clique.</div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <span class="step-indicator">Passo 2 de 2</span>
+            <h2>Pagamento</h2>
+            
+            <div class="payment-methods">
+                <button class="method-btn active" id="btn-cartao">Cartão de Crédito</button>
+                <button class="method-btn" id="btn-pix">Pix</button>
+            </div>
+
+            <div id="form-cartao">
+                <div class="form-group">
+                    <label>Número do Cartão</label>
+                    <input type="text" placeholder="0000 0000 0000 0000">
+                </div>
+                <div class="grid-2-cols">
+                    <div class="form-group"><label>Validade</label><input type="text" placeholder="MM/AA"></div>
+                    <div class="form-group"><label>CVV</label><input type="text" placeholder="123"></div>
+                </div>
+                <div class="form-group">
+                    <label>Nome no Cartão</label>
+                    <input type="text" placeholder="Nome impresso no cartão">
+                </div>
+                <div class="grid-2-cols">
+                    <div class="form-group"><label>CPF</label><input type="text" placeholder="000.000.000-00"></div>
+                    <div class="form-group"><label>CEP</label><input type="text" placeholder="00000-000"></div>
+                </div>
+            </div>
+
+            <div id="form-pix" style="display: none; text-align: center; padding: 30px 20px; background: var(--creme-ibbra); border: 1px solid var(--cinza-borda); border-radius: 8px;">
+                <p style="color: var(--azul-ibbra); margin-top: 0;">Ao clicar em "Iniciar Assinatura", você receberá um <strong>QR Code</strong> e o código <strong>Copia e Cola</strong>.</p>
+                <p style="font-size: 0.85rem; color: var(--azul-highlight); margin-bottom: 0;">O acesso à plataforma é liberado em menos de 10 segundos após o pagamento.</p>
+            </div>
+
+            <div class="order-bump-box" id="order-bump">
+                <div class="bump-header">
+                    <div class="bump-title-row">
+                        <input type="checkbox" id="check-bump" onchange="toggleOrderBump()">
+                        <label for="check-bump" class="bump-title">🔥 Oferta Especial Única</label>
+                    </div>
+                    <span class="bump-price">+ R$ 19,90</span>
+                </div>
+                <div class="bump-content">
+                    <h4>Planilha Master de Rebalanceamento Automático</h4>
+                    <p>Leve a mesma ferramenta exata usada pelos nossos consultores CFP® para rebalancear carteiras em segundos. Esta oferta não será mostrada novamente.</p>
+                </div>
+            </div>
+
+            <div class="legal-consent-box">
+                <p class="legal-text">Ao marcar a caixa de seleção abaixo, você concorda com nossos Termos de Uso e com nossa Declaração de Privacidade e confirma ter mais de 18 anos. A Ibbra Academy renovará automaticamente sua assinatura.</p>
+                <div class="checkbox-group consent-group" style="margin-top: 0; align-items: center;">
+                    <input type="checkbox" id="concordo">
+                    <label for="concordo"><strong>CONCORDO</strong></label>
+                </div>
+            </div>
+
+            <button class="checkout-btn" id="btn-concluir">INICIAR ASSINATURA</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-upsell">
+        <div class="modal-content upsell-content">
+            <div class="progress-steps-upsell">
+                <div class="progress-bar-upsell"><div class="progress-fill-upsell" style="width: 85%;"></div></div>
+                <span style="font-size: 0.8rem; color: var(--cinza-texto); font-weight: bold; text-transform: uppercase;">Seu pedido está quase concluído...</span>
+            </div>
+
+            <h2 class="upsell-warning">ESPERE! Não feche esta página.</h2>
+            <h3 style="color: var(--azul-ibbra); font-size: 1.5rem; margin: 15px 0;">Você quer acelerar os seus resultados com a ajuda direta de um especialista?</h3>
+
+            <div style="background: rgba(0, 92, 185, 0.05); border-radius: 8px; padding: 20px; text-align: left; border: 1px solid var(--azul-highlight);">
+                <h4 style="margin: 0 0 10px 0; color: var(--azul-highlight); font-size: 1.2rem;">Sessão Estratégica Individual (1 Hora)</h4>
+                <p style="margin: 0 0 10px 0; color: var(--cinza-texto); font-size: 0.95rem; line-height: 1.5;">Um consultor CFP® vai analisar a sua vida financeira pessoalmente no Zoom, montar a sua planilha e te dizer exatamente onde você está perdendo dinheiro.</p>
+                <p style="margin: 0; color: var(--cinza-texto); font-size: 0.95rem;">Preço normal: <span style="text-decoration: line-through;">R$ 497,00</span></p>
+                <h2 style="margin: 5px 0 0 0; color: var(--verde-sucesso); font-size: 2rem; border: none; padding: 0;">Apenas R$ 97,00</h2>
+                <p style="font-size: 0.75rem; color: var(--cinza-texto); margin-top: 5px;">*Oferta válida apenas nesta página.</p>
+            </div>
+
+            <button class="btn-upsell-yes" onclick="aceitarUpsell()">Sim, Adicionar ao Meu Pedido!</button>
+            <a class="btn-upsell-no" onclick="recusarUpsell()">Não, obrigado. Quero seguir sozinho com a assinatura normal.</a>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-boas-vindas">
+        <div class="modal-content">
+            
+            <div id="passo-boas-vindas">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--azul-ibbra); margin-top: 0;">Pagamento Aprovado! 🎉</h3>
+                <p style="color: var(--cinza-texto); line-height: 1.6; margin-bottom: 25px;">Bem-vindo à Ibbra Academy. Estamos muito felizes por tê-lo conosco. Para não perder tempo, queremos direcioná-lo exatamente para o conteúdo de que você precisa hoje.</p>
+                <button class="btn-primario" id="btn-iniciar-radar">Começar a Minha Jornada</button>
+            </div>
+            
+            <div id="passo-radar" style="display: none;">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--azul-ibbra); margin-top: 0;">Radar Financeiro</h3>
+                <p style="color: var(--cinza-texto);">Para terminarmos, qual é o seu MAIOR objetivo na Ibbra Academy hoje?</p>
+                <div class="radar-options">
+                    <button class="radar-option">Sair das Dívidas e Organizar o Orçamento</button>
+                    <button class="radar-option">Aprender a Investir do Zero</button>
+                    <button class="radar-option">Proteger e Multiplicar o meu Património</button>
+                </div>
+                <button class="btn-primario" id="btn-gerar-trilha" style="display: none;">Gerar a minha Trilha Personalizada</button>
+            </div>
+            
+            <div id="passo-analise" style="display: none;">
+                <div style="font-size: 3rem; color: var(--azul-highlight); margin-bottom: 15px;"><i class="fas fa-cog fa-spin"></i></div>
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--azul-ibbra); margin-top: 0;">A analisar o seu perfil...</h3>
+                <p style="color: var(--cinza-texto);">A cruzar os seus dados e a montar a sua trilha ideal. Por favor, aguarde um momento.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // 1. Trocar abas de pagamento (Cartão x Pix)
+        const btnCartao = document.getElementById("btn-cartao");
+        const btnPix = document.getElementById("btn-pix");
+        const formCartao = document.getElementById("form-cartao");
+        const formPix = document.getElementById("form-pix");
+
+        btnPix.addEventListener("click", () => {
+            formCartao.style.display = "none";
+            formPix.style.display = "block";
+            btnPix.classList.add("active");
+            btnCartao.classList.remove("active");
+        });
+
+        btnCartao.addEventListener("click", () => {
+            formPix.style.display = "none";
+            formCartao.style.display = "block";
+            btnCartao.classList.add("active");
+            btnPix.classList.remove("active");
+        });
+
+        // Simulação de captura de lead
+        function salvarLeadCarrinho(email) {
+            if (email.includes("@") && email.includes(".")) {
+                console.log("Lead Capturado para Recuperação de Carrinho:", email);
+            }
+        }
+
+        // 2. Order Bump (Adicionar Planilha no Carrinho)
+        function toggleOrderBump() {
+            const checkbox = document.getElementById("check-bump");
+            const bumpBox = document.getElementById("order-bump");
+            const summaryBump = document.getElementById("summary-bump");
+            const totalPrice = document.getElementById("total-price");
+
+            if (checkbox.checked) {
+                bumpBox.classList.add("active");
+                summaryBump.style.display = "flex";
+                totalPrice.innerText = "R$ 69,80";
+            } else {
+                bumpBox.classList.remove("active");
+                summaryBump.style.display = "none";
+                totalPrice.innerText = "R$ 49,90";
+            }
+        }
+
+        // 3. Fluxo de Conclusão e Modais
+        const btnConcluir = document.getElementById("btn-concluir");
+        const modalUpsell = document.getElementById("modal-upsell");
+        const modalBoasVindas = document.getElementById("modal-boas-vindas");
+
+        btnConcluir.addEventListener("click", () => {
+            const checkboxConcordo = document.getElementById("concordo");
+            if (!checkboxConcordo.checked) {
+                alert("Por favor, marque a caixa 'CONCORDO' nos termos de uso.");
+                return;
+            }
+
+            // Simula processamento
+            btnConcluir.textContent = "A processar... ⏳";
+
+            setTimeout(() => {
+                btnConcluir.textContent = "INICIAR ASSINATURA";
+                modalUpsell.style.display = "flex";
+            }, 1500);
+        });
+
+        function aceitarUpsell() {
+            modalUpsell.style.display = "none";
+            modalBoasVindas.style.display = "flex";
+        }
+
+        function recusarUpsell() {
+            modalUpsell.style.display = "none";
+            modalBoasVindas.style.display = "flex";
+        }
+
+        // 4. Onboarding (O Radar)
+        const passoBoasVindas = document.getElementById("passo-boas-vindas");
+        const passoRadar = document.getElementById("passo-radar");
+        const passoAnalise = document.getElementById("passo-analise");
+        const btnIniciarRadar = document.getElementById("btn-iniciar-radar");
+        const opcoesRadar = document.querySelectorAll(".radar-option");
+        const btnGerarTrilha = document.getElementById("btn-gerar-trilha");
+
+        btnIniciarRadar.addEventListener("click", () => {
+            passoBoasVindas.style.display = "none";
+            passoRadar.style.display = "block";
+        });
+
+        // Selecionar apenas uma opção do radar
+        opcoesRadar.forEach((opcao) => {
+            opcao.addEventListener("click", () => {
+                opcoesRadar.forEach((btn) => btn.classList.remove("selecionado"));
+                opcao.classList.add("selecionado");
+                btnGerarTrilha.style.display = "block";
+            });
+        });
+
+        // 5. Redirecionamento Final para a Área do Aluno real
+        btnGerarTrilha.addEventListener("click", () => {
+            passoRadar.style.display = "none";
+            passoAnalise.style.display = "block";
+            
+            setTimeout(() => {
+                // Ao terminar a análise falsa, leva o aluno para a plataforma
+                window.location.href = "area-aluno.html";
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
