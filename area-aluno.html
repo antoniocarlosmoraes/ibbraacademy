@@ -4,61 +4,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ibbra Academy - Sala de Aula</title>
-    <link rel="stylesheet" href="area-aluno.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap");
+        
+        :root {
+            --azul-ibbra: #011e40;
+            --bege-ibbra: #eae1dc;
+            --azul-destaque: #005cb9;
+            --branco: #ffffff;
+            --texto-suave: #555555;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bege-ibbra);
+            color: var(--azul-ibbra);
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR PREMIUM */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: var(--azul-ibbra);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .nav-left { display: flex; align-items: center; }
+        .logo { height: 35px; margin-right: 40px; cursor: pointer; filter: brightness(0) invert(1); }
+        
+        .navbar nav a {
+            color: var(--bege-ibbra);
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .navbar nav a:hover, .navbar nav a.active { color: var(--branco); font-weight: 700; }
+
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .btn-sair { color: var(--bege-ibbra); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        /* HERO BANNER - ESTILO ACADÊMICO */
+        .hero-container {
+            height: 70vh;
+            margin-top: 75px;
+            background: linear-gradient(135deg, rgba(1, 30, 64, 0.95) 0%, rgba(1, 30, 64, 0.8) 100%), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+            color: var(--bege-ibbra);
+        }
+
+        .hero-content { max-width: 800px; }
+        .welcome-text { font-size: 1.5rem; margin-bottom: 10px; opacity: 0.9; }
+        #nome-aluno { font-weight: 700; color: var(--branco); text-transform: capitalize; }
+        
+        .destaque-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--branco);
+        }
+
+        .descricao {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .buttons { display: flex; gap: 15px; }
+        .btn-play {
+            background-color: var(--bege-ibbra);
+            color: var(--azul-ibbra);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-play:hover { background-color: var(--branco); transform: translateY(-3px); }
+
+        /* SEÇÕES DE CURSOS */
+        .section-cursos { padding: 60px 8% 20px; }
+        .section-cursos h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--azul-ibbra);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .grid-cursos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card-curso {
+            background-color: var(--branco);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(1, 30, 64, 0.08);
+            transition: 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(1, 30, 64, 0.05);
+        }
+
+        .card-curso:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(1, 30, 64, 0.15); }
+
+        .card-img {
+            height: 160px;
+            background-color: var(--azul-ibbra);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bege-ibbra);
+            font-size: 3rem;
+        }
+
+        .card-body { padding: 20px; }
+        .card-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--azul-destaque); margin-bottom: 8px; display: block; }
+        .card-titulo { font-size: 1.1rem; font-weight: 700; color: var(--azul-ibbra); }
+    </style>
 </head>
 <body>
 
     <header class="navbar">
-        <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="logo">
-        <nav>
-            <a href="area-aluno.html">Início</a>
-            <a href="#">Cursos</a>
-            <a href="lista.html">Minha Lista</a>
-            <a href="radar-conhecimento.html">Radar do Conhecimento</a>
-        </nav>
+        <div class="nav-left">
+            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="logo">
+            <nav>
+                <a href="area-aluno.html" class="active">Início</a>
+                <a href="#">Cursos</a>
+                <a href="lista.html">Minha Lista</a>
+                <a href="radar-conhecimento.html">Radar</a>
+                <a href="recompensas.html">Loja VIP</a>
+            </nav>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="btn-sair"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a>
+        </div>
     </header>
 
     <main>
         <section class="hero-container">
             <div class="hero-content">
-                <p class="welcome-text">Olá, <span id="nome-aluno">Estudante</span>!</p>
-                <h1 class="destaque-titulo">Masterclass: Liberdade Financeira</h1>
+                <p class="welcome-text">Seja bem-vindo, <span id="nome-aluno">Estudante</span></p>
+                <h1 class="destaque-titulo">Masterclass:<br>Liberdade Financeira</h1>
                 <p class="descricao">
-                    Descubra as estratégias mais avançadas de alocação de ativos e planejamento patrimonial 
-                    utilizadas pelos maiores escritórios do Brasil.
+                    Aprenda as estratégias de alocação de ativos e blindagem patrimonial utilizadas pelas maiores famílias do Brasil para perpetuar riqueza.
                 </p>
-                
                 <div class="buttons">
                     <button class="btn-play">
-                        <i class="fas fa-play"></i> &nbsp; Assistir Agora
-                    </button>
-                    <button class="btn-info">
-                        <i class="fas fa-circle-info"></i> &nbsp; Mais Informações
+                        <i class="fas fa-play"></i> &nbsp; Começar Aula
                     </button>
                 </div>
             </div>
         </section>
 
-        <section class="trilha-conhecimento">
+        <section class="section-cursos">
             <h3>Sua Trilha de Conhecimento</h3>
             <div class="grid-cursos">
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
-            </div>
-        </section>
-
-        <section class="trilha-conhecimento">
-            <h3>Especiais para Você</h3>
-            <div class="grid-cursos">
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
-                <div class="card-curso"></div>
+                <div class="card-curso">
+                    <div class="card-img"><i class="fas fa-piggy-bank"></i></div>
+                    <div class="card-body">
+                        <span class="card-tag">Pilar 1</span>
+                        <h4 class="card-titulo">Gestão de Caixa e Orçamento</h4>
+                    </div>
+                </div>
+                <div class="card-curso">
+                    <div class="card-img"><i class="fas fa-shield-virus"></i></div>
+                    <div class="card-body">
+                        <span class="card-tag">Pilar 2</span>
+                        <h4 class="card-titulo">Gestão de Riscos e Seguros</h4>
+                    </div>
+                </div>
+                <div class="card-curso">
+                    <div class="card-img"><i class="fas fa-chart-pie"></i></div>
+                    <div class="card-body">
+                        <span class="card-tag">Pilar 3</span>
+                        <h4 class="card-titulo">Alocação de Ativos Financeiros</h4>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
