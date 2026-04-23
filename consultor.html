@@ -1,1 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibbra Academy - Painel do Consultor</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");
+        
+        :root { 
+            --azul-ibbra: #011e40; 
+            --azul-painel: #022c5a; 
+            --azul-highlight: #005cb9; 
+            --creme-ibbra: #eae1dc; 
+            --vermelho-ibbra: #ff4614; 
+            --vermelho-erro: #e74c3c; 
+            --branco: #ffffff; 
+            --cinza-borda: #cccccc; 
+            --cinza-fundo: #f5f0ed; 
+            --cinza-texto: #555555; 
+            --verde-sucesso: #27ae60; 
+            --ouro: #f1c40f; 
+        }
+        
+        body { margin: 0; font-family: "Montserrat", sans-serif; background-color: var(--cinza-fundo); color: var(--azul-ibbra); }
+
+        /* NAVBAR DO CONSULTOR */
+        .admin-navbar { position: fixed; top: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 4%; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 1000; box-sizing: border-box; background-color: #01152d; }
+        .nav-left, .nav-right { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 30px; filter: brightness(0) invert(1); }
+        .nav-main-menu { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 2px;}
+        .nav-main-menu a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 8px 12px; border-radius: 6px; transition: 0.3s; white-space: nowrap;}
+        .nav-main-menu a:hover, .nav-main-menu a.active { color: white; background: var(--azul-highlight); }
+        .icon-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: var(--branco); padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: 0.3s; font-family: "Montserrat", sans-serif; font-size: 0.85rem;}
+        .icon-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* DASHBOARD GERAL */
+        .dashboard-container { padding: 100px 4% 50px 4%; max-width: 1400px; margin: 0 auto; }
+        .admin-section, .admin-tab-content { animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CABEÇALHOS E ABAS */
+        .dash-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .dash-title { font-family: "Playfair Display", serif; font-size: 2.2rem; margin: 0 0 5px 0; color: var(--azul-ibbra); }
+        .dash-subtitle { font-size: 0.95rem; color: var(--cinza-texto); margin: 0; }
+
+        .admin-tabs { display: flex; background: var(--branco); border-radius: 8px; border: 1px solid var(--cinza-borda); margin-bottom: 30px; overflow-x: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .tab-btn { flex: 1; padding: 15px; background: none; border: none; color: var(--cinza-texto); font-weight: 600; font-family: "Montserrat", sans-serif; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.3s; white-space: nowrap; }
+        .tab-btn:hover { color: var(--azul-ibbra); background: var(--creme-ibbra); }
+        .tab-btn.active { color: var(--azul-highlight); border-bottom-color: var(--azul-highlight); background: rgba(0, 92, 185, 0.05); }
+
+        /* GRIDS E CARDS */
+        .dash-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; }
+        .dash-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .dash-card { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: 12px; padding: 25px; box-shadow: 0 5px 15px rgba(1, 30, 64, 0.03); display: flex; flex-direction: column;}
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 10px; }
+        .card-title { font-size: 1.1rem; margin: 0; color: var(--azul-ibbra); text-transform: uppercase; font-weight: 700; }
+        .highlight-card { background: linear-gradient(135deg, var(--azul-ibbra), var(--azul-painel)); border: none; box-shadow: 0 10px 30px rgba(1, 30, 64, 0.2); }
+
+        .stat-main { text-align: center; }
+        .stat-value { font-family: "Playfair Display", serif; font-size: 2.5rem; font-weight: 700; color: var(--azul-ibbra); line-height: 1; }
+        .stat-desc { font-size: 0.85rem; color: var(--cinza-texto); margin-top: 5px; }
+        .learning-stats { display: flex; flex-direction: column; gap: 15px; width: 100%;}
+        .l-stat { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--cinza-borda); padding-bottom: 8px; }
+        .l-label { font-size: 0.85rem; color: var(--cinza-texto); font-weight: 600; }
+        .l-val { font-size: 1rem; font-weight: 700; color: var(--azul-ibbra); }
+
+        /* TABELAS E FORMULÁRIOS */
+        .table-responsive { overflow-x: auto; width: 100%; }
+        .admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .admin-table th { background: var(--creme-ibbra); padding: 12px; font-size: 0.8rem; color: var(--azul-ibbra); text-transform: uppercase; border-bottom: 2px solid var(--cinza-borda); }
+        .admin-table td { padding: 12px; border-bottom: 1px solid var(--cinza-borda); font-size: 0.9rem; vertical-align: middle; }
+        .progress-bar { width: 100%; height: 6px; background: var(--creme-ibbra); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 3px; }
+
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--azul-ibbra); }
+        .input-field { background: var(--creme-ibbra); border: 1px solid var(--cinza-borda); color: var(--azul-ibbra); padding: 12px 15px; border-radius: 6px; font-family: "Montserrat", sans-serif; outline: none; width: 100%; box-sizing: border-box; resize: vertical;}
+        .input-field:focus { border-color: var(--azul-highlight); background: var(--branco); }
+
+        /* BOTOES E BADGES */
+        .btn-primary { background: var(--azul-highlight); color: white; border: none; border-radius: 6px; font-weight: 600; padding: 12px 20px; cursor: pointer; font-family: "Montserrat", sans-serif; transition: 0.3s;}
+        .btn-primary:hover { background: var(--azul-ibbra); transform: translateY(-2px);}
+        .btn-outline { background: transparent; border: 1px solid var(--azul-ibbra); color: var(--azul-ibbra); padding: 10px 15px; border-radius: 6px; font-weight: 600; font-family: "Montserrat", sans-serif; cursor: pointer; transition: 0.3s; }
+        .btn-outline:hover { background: var(--azul-ibbra); color: white; }
+        .btn-outline-small { background: transparent; border: 1px solid var(--azul-ibbra); color: var(--azul-ibbra); padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: 600; font-family: "Montserrat", sans-serif; transition: 0.3s; }
+        .btn-outline-small:hover { background: var(--azul-ibbra); color: white; }
+
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .badge.active { background: rgba(39, 174, 96, 0.1); color: var(--verde-sucesso); border: 1px solid var(--verde-sucesso); }
+        .badge.inactive { background: rgba(231, 76, 60, 0.1); color: var(--vermelho-erro); border: 1px solid var(--vermelho-erro); }
+
+        /* TAGS E TICKETS */
+        .ticket-box { background: var(--creme-ibbra); border-left: 4px solid var(--azul-highlight); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .ticket-info p { font-size: 0.9rem; color: var(--azul-ibbra); margin: 5px 0 0 0; font-style: italic; }
+        .tag-video { background: rgba(0, 92, 185, 0.1); color: var(--azul-highlight); font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: bold; margin-left: 5px;}
+
+        /* TIMELINE */
+        .timeline { position: relative; padding-left: 30px; margin-top: 20px; }
+        .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--cinza-borda); }
+        .timeline-item { position: relative; margin-bottom: 25px; }
+        .timeline-icon { position: absolute; left: -36px; top: 0; width: 24px; height: 24px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; border: 2px solid var(--branco); z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .timeline-content { font-size: 0.85rem; color: var(--cinza-texto); background: var(--creme-ibbra); padding: 10px 15px; border-radius: 8px; border: 1px solid var(--cinza-borda); }
+
+        /* MOTOR DE OPORTUNIDADES */
+        .opp-card { background: var(--branco); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;}
+        .opp-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .opp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;}
+        .opp-tag { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; padding: 4px 8px; border-radius: 4px;}
+        .tag-risco { background: rgba(231, 76, 60, 0.1); color: var(--vermelho-erro); border: 1px solid var(--vermelho-erro);}
+        .tag-sucessao { background: rgba(39, 174, 96, 0.1); color: var(--verde-sucesso); border: 1px solid var(--verde-sucesso);}
+        .tag-tributario { background: rgba(0, 92, 185, 0.1); color: var(--azul-highlight); border: 1px solid var(--azul-highlight);}
+        .opp-actions { display: flex; gap: 10px; margin-top: auto;}
+
+        /* MODAL E DRAG & DROP (EDITOR DE TRILHA) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(1, 30, 64, 0.8); z-index: 2000; display: flex; justify-content: center; align-items: center; animation: fadeInModal 0.3s ease;}
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content { background: var(--branco); width: 90%; max-width: 900px; border-radius: 12px; padding: 30px; display: flex; flex-direction: column; position: relative; box-shadow: 0 15px 50px rgba(0,0,0,0.3);}
+
+        .editor-trilha-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;}
+        .biblioteca-modulos, .trilha-prescrita { background: var(--cinza-fundo); border-radius: 8px; padding: 20px; border: 1px solid var(--cinza-borda); display: flex; flex-direction: column;}
+        .modulo-item { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: 6px; padding: 15px; margin-bottom: 10px; cursor: grab; transition: 0.2s; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .modulo-item:hover { border-color: var(--azul-highlight); }
+        .modulo-item strong { display: block; color: var(--azul-ibbra); font-size: 0.9rem;}
+        .modulo-item span { display: block; color: var(--cinza-texto); font-size: 0.8rem; margin-top: 3px;}
+        .modulo-item.dragging { opacity: 0.5; border: 2px dashed var(--azul-highlight); cursor: grabbing;}
+
+        .dropzone { border: 2px dashed var(--cinza-borda); border-radius: 6px; min-height: 200px; padding: 10px; transition: 0.2s; display: flex; flex-direction: column;}
+        .dropzone.dragover { background: rgba(0, 92, 185, 0.05); border-color: var(--azul-highlight);}
+        .empty-state { text-align: center; color: var(--cinza-texto); font-size: 0.85rem; padding-top: 50px; font-style: italic; margin: auto;}
+        .dropzone:has(.modulo-item) .empty-state { display: none; }
+        .dropzone .modulo-item::after { content: '✕'; position: absolute; top: 10px; right: 15px; font-size: 1.2rem; color: var(--vermelho-erro); cursor: pointer; font-weight: bold;}
+
+        /* MENU MOBILE E COMMAND CENTER */
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; cursor: pointer; padding: 0; }
+        .mobile-overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(1, 30, 64, 0.6); z-index: 1005; display: none; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s; }
+        .mobile-overlay-bg.show { display: block; opacity: 1; }
+        .mobile-sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--branco); z-index: 1006; box-shadow: 5px 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; transition: left 0.3s ease; overflow-y: auto; }
+        .mobile-sidebar.open { left: 0; }
+        .mobile-sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; }
+        .close-mobile-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .mobile-sidebar-content { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .mobile-link { display: block; padding: 12px 15px; color: var(--azul-ibbra); text-decoration: none; font-weight: 600; border-radius: 6px; font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .mobile-link.active { background: rgba(0, 92, 185, 0.1); color: var(--azul-highlight); }
+        .mobile-sidebar-footer { padding: 20px; border-top: 1px solid var(--cinza-borda); background: var(--creme-ibbra); }
+
+        .cmd-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(1, 30, 64, 0.7); backdrop-filter: blur(8px); z-index: 9999; display: flex; justify-content: center; align-items: flex-start; padding-top: 10vh; animation: fadeInModal 0.2s ease-out; }
+        .cmd-modal { background: var(--branco); width: 90%; max-width: 700px; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); overflow: hidden; border: 1px solid var(--cinza-borda); }
+        .cmd-input-container { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--cinza-borda); background: var(--branco); }
+        .cmd-icon { font-size: 1.5rem; color: var(--azul-highlight); margin-right: 15px; }
+        .cmd-input { flex: 1; border: none; outline: none; font-size: 1.4rem; color: var(--azul-ibbra); font-family: 'Montserrat', sans-serif; background: transparent; }
+        .cmd-esc { font-size: 0.7rem; font-weight: bold; background: var(--creme-ibbra); color: var(--cinza-texto); padding: 5px 8px; border-radius: 4px; border: 1px solid var(--cinza-borda); cursor: pointer; }
+        .cmd-content-area { padding: 20px; max-height: 50vh; overflow-y: auto; }
+        .cmd-item { display: flex; align-items: center; padding: 12px 15px; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-bottom: 5px; }
+        .cmd-item:hover { background: rgba(0, 92, 185, 0.05); }
+        .cmd-item-text strong { color: var(--azul-ibbra); font-size: 1rem; display:block; }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .desktop-only { display: none !important; }
+            .mobile-menu-btn, .mobile-search-btn { display: block !important; background: none; border: none; font-size: 1.8rem; color: var(--ouro); cursor: pointer; padding: 0; }
+            .nav-left { gap: 20px; }
+            .dash-grid-2, .dash-grid-3 { grid-template-columns: repeat(2, 1fr) !important; gap: 20px; }
+            .cmd-modal, .modal-content { width: 85%; padding: 30px; }
+            .editor-trilha-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .desktop-only { display: none !important; }
+            .mobile-menu-btn, .mobile-search-btn { display: block !important; background: none; border: none; font-size: 1.8rem; color: var(--ouro); cursor: pointer; padding: 0;}
+            .dash-grid-2, .dash-grid-3 { grid-template-columns: 1fr !important; }
+            .cmd-modal { width: 95%; margin-top: 10px; }
+            .editor-trilha-container { grid-template-columns: 1fr; }
+            .opp-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="admin-navbar" style="background-color: #01152d;">
+        <div class="nav-left">
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" style="color: var(--ouro); font-size: 1.8rem; margin-right: 15px;">☰</button>
+            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="logo-img" style="cursor:pointer;" onclick="window.location.href='consultor.html'">
+            <span class="fa-badge desktop-only" style="background: var(--ouro); color: var(--azul-ibbra); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-left: 15px;">Painel do Consultor (FA)</span>
+        </div>
+        
+        <div class="nav-main-menu desktop-only">
+            <a href="#" class="active" onclick="mudarMenuFA('visao', this)">📊 Desempenho da Carteira</a>
+            <a href="#" onclick="mudarMenuFA('clientes', this)">👥 Meus Clientes & Prescrições</a>
+            <a href="#" onclick="mudarMenuFA('suporte', this)">💬 Dúvidas (Suporte VIP)</a>
+            <a href="#" onclick="mudarMenuFA('relatorios', this)">📑 Relatórios da Carteira</a>
+        </div>
+
+        <div class="nav-right desktop-only">
+            <button class="icon-btn" title="Buscar (Cmd+K)" onclick="abrirCommandCenter()" style="color: white; margin-right: 15px;">🔍</button>
+            <span style="color: var(--creme-ibbra); font-size: 0.9rem; margin-right: 15px;">👤 Mariana L. (CFP®)</span>
+            <button class="icon-btn" style="color: white;" onclick="window.location.href='index.html'">🚪 Sair</button>
+        </div>
+        <button class="icon-btn mobile-search-btn" style="color: white; display: none;" onclick="abrirCommandCenter()">🔍</button>
+    </nav>
+
+    <div class="mobile-overlay-bg" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-sidebar" id="mobile-sidebar">
+        <div class="mobile-sidebar-header" style="background: #01152d;">
+            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" style="height: 25px; filter: brightness(0) invert(1);">
+            <button class="close-mobile-btn" onclick="toggleMobileMenu()">✕</button>
+        </div>
+        <div class="mobile-sidebar-content">
+            <a href="#" class="mobile-link active" onclick="mudarMenuFA('visao', this); toggleMobileMenu()">📊 Desempenho da Carteira</a>
+            <a href="#" class="mobile-link" onclick="mudarMenuFA('clientes', this); toggleMobileMenu()">👥 Meus Clientes & Prescrições</a>
+            <a href="#" class="mobile-link" onclick="mudarMenuFA('suporte', this); toggleMobileMenu()">💬 Dúvidas (Suporte VIP)</a>
+            <a href="#" class="mobile-link" onclick="mudarMenuFA('relatorios', this); toggleMobileMenu()">📑 Relatórios da Carteira</a>
+        </div>
+        <div class="mobile-sidebar-footer">
+            <a href="index.html" class="mobile-link" style="color: var(--vermelho-ibbra);">🚪 Sair da Conta</a>
+        </div>
+    </div>
+
+    <main class="dashboard-container">
+
+        <section id="fa-visao" class="admin-section active">
+            <header class="dash-header">
+                <div><h1 class="dash-title">Desempenho da Sua Carteira</h1><p class="dash-subtitle">Métricas de Reação, Aprendizado e Comportamento dos seus clientes</p></div>
+            </header>
+
+            <div class="dash-grid-3" style="margin-bottom: 30px;">
+                <div class="dash-card">
+                    <div class="card-header"><h2 class="card-title">Nível 1: Reação</h2></div>
+                    <div class="stat-main">
+                        <div class="stat-value">4.8 <span style="font-size: 1.2rem; color: var(--ouro);">★★★★★</span></div>
+                        <p class="stat-desc">Satisfação com as aulas prescritas</p>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="card-header"><h2 class="card-title">Nível 2: Aprendizado</h2></div>
+                    <div style="display: flex; gap: 15px; align-items: center; margin-top: 10px;">
+                        <div style="width: 100px; height: 100px;"><canvas id="graficoAprendizadoFA"></canvas></div>
+                        <div class="learning-stats">
+                            <div class="l-stat"><span class="l-label">Aprovação:</span> <span class="l-val" style="color: var(--verde-sucesso);">92%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="card-header"><h2 class="card-title">Nível 3: Comportamento</h2></div>
+                    <p style="font-size: 0.8rem; color: var(--cinza-texto);">Uso das ferramentas na sua base</p>
+                    <div style="height: 120px; width: 100%; margin-top: 10px;"><canvas id="graficoComportamentoFA"></canvas></div>
+                </div>
+            </div>
+            
+            <div class="dash-card highlight-card">
+                <div class="card-header" style="border-bottom-color: rgba(255,255,255,0.1);">
+                    <h2 class="card-title" style="color: white; font-size: 1.3rem;">🔔 Motor de Oportunidades e Riscos</h2>
+                    <span class="badge" style="background: rgba(255,255,255,0.2); color: white; font-size: 0.85rem;">3 Situações Ativas</span>
+                </div>
+                
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: 0;">A inteligência artificial da Ibbra cruzou os dados do Radar Financeiro e encontrou estas oportunidades de assessoria hoje:</p>
+
+                <div class="opp-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                    
+                    <div class="opp-card">
+                        <div class="opp-header">
+                            <span class="opp-tag tag-risco">Proteção Familiar</span>
+                            <span class="opp-temp" style="color: var(--vermelho-erro); font-weight: bold; font-size: 0.85rem;">🔴 Risco</span>
+                        </div>
+                        <h3 style="margin: 10px 0 5px 0; color: var(--azul-ibbra);">Ana L. descobriu um Gap Patrimonial</h3>
+                        <p style="font-size: 0.85rem; color: var(--cinza-texto); margin: 0 0 15px 0; flex: 1;">No Radar Financeiro, ela calculou que a família precisa de <strong>R$ 2.5 Milhões</strong> de capital segurado, mas não tem apólice ativa.</p>
+                        <div class="opp-actions">
+                            <button class="btn-primary" style="padding: 8px; font-size: 0.8rem; flex: 1;" onclick="alert('Abrindo WhatsApp com script de Seguro...')">📱 Pitch WhatsApp</button>
+                            <button class="btn-outline-small" onclick="alert('Oportunidade movida para a Lixeira.')">Ignorar</button>
+                        </div>
+                    </div>
+
+                    <div class="opp-card">
+                        <div class="opp-header">
+                            <span class="opp-tag tag-tributario">Otimização Fiscal</span>
+                            <span class="opp-temp" style="color: var(--ouro); font-weight: bold; font-size: 0.85rem;">🟡 Atenção</span>
+                        </div>
+                        <h3 style="margin: 10px 0 5px 0; color: var(--azul-ibbra);">Roberto F. simulou o PGBL</h3>
+                        <p style="font-size: 0.85rem; color: var(--cinza-texto); margin: 0 0 15px 0; flex: 1;">O simulador apontou que ele pode restituir até <strong>R$ 15.000,00</strong> de IR se fizer o aporte este mês.</p>
+                        <div class="opp-actions">
+                            <button class="btn-primary" style="padding: 8px; font-size: 0.8rem; flex: 1;" onclick="alert('E-mail com relatório enviado!')">📧 E-mail Relatório</button>
+                            <button class="btn-outline-small">Ver Dados</button>
+                        </div>
+                    </div>
+
+                    <div class="opp-card">
+                        <div class="opp-header">
+                            <span class="opp-tag tag-sucessao">Sucessão Patrimonial</span>
+                            <span class="opp-temp" style="color: var(--verde-sucesso); font-weight: bold; font-size: 0.85rem;">🟢 Positivo</span>
+                        </div>
+                        <h3 style="margin: 10px 0 5px 0; color: var(--azul-ibbra);">Carlos M. gabaritou o Pilar 6</h3>
+                        <p style="font-size: 0.85rem; color: var(--cinza-texto); margin: 0 0 15px 0; flex: 1;">Ele assistiu a todas as aulas sobre Holding Familiar e atingiu a nota máxima. Ele está pronto para o serviço jurídico.</p>
+                        <div class="opp-actions">
+                            <button class="btn-primary" style="padding: 8px; font-size: 0.8rem; flex: 1; background: var(--verde-sucesso); color: white;" onclick="alert('Link do Calendário enviado!')">📅 Enviar Calendário</button>
+                            <button class="btn-outline-small">Ver Dados</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="fa-clientes" class="admin-section" style="display: none;">
+            <header class="dash-header">
+                <div><h1 class="dash-title">Meus Clientes</h1><p class="dash-subtitle">Acompanhe a saúde e prescreva os 6 Pilares do Planejamento</p></div>
+            </header>
+
+            <div class="admin-tabs">
+                <button class="tab-btn active" onclick="trocarAbaCrm('base', this)">👥 Base de Clientes</button>
+                <button class="tab-btn" onclick="trocarAbaCrm('visao360', this)">🔍 Raio-X 360º (Hexágono Patrimonial)</button>
+            </div>
+
+            <div id="crm-base" class="admin-tab-content active">
+                <div class="dash-card">
+                    <div class="card-header"><input type="text" class="input-field" placeholder="🔍 Buscar cliente..." style="width: 300px; max-width: 100%;"></div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead><tr><th>Cliente</th><th>Trilha Atual</th><th>Progresso</th><th>Termômetro</th><th>Ações do FA</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Carlos M.</strong></td>
+                                    <td><span class="tag-video">Pilar 6: Sucessão</span></td>
+                                    <td><div class="progress-bar"><div class="progress-fill" style="width: 100%; background: var(--verde-sucesso);"></div></div></td>
+                                    <td><span class="badge active">Alta Adesão</span></td>
+                                    <td>
+                                        <button class="btn-outline-small" onclick="trocarAbaCrm('visao360', document.querySelectorAll('#fa-clientes .tab-btn')[1])">Ver Perfil 360º</button>
+                                        <button class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem; margin-left: 5px;" onclick="abrirModalTrilha('Carlos M.')">+ Editar Trilha</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ana L.</strong></td>
+                                    <td><span class="tag-video">Pilar 1: Fluxo de Caixa</span></td>
+                                    <td><div class="progress-bar"><div class="progress-fill" style="width: 30%; background: var(--vermelho-ibbra);"></div></div></td>
+                                    <td><span class="badge inactive">Baixa Adesão</span></td>
+                                    <td>
+                                        <button class="btn-outline-small" onclick="trocarAbaCrm('visao360', document.querySelectorAll('#fa-clientes .tab-btn')[1])">Ver Perfil 360º</button>
+                                        <button class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem; margin-left: 5px;" onclick="abrirModalTrilha('Ana L.')">+ Editar Trilha</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="crm-visao360" class="admin-tab-content" style="display: none;">
+                <div class="dash-grid-2">
+                    <div class="dash-card">
+                        <div class="card-header"><h2 class="card-title">Raio-X Patrimonial: Roberto F.</h2></div>
+                        <div style="display: flex; gap: 20px; align-items: center; margin-top: 10px; flex-wrap: wrap;">
+                            <div style="width: 200px; height: 200px; margin: 0 auto;"><canvas id="graficoHexagonoFA"></canvas></div>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; color: var(--azul-ibbra); font-size: 1.2rem;">Termômetro de Saúde</h3>
+                                <p style="color: var(--ouro); font-weight: bold; margin: 5px 0;">Score: 65/100 (Atenção)</p>
+                                <span class="badge inactive">Gap: Sucessório</span> <span class="badge active" style="margin-left: 5px;">Forte: Caixa</span>
+                            </div>
+                        </div>
+                        <div style="background: rgba(241, 196, 15, 0.05); padding: 15px; border-radius: 8px; border: 1px solid var(--ouro); margin-top: 20px;">
+                            <strong>⚠️ Diagnóstico do Consultor:</strong>
+                            <ul style="margin: 5px 0 0 0; padding-left: 20px; font-size: 0.85rem; color: var(--cinza-texto);">
+                                <li>Fluxo de caixa excelente, mas alta vulnerabilidade em <strong style="color: var(--vermelho-ibbra);">Gestão de Riscos</strong>.</li>
+                                <li>Atraso na entrega da documentação para o Planejamento Tributário.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="card-header"><h2 class="card-title">Timeline de Relacionamento</h2></div>
+                        <div class="timeline">
+                            <div class="timeline-item"><div class="timeline-icon" style="background: var(--vermelho-erro);">!</div><div class="timeline-content"><strong>Hoje:</strong> Risco de Gap de Proteção (Sem seguro de vida).</div></div>
+                            <div class="timeline-item"><div class="timeline-icon" style="background: var(--azul-highlight);">🎓</div><div class="timeline-content"><strong>Ontem:</strong> Você prescreveu o "Pilar 4: Gestão de Riscos".</div></div>
+                            <div class="timeline-item"><div class="timeline-icon" style="background: var(--verde-sucesso);">💬</div><div class="timeline-content"><strong>Há 5 dias:</strong> Reunião de Alinhamento (Zoom) concluída.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fa-suporte" class="admin-section" style="display: none;">
+            <header class="dash-header">
+                <div><h1 class="dash-title">Dúvidas da Carteira (Help Desk)</h1><p class="dash-subtitle">Responda aos seus clientes e documente o histórico</p></div>
+                <button class="btn-outline" onclick="alert('Histórico completo baixado em PDF para anexar ao Prontuário!')">📥 Baixar Todo o Histórico</button>
+            </header>
+
+            <div class="dash-grid-2">
+                <div class="dash-card">
+                    <div class="card-header"><h2 class="card-title">💬 Pendentes de Resposta</h2><span class="badge inactive">1 Aguardando</span></div>
+                    <div class="ticket-box">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                            <div class="ticket-info">
+                                <strong>Ana L.</strong> <span class="tag-video">Pilar 3: Aposentadoria [04:20]</span>
+                                <p>"Mariana, devo usar o Tesouro Selic ou o PGBL para a minha aposentadoria?"</p>
+                            </div>
+                            <button class="btn-outline-small" onclick="alert('Dúvida exportada para anexar ao prontuário do cliente.')">📥 Salvar</button>
+                        </div>
+                        <textarea class="input-field" rows="3" placeholder="Sua orientação técnica como FA..." style="margin-top: 10px;"></textarea>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button class="btn-primary" style="flex: 1; padding: 8px 15px; font-size: 0.8rem;">Responder Ana</button>
+                            <button class="btn-outline-small" onclick="alert('Iniciando WhatsApp Web...')">WhatsApp</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-card" style="opacity: 0.8;">
+                    <div class="card-header"><h2 class="card-title">✅ Histórico Recente</h2></div>
+                    <div class="ticket-box" style="border-left-color: var(--verde-sucesso); background: var(--branco);">
+                        <div class="ticket-info">
+                            <strong>Carlos M.</strong> <span class="tag-video">Pilar 6: Sucessão [12:00]</span>
+                            <p>"Ficou claro! A holding familiar faz sentido no meu caso."</p>
+                            <div style="background: var(--creme-ibbra); padding: 8px; margin-top: 10px; border-radius: 4px; font-size: 0.85rem;">
+                                <strong>Sua Resposta:</strong> Perfeito, Carlos! Levarei os custos de estruturação na nossa reunião.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fa-relatorios" class="admin-section" style="display: none;">
+            <header class="dash-header">
+                <div><h1 class="dash-title">Exportação de Dados</h1><p class="dash-subtitle">Extraia os dados de progresso e questionários da sua carteira</p></div>
+            </header>
+            <div class="dash-card" style="max-width: 800px;">
+                <div class="dash-grid-3">
+                    <div class="form-group">
+                        <label>Selecione o Cliente</label>
+                        <select class="input-field"><option>Todos da minha carteira</option><option>Ana L.</option><option>Carlos M.</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Relatório</label>
+                        <select class="input-field"><option>Perguntas e Respostas (Dúvidas)</option><option>Progresso nas Trilhas</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Formato</label>
+                        <select class="input-field"><option>PDF (Pronto para reunião)</option><option>Excel (Para análise)</option></select>
+                    </div>
+                </div>
+                <button class="btn-primary" style="margin-top: 15px;" onclick="alert('Relatório da carteira gerado com sucesso!')">📥 Exportar Dados</button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modalTrilha" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
+            <header class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--cinza-borda); padding-bottom: 15px;">
+                <h2 style="font-size: 1.5rem; margin:0; color: var(--azul-ibbra);">Prescrição Educacional (Padrão CFP®)</h2>
+                <button class="close-mobile-btn" style="color: var(--cinza-texto); border: none; background: none; font-size: 1.5rem; cursor: pointer;" onclick="fecharModalTrilha()">✕</button>
+            </header>
+            
+            <p style="margin-top: 0;">Prescrevendo para: <strong id="nomeClienteModal" style="color: var(--azul-highlight);"></strong></p>
+            
+            <div class="editor-trilha-container">
+                <div class="biblioteca-modulos">
+                    <h3 style="margin-top:0; color: var(--azul-ibbra); border-bottom: 2px solid var(--azul-ibbra); padding-bottom: 5px;">📚 Biblioteca de Pilares</h3>
+                    <p style="font-size: 0.8rem; color: var(--cinza-texto);">Arraste os módulos recomendados para a trilha do cliente.</p>
+                    
+                    <div class="modulo-item draggable" draggable="true" data-id="p1">
+                        <strong>1. Gestão e Fluxo de Caixa</strong>
+                        <span style="font-size: 0.8rem; color: var(--cinza-texto);">Organização, Orçamento e Dívidas</span>
+                    </div>
+                    <div class="modulo-item draggable" draggable="true" data-id="p2">
+                        <strong>2. Gestão de Investimentos</strong>
+                        <span style="font-size: 0.8rem; color: var(--cinza-texto);">Alocação e Renda Fixa/Variável</span>
+                    </div>
+                    <div class="modulo-item draggable" draggable="true" data-id="p3">
+                        <strong>3. Planejamento de Aposentadoria</strong>
+                        <span style="font-size: 0.8rem; color: var(--cinza-texto);">Independência Financeira (FIRE)</span>
+                    </div>
+                    <div class="modulo-item draggable" draggable="true" data-id="p4">
+                        <strong>4. Gestão de Riscos e Seguros</strong>
+                        <span style="font-size: 0.8rem; color: var(--cinza-texto);">Proteção Familiar e Vida</span>
+                    </div>
+                    <div class="modulo-item draggable" draggable="true" data-id="p5">
+                        <strong>5. Planejamento Tributário</strong>
+                        <span style="font-size: 0.8rem; color: var(--cinza-texto);">Otimização Fiscal e IR</span>
+                    </div>
+                    <div class="modulo-item draggable" draggable="true" data-id="p6">
+                        <strong>6. Planejamento Sucessório</strong>
+                        <span style="font-size: 0.8rem; color: var(--cinza-texto);">Testamentos e Holding Familiar</span>
+                    </div>
+                </div>
+                
+                <div class="trilha-prescrita">
+                    <h3 style="margin-top:0; color: var(--azul-ibbra); border-bottom: 2px solid var(--azul-ibbra); padding-bottom: 5px;">🎯 Trilha Prescrita (O que o cliente vê)</h3>
+                    <p style="font-size: 0.8rem; color: var(--cinza-texto);">Solte e reordene os módulos prioritários aqui.</p>
+                    <div id="dropzoneTrilha" class="dropzone">
+                        <div class="empty-state">Arraste o pilar prioritário para este cliente.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--cinza-borda); text-align: right;">
+                <button class="btn-outline" style="margin-right: 10px;" onclick="fecharModalTrilha()">Cancelar</button>
+                <button class="btn-primary" onclick="salvarTrilha()">💾 Salvar Prescrição Fiduciária</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cmd-center-overlay" class="cmd-overlay" style="display: none;" onclick="fecharCommandCenterFora(event)">
+        <div class="cmd-modal">
+            <div class="cmd-input-container">
+                <span class="cmd-icon">🔍</span>
+                <input type="text" id="cmd-input" class="cmd-input" placeholder="Buscar cliente da carteira... (Cmd+K)" autocomplete="off">
+                <span class="cmd-esc" onclick="fecharCommandCenter()">ESC</span>
+            </div>
+            <div class="cmd-content-area" id="cmd-results-area">
+                <div id="cmd-dynamic-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções de Navegação
+        function mudarMenuFA(idSecao, botaoClicado) {
+            document.querySelectorAll('.admin-section').forEach(sec => sec.style.display = 'none');
+            document.querySelectorAll('.nav-main-menu a').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.mobile-link').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById('fa-' + idSecao).style.display = 'block';
+            botaoClicado.classList.add('active');
+        }
+
+        function trocarAbaCrm(idAba, botao) {
+            document.querySelectorAll('#fa-clientes .admin-tab-content').forEach(aba => aba.style.display = 'none');
+            document.querySelectorAll('#fa-clientes .tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById('crm-' + idAba).style.display = 'block';
+            botao.classList.add('active');
+            
+            if(idAba === 'visao360' && typeof chartHexagono !== 'undefined' && chartHexagono !== null) {
+                chartHexagono.update();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById("mobile-sidebar");
+            const overlay = document.getElementById("mobile-overlay");
+            if (sidebar.classList.contains("open")) { 
+                sidebar.classList.remove("open"); 
+                overlay.classList.remove("show"); 
+            } else { 
+                sidebar.classList.add("open"); 
+                overlay.classList.add("show"); 
+            }
+        }
+
+        // Command Center
+        const dbBusca = [
+            { titulo: "Carlos M.", subtitulo: "Cliente Ativo - Pilar 6", url: "#" },
+            { titulo: "Ana L.", subtitulo: "Oportunidade - Seguro", url: "#" },
+            { titulo: "Roberto F.", subtitulo: "Oportunidade - PGBL", url: "#" }
+        ];
+
+        const cmdOverlay = document.getElementById("cmd-center-overlay");
+        const cmdInput = document.getElementById("cmd-input");
+        const cmdDynamic = document.getElementById("cmd-dynamic-results");
+
+        function abrirCommandCenter() { 
+            cmdOverlay.style.display = "flex"; 
+            setTimeout(() => cmdInput.focus(), 100); 
+        }
+
+        function fecharCommandCenter() { 
+            cmdOverlay.style.display = "none"; 
+            cmdInput.value = ""; 
+            if(cmdDynamic) cmdDynamic.innerHTML = ""; 
+        }
+
+        function fecharCommandCenterFora(event) { 
+            if(event.target === cmdOverlay) fecharCommandCenter(); 
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); abrirCommandCenter(); }
+            if (e.key === "Escape" && cmdOverlay.style.display === "flex") { fecharCommandCenter(); }
+        });
+
+        if(cmdInput) {
+            cmdInput.addEventListener("input", (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query.trim() === "") { cmdDynamic.innerHTML = ""; return; }
+                
+                const res = dbBusca.filter(item => item.titulo.toLowerCase().includes(query) || item.subtitulo.toLowerCase().includes(query));
+                if(res.length > 0){
+                    let html = "";
+                    res.forEach(r => html += `<div class="cmd-item" onclick="fecharCommandCenter(); alert('Acessando perfil de ${r.titulo}')"><div class="cmd-item-text"><strong>${r.titulo}</strong><span>${r.subtitulo}</span></div></div>`);
+                    cmdDynamic.innerHTML = html;
+                } else { 
+                    cmdDynamic.innerHTML = `<div style="text-align: center; color: var(--cinza-texto); padding: 20px;">Nenhum cliente encontrado.</div>`; 
+                }
+            });
+        }
+
+        // Modal de Trilha Prescrita (Drag and Drop)
+        const modal = document.getElementById('modalTrilha');
+        const dropzone = document.getElementById('dropzoneTrilha');
+
+        function abrirModalTrilha(nomeCliente) {
+            const nomeClienteModal = document.getElementById('nomeClienteModal');
+            if(nomeClienteModal) nomeClienteModal.innerText = nomeCliente;
+            if(modal) modal.style.display = 'flex';
+            
+            if(dropzone) {
+                dropzone.querySelectorAll('.modulo-item').forEach(el => el.remove());
+            }
+            initDragAndDrop();
+        }
+
+        function fecharModalTrilha() { 
+            if(modal) modal.style.display = 'none'; 
+        }
+
+        function salvarTrilha() {
+            if (dropzone && dropzone.querySelectorAll('.modulo-item').length === 0) { 
+                alert('Por favor, prescreva pelo menos um pilar para o cliente.'); 
+                return; 
+            }
+            alert(`Trilha salva com sucesso e prescrita no painel do cliente!`);
+            fecharModalTrilha();
+        }
+
+        function initDragAndDrop() {
+            const draggables = document.querySelectorAll('.draggable');
+            if(!dropzone) return;
+
+            // Recriar dropzone para evitar listeners duplicados
+            const newDropzone = dropzone.cloneNode(true);
+            dropzone.parentNode.replaceChild(newDropzone, dropzone);
+            const activeDropzone = document.getElementById('dropzoneTrilha');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => draggable.classList.add('dragging'));
+                draggable.addEventListener('dragend', () => draggable.classList.remove('dragging'));
+            });
+
+            activeDropzone.addEventListener('dragover', e => {
+                e.preventDefault();
+                activeDropzone.classList.add('dragover');
+                const afterElement = getDragAfterElement(activeDropzone, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                
+                if (draggable) {
+                    if (afterElement == null) { 
+                        activeDropzone.appendChild(draggable); 
+                    } else { 
+                        activeDropzone.insertBefore(draggable, afterElement); 
+                    }
+                }
+            });
+
+            activeDropzone.addEventListener('dragleave', () => activeDropzone.classList.remove('dragover'));
+
+            activeDropzone.addEventListener('drop', e => {
+                e.preventDefault();
+                activeDropzone.classList.remove('dragover');
+                const draggable = document.querySelector('.dragging');
+                
+                if (draggable && draggable.parentElement.classList.contains('biblioteca-modulos')) {
+                    const clone = draggable.cloneNode(true);
+                    clone.classList.remove('draggable', 'dragging');
+                    clone.classList.add('no-grab');
+                    clone.addEventListener('click', (ev) => {
+                        if (ev.target.tagName !== 'STRONG' && ev.target.tagName !== 'SPAN') { 
+                            clone.remove(); 
+                        }
+                    });
+                    activeDropzone.appendChild(clone);
+                }
+            });
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.modulo-item:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) { 
+                    return { offset: offset, element: child }; 
+                } else { 
+                    return closest; 
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // Gráficos (Chart.js)
+        let chartHexagono = null;
+        window.addEventListener('load', function() {
+            try {
+                if (typeof Chart !== 'undefined') {
+                    Chart.defaults.color = '#555555'; 
+                    Chart.defaults.font.family = "'Montserrat', sans-serif";
+
+                    if(document.getElementById('graficoAprendizadoFA')){
+                        new Chart(document.getElementById('graficoAprendizadoFA').getContext('2d'), { 
+                            type: 'doughnut', 
+                            data: { labels: ['Aprovados', 'Reprovados'], datasets: [{ data: [92, 8], backgroundColor: ['#27ae60', '#ff4614'], borderWidth: 0 }] }, 
+                            options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { display: false } } } 
+                        });
+                    }
+
+                    if(document.getElementById('graficoComportamentoFA')){
+                        new Chart(document.getElementById('graficoComportamentoFA').getContext('2d'), { 
+                            type: 'bar', 
+                            data: { labels: ['Planilha Orçamento', 'Simul. Independência'], datasets: [{ label: 'Uso dos Clientes', data: [45, 20], backgroundColor: '#f1c40f', borderRadius: 4 }] }, 
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { display: false } } } 
+                        });
+                    }
+
+                    const canvasHex = document.getElementById('graficoHexagonoFA');
+                    if(canvasHex){
+                        chartHexagono = new Chart(canvasHex.getContext('2d'), {
+                            type: 'radar',
+                            data: {
+                                labels: ['1. Fluxo de Caixa', '2. Investimentos', '3. Aposentadoria', '4. Riscos', '5. Tributário', '6. Sucessório'],
+                                datasets: [{ 
+                                    label: 'Saúde Patrimonial', 
+                                    data: [90, 75, 60, 10, 30, 85], 
+                                    backgroundColor: 'rgba(0, 92, 185, 0.2)', 
+                                    borderColor: '#005cb9', 
+                                    pointBackgroundColor: '#ff4614',
+                                    pointBorderColor: '#fff'
+                                }]
+                            },
+                            options: { 
+                                responsive: true, 
+                                maintainAspectRatio: false, 
+                                scales: { 
+                                    r: { 
+                                        ticks: { display: false, min: 0, max: 100 },
+                                        pointLabels: { font: { size: 9, family: "'Montserrat', sans-serif" }, color: '#011e40' }
+                                    } 
+                                }, 
+                                plugins: { legend: { display: false } } 
+                            }
+                        });
+                    }
+                }
+            } catch (erro) {
+                console.error("Erro no carregamento do gráfico:", erro);
+            }
+        });
+    </script>
+</body>
+</html>
