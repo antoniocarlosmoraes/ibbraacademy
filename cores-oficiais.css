@@ -1,0 +1,179 @@
+/**
+ * CORES OFICIAIS - IBBRA ACADEMY
+ * Padrão de cores para toda a plataforma
+ * 
+ * Cores Primárias:
+ * - Azul Ibbra: #011E41
+ * - Bege: #E6E6E6
+ */
+
+:root {
+  /* CORES OFICIAIS IBBRA */
+  --azul-ibbra: #011E41;
+  --bege-ibbra: #E6E6E6;
+  
+  /* CORES COMPLEMENTARES */
+  --azul-highlight: #005CB9;
+  --azul-painel: #022C5A;
+  
+  /* CORES FUNCIONAIS */
+  --branco: #FFFFFF;
+  --cinza-escuro: #333333;
+  --cinza-texto: #555555;
+  --cinza-borda: #CCCCCC;
+  --cinza-fundo: #F5F0ED;
+  
+  /* CORES DE ESTADO */
+  --vermelho-erro: #E74C3C;
+  --vermelho-ibbra: #FF4614;
+  --verde-sucesso: #27AE60;
+  --ouro: #F1C40F;
+  
+  /* CORES PARA GRADIENTES */
+  --creme-ibbra: #EAE1DC;
+}
+
+/* APLICAÇÃO DAS CORES OFICIAIS EM ELEMENTOS PRINCIPAIS */
+
+body {
+  background-color: var(--bege-ibbra);
+  color: var(--azul-ibbra);
+}
+
+header, .admin-navbar {
+  background-color: var(--azul-ibbra);
+  color: var(--branco);
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--azul-ibbra) 0%, var(--azul-highlight) 100%);
+  color: var(--branco);
+}
+
+.btn-primary, .btn-submit {
+  background-color: var(--azul-ibbra);
+  color: var(--branco);
+}
+
+.btn-primary:hover, .btn-submit:hover {
+  background-color: var(--azul-highlight);
+}
+
+.pricing-section {
+  background-color: #F5F0ED;
+}
+
+.faq-section {
+  background-color: var(--bege-ibbra);
+}
+
+.site-footer, .admin-footer {
+  background-color: var(--azul-ibbra);
+  color: var(--branco);
+}
+
+/* COMPONENTES DE INTERFACE */
+
+.input-field {
+  background-color: var(--bege-ibbra);
+  border-color: var(--cinza-borda);
+  color: var(--azul-ibbra);
+}
+
+.input-field:focus {
+  border-color: var(--azul-highlight);
+  background-color: var(--branco);
+  box-shadow: 0 0 5px rgba(0, 92, 185, 0.2);
+}
+
+.admin-table th {
+  background-color: var(--bege-ibbra);
+  color: var(--azul-ibbra);
+  border-bottom: 2px solid var(--cinza-borda);
+}
+
+.admin-table td {
+  border-bottom: 1px solid var(--cinza-borda);
+  color: var(--azul-ibbra);
+}
+
+/* CARDS E PAINÉIS */
+
+.dash-card, .kpi-card, .pricing-card {
+  background-color: var(--branco);
+  border: 1px solid var(--cinza-borda);
+  color: var(--azul-ibbra);
+}
+
+.dash-card:hover, .kpi-card:hover, .pricing-card:hover {
+  box-shadow: 0 8px 25px rgba(1, 30, 64, 0.1);
+}
+
+/* TÍTULOS E HEADINGS */
+
+h1, h2, h3, .dash-title, .pricing-title, .card-title {
+  color: var(--azul-ibbra);
+}
+
+/* BADGES E STATUS */
+
+.badge.active {
+  background-color: rgba(39, 174, 96, 0.1);
+  color: var(--verde-sucesso);
+}
+
+.tag-video {
+  background-color: rgba(0, 92, 185, 0.1);
+  color: var(--azul-highlight);
+}
+
+/* LINKS E HOVER */
+
+a {
+  color: var(--azul-highlight);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: var(--azul-ibbra);
+  text-decoration: underline;
+}
+
+/* MODO ESCURO (Opcional) */
+
+body.dark-mode {
+  --bege-ibbra: #1E293B;
+  --azul-ibbra: #F8FAFC;
+  --branco: #0F172A;
+  --cinza-texto: #94A3B8;
+  --cinza-borda: #334155;
+}
+
+/* FONTES */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+h1, h2, h3, .dash-title, .pricing-title, .login-title {
+  font-family: "Playfair Display", serif;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+}
