@@ -97,7 +97,7 @@
             display: flex; 
             flex-direction: column;
             justify-content: space-between;
-            min-height: 500px;
+            min-height: 530px; /* Leve aumento para dar respiro aos botões */
         }
 
         .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
@@ -111,6 +111,8 @@
         .featured-badge { 
             position: absolute; 
             top: -15px; 
+            left: 50%;
+            transform: translateX(-50%);
             background: var(--azul-highlight); 
             color: white; 
             padding: 5px 15px; 
@@ -170,6 +172,7 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            margin-top: auto; /* Garante alinhamento perfeito no fundo */
         }
 
         .btn-pricing:hover { opacity: 0.9; transform: translateY(-2px); }
@@ -222,7 +225,7 @@
         }
 
         .faq-item.active { border-color: var(--azul-highlight); }
-        .faq-item.active .faq-answer { max-height: 300px; padding-bottom: 20px; }
+        .faq-item.active .faq-answer { max-height: 500px; padding-bottom: 20px; } /* Ajustado para evitar cortes */
 
         .faq-item.active .faq-question i { transform: rotate(45deg); }
 
@@ -431,9 +434,7 @@
             e.preventDefault();
             const email = e.target.querySelector('input[type="email"]').value;
             console.log('Email capturado:', email);
-            // TODO: Integre com seu backend/serviço de pagamento
             alert('Redirecionando para checkout...');
-            // window.location.href = `/api/checkout?email=${encodeURIComponent(email)}`;
         });
     </script>
 
