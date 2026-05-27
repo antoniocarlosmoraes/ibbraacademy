@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ibbra Academy - Sua plataforma de planejamento financeiro fiduciário">
     <title>Ibbra Academy - A sua Liberdade Financeira</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
     <style>
@@ -18,139 +19,423 @@
             --cinza-texto: #555555;
         }
 
-        body { margin: 0; font-family: "Montserrat", sans-serif; background-color: var(--creme-ibbra); color: var(--azul-ibbra); overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* SEÇÃO DE PREÇOS (IGUAL AO PRINT) */
-        .pricing-section { padding: 80px 5%; background-color: #f5f0ed; text-align: center; }
-        .pricing-title { font-family: "Playfair Display", serif; font-size: 2.5rem; margin-bottom: 50px; }
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1100px; margin: auto; }
+        body { 
+            font-family: "Montserrat", sans-serif; 
+            background-color: var(--creme-ibbra); 
+            color: var(--azul-ibbra); 
+            overflow-x: hidden; 
+        }
+
+        /* HEADER/NAVBAR */
+        header {
+            background-color: var(--azul-ibbra);
+            color: var(--branco);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo { font-family: "Playfair Display", serif; font-size: 1.5rem; font-weight: 700; }
+
+        nav a { color: var(--branco); text-decoration: none; margin-left: 2rem; transition: 0.3s; }
+        nav a:hover { color: var(--azul-highlight); }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 1rem; }
+            nav { display: flex; gap: 1rem; }
+            nav a { margin-left: 0; }
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, var(--azul-ibbra) 0%, var(--azul-highlight) 100%);
+            color: var(--branco);
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .hero h1 { font-family: "Playfair Display", serif; font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95; }
+        .hero-cta { background: var(--vermelho-ibbra); color: white; padding: 15px 40px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; transition: 0.3s; }
+        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,70,20,0.3); }
+
+        /* SEÇÃO DE PREÇOS */
+        .pricing-section { 
+            padding: 80px 5%; 
+            background-color: #f5f0ed; 
+            text-align: center; 
+        }
+
+        .pricing-title { 
+            font-family: "Playfair Display", serif; 
+            font-size: 2.5rem; 
+            margin-bottom: 50px; 
+        }
+
+        .pricing-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+            max-width: 1100px; 
+            margin: auto; 
+        }
         
-        .pricing-card { background: var(--branco); border: 1px solid var(--cinza-borda); padding: 40px 20px; border-radius: 12px; position: relative; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
-        .pricing-card.featured { border: 2px solid var(--azul-highlight); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .pricing-card { 
+            background: var(--branco); 
+            border: 1px solid var(--cinza-borda); 
+            padding: 40px 20px; 
+            border-radius: 12px; 
+            position: relative; 
+            transition: 0.3s; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 500px;
+        }
+
+        .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+
+        .pricing-card.featured { 
+            border: 2px solid var(--azul-highlight); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            transform: scale(1.02);
+        }
         
-        .featured-badge { position: absolute; top: -15px; background: var(--azul-highlight); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+        .featured-badge { 
+            position: absolute; 
+            top: -15px; 
+            background: var(--azul-highlight); 
+            color: white; 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            font-size: 0.7rem; 
+            font-weight: bold; 
+            text-transform: uppercase;
+        }
         
-        .pricing-card h3 { font-family: "Playfair Display", serif; font-size: 2rem; margin: 0; }
-        .pricing-card .price { font-size: 2.5rem; font-weight: 800; color: var(--azul-highlight); margin: 15px 0; }
-        .pricing-card .price span { font-size: 1rem; color: var(--cinza-texto); font-weight: normal; }
+        .pricing-card h3 { 
+            font-family: "Playfair Display", serif; 
+            font-size: 2rem; 
+            margin: 0; 
+        }
+
+        .pricing-card .price { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            color: var(--azul-highlight); 
+            margin: 15px 0; 
+        }
+
+        .pricing-card .price span { 
+            font-size: 1rem; 
+            color: var(--cinza-texto); 
+            font-weight: normal; 
+        }
         
-        .pricing-features { list-style: none; padding: 0; text-align: left; margin: 20px 0; width: 100%; }
-        .pricing-features li { margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-        .pricing-features li.disabled { color: #bbb; }
+        .pricing-features { 
+            list-style: none; 
+            padding: 0; 
+            text-align: left; 
+            margin: 20px 0; 
+            width: 100%; 
+        }
+
+        .pricing-features li { 
+            margin-bottom: 12px; 
+            font-size: 0.9rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+
+        .pricing-features li.disabled { 
+            color: #bbb; 
+        }
         
-        .btn-pricing { width: 100%; padding: 15px; border-radius: 6px; font-weight: bold; text-decoration: none; text-align: center; transition: 0.3s; }
+        .btn-pricing { 
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            text-decoration: none; 
+            text-align: center; 
+            transition: 0.3s; 
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-pricing:hover { opacity: 0.9; transform: translateY(-2px); }
+
         .btn-essential { background: var(--azul-highlight); color: white; }
         .btn-pro { background: var(--vermelho-ibbra); color: white; }
         .btn-vip { background: var(--azul-highlight); color: white; }
 
-        /* SEÇÃO FAQ (IGUAL AO PRINT) */
-        .faq-section { padding: 80px 5%; background-color: var(--creme-ibbra); text-align: center; }
-        .faq-container { max-width: 800px; margin: auto; text-align: left; }
-        .faq-item { background: white; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; }
-        .faq-question { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.1rem; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease; padding: 0 25px; color: var(--cinza-texto); line-height: 1.6; }
+        /* SEÇÃO FAQ */
+        .faq-section { 
+            padding: 80px 5%; 
+            background-color: var(--creme-ibbra); 
+            text-align: center; 
+        }
+
+        .faq-container { 
+            max-width: 800px; 
+            margin: auto; 
+            text-align: left; 
+        }
+
+        .faq-item { 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            margin-bottom: 10px; 
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+
+        .faq-item:focus-within { outline: 2px solid var(--azul-highlight); }
+
+        .faq-question { 
+            padding: 20px 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: bold; 
+            font-size: 1.1rem;
+            user-select: none;
+        }
+
+        .faq-answer { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: 0.3s ease; 
+            padding: 0 25px; 
+            color: var(--cinza-texto); 
+            line-height: 1.6; 
+        }
+
         .faq-item.active { border-color: var(--azul-highlight); }
-        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 20px; }
+        .faq-item.active .faq-answer { max-height: 300px; padding-bottom: 20px; }
+
+        .faq-item.active .faq-question i { transform: rotate(45deg); }
 
         /* FINAL CTA */
-        .final-cta { margin-top: 50px; font-size: 0.9rem; }
-        .cta-mini-form { display: flex; justify-content: center; gap: 0; max-width: 600px; margin: 20px auto; }
-        .cta-mini-input { padding: 15px; border: 1px solid #ddd; border-radius: 6px 0 0 6px; width: 60%; }
-        .cta-mini-btn { background: var(--vermelho-ibbra); color: white; border: none; padding: 15px 25px; border-radius: 0 6px 6px 0; font-weight: bold; cursor: pointer; }
+        .final-cta { 
+            margin-top: 50px; 
+            font-size: 0.9rem; 
+        }
 
-        /* RODAPÉ AZUL (IGUAL AO PRINT) */
-        .site-footer { background-color: #011e40; color: #ffffff; padding: 40px 5%; text-align: center; font-size: 0.8rem; }
-        .site-footer a { color: var(--azul-highlight); text-decoration: none; }
-        .footer-copy { margin-top: 15px; opacity: 0.7; }
+        .cta-mini-form { 
+            display: flex; 
+            justify-content: center; 
+            gap: 0; 
+            max-width: 600px; 
+            margin: 20px auto; 
+        }
+
+        .cta-mini-input { 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px 0 0 6px; 
+            width: 60%; 
+            font-family: inherit;
+        }
+
+        .cta-mini-input:focus { outline: none; border-color: var(--azul-highlight); }
+
+        .cta-mini-btn { 
+            background: var(--vermelho-ibbra); 
+            color: white; 
+            border: none; 
+            padding: 15px 25px; 
+            border-radius: 0 6px 6px 0; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .cta-mini-btn:hover { background: #ff6a3d; }
+
+        /* RODAPÉ */
+        .site-footer { 
+            background-color: #011e40; 
+            color: #ffffff; 
+            padding: 40px 5%; 
+            text-align: center; 
+            font-size: 0.8rem; 
+        }
+
+        .site-footer a { 
+            color: var(--azul-highlight); 
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .site-footer a:hover { text-decoration: underline; }
+
+        .footer-copy { 
+            margin-top: 15px; 
+            opacity: 0.7; 
+        }
 
         @media (max-width: 768px) {
-            .cta-mini-form { flex-direction: column; gap: 10px; }
-            .cta-mini-input, .cta-mini-btn { border-radius: 6px; width: 100%; }
+            .hero h1 { font-size: 2rem; }
+            .pricing-title { font-size: 1.8rem; }
+            
+            .cta-mini-form { 
+                flex-direction: column; 
+                gap: 10px; 
+            }
+            
+            .cta-mini-input, .cta-mini-btn { 
+                border-radius: 6px; 
+                width: 100%; 
+            }
+
+            .pricing-card.featured { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <section id="pricing" class="pricing-section">
-        <h2 class="pricing-title">Escolha o seu nível de acesso</h2>
-        <div class="pricing-grid">
-            
-            <div class="pricing-card">
-                <h3>Essential</h3>
-                <p style="font-size: 0.8rem; color: #777;">Para quem quer começar sozinho</p>
-                <div class="price">R$ 49,90<span>/mês</span></div>
-                <ul class="pricing-features">
-                    <li>✔️ Acesso Completo aos 6 Pilares</li>
-                    <li>✔️ Sala de Aula Modo Cinema</li>
-                    <li>✔️ Cadernos de Anotação</li>
-                    <li class="disabled">❌ Radar Financeiro (Calculadoras)</li>
-                    <li class="disabled">❌ Consultor Fiduciário (FA)</li>
-                </ul>
-                <a href="checkout.html" class="btn-pricing btn-essential">Começar Essential</a>
-            </div>
+    <header>
+        <div class="logo">Ibbra Academy</div>
+        <nav>
+            <a href="#pricing">Planos</a>
+            <a href="#faq">FAQ</a>
+            <a href="mailto:contato@ibbraacademy.com.br">Contato</a>
+        </nav>
+    </header>
 
-            <div class="pricing-card featured">
-                <div class="featured-badge">Mais Popular</div>
-                <h3>Pro</h3>
-                <p style="font-size: 0.8rem; color: #777;">O seu Family Office Digital</p>
-                <div class="price">R$ 119,90<span>/mês</span></div>
-                <ul class="pricing-features">
-                    <li>✔️ Tudo do plano Essential</li>
-                    <li>✔️ <strong>Radar Financeiro (8 Calculadoras)</strong></li>
-                    <li>✔️ Hack da Amortização</li>
-                    <li>✔️ Simulador de Aposentadoria (FIRE)</li>
-                    <li class="disabled">❌ Consultor Fiduciário (FA)</li>
-                </ul>
-                <a href="checkout.html" class="btn-pricing btn-pro">Viver de Renda</a>
-            </div>
-
-            <div class="pricing-card">
-                <h3>VIP</h3>
-                <p style="font-size: 0.8rem; color: #777;">Consultoria e Alta Renda</p>
-                <div class="price">R$ 299,90<span>/mês</span></div>
-                <ul class="pricing-features">
-                    <li>✔️ Tudo do plano Pro</li>
-                    <li>✔️ <strong>Consultor Fiduciário CFP®</strong></li>
-                    <li>✔️ Suporte VIP e Direto</li>
-                    <li>✔️ Loja de Recompensas</li>
-                    <li>✔️ Trilha Personalizada</li>
-                </ul>
-                <a href="checkout.html" class="btn-pricing btn-vip">Acesso VIP</a>
-            </div>
-
-        </div>
+    <section class="hero">
+        <h1>Sua Liberdade Financeira Começa Aqui</h1>
+        <p>Aprenda planejamento financeiro fiduciário com os melhores especialistas do Brasil</p>
+        <a href="#pricing" class="hero-cta">Escolha o seu Plano</a>
     </section>
 
-    <section class="faq-section">
-        <h2 class="pricing-title">Perguntas Frequentes</h2>
-        <div class="faq-container">
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div class="faq-question">O que é a Ibbra Academy? <i class="fas fa-plus"></i></div>
-                <div class="faq-answer"><p>É a maior plataforma de streaming focada em planejamento financeiro fiduciário do Brasil.</p></div>
-            </div>
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div class="faq-question">Qual é o valor do investimento na Ibbra Academy? <i class="fas fa-plus"></i></div>
-                <div class="faq-answer"><p>Planos a partir de R$ 49,90/mês, sem taxas escondidas.</p></div>
-            </div>
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div class="faq-question">Como faço para cancelar? <i class="fas fa-plus"></i></div>
-                <div class="faq-answer"><p>Você pode cancelar a qualquer momento com apenas um clique dentro da plataforma.</p></div>
-            </div>
-        </div>
+    <main>
+        <section id="pricing" class="pricing-section">
+            <h2 class="pricing-title">Escolha o seu nível de acesso</h2>
+            <div class="pricing-grid">
+                
+                <div class="pricing-card">
+                    <div>
+                        <h3>Essential</h3>
+                        <p style="font-size: 0.8rem; color: #777;">Para quem quer começar sozinho</p>
+                        <div class="price">R$ 49,90<span>/mês</span></div>
+                        <ul class="pricing-features">
+                            <li>✔️ Acesso Completo aos 6 Pilares</li>
+                            <li>✔️ Sala de Aula Modo Cinema</li>
+                            <li>✔️ Cadernos de Anotação</li>
+                            <li class="disabled">❌ Radar Financeiro (Calculadoras)</li>
+                            <li class="disabled">❌ Consultor Fiduciário (FA)</li>
+                        </ul>
+                    </div>
+                    <a href="#checkout" class="btn-pricing btn-essential">Começar Essential</a>
+                </div>
 
-        <div class="final-cta">
-            <p>Pronto para começar? Digite o seu e-mail para criar ou reiniciar a sua assinatura.</p>
-            <form class="cta-mini-form" action="checkout.html">
-                <input type="email" class="cta-mini-input" placeholder="O seu endereço de e-mail" required>
-                <button type="submit" class="cta-mini-btn">Começar Agora ></button>
-            </form>
-        </div>
-    </section>
+                <div class="pricing-card featured">
+                    <div class="featured-badge">Mais Popular</div>
+                    <div>
+                        <h3>Pro</h3>
+                        <p style="font-size: 0.8rem; color: #777;">O seu Family Office Digital</p>
+                        <div class="price">R$ 119,90<span>/mês</span></div>
+                        <ul class="pricing-features">
+                            <li>✔️ Tudo do plano Essential</li>
+                            <li>✔️ <strong>Radar Financeiro (8 Calculadoras)</strong></li>
+                            <li>✔️ Hack da Amortização</li>
+                            <li>✔️ Simulador de Aposentadoria (FIRE)</li>
+                            <li class="disabled">❌ Consultor Fiduciário (FA)</li>
+                        </ul>
+                    </div>
+                    <a href="#checkout" class="btn-pricing btn-pro">Viver de Renda</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div>
+                        <h3>VIP</h3>
+                        <p style="font-size: 0.8rem; color: #777;">Consultoria e Alta Renda</p>
+                        <div class="price">R$ 299,90<span>/mês</span></div>
+                        <ul class="pricing-features">
+                            <li>✔️ Tudo do plano Pro</li>
+                            <li>✔️ <strong>Consultor Fiduciário CFP®</strong></li>
+                            <li>✔️ Suporte VIP e Direto</li>
+                            <li>✔️ Loja de Recompensas</li>
+                            <li>✔️ Trilha Personalizada</li>
+                        </ul>
+                    </div>
+                    <a href="#checkout" class="btn-pricing btn-vip">Acesso VIP</a>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="faq" class="faq-section">
+            <h2 class="pricing-title">Perguntas Frequentes</h2>
+            <div class="faq-container">
+                <div class="faq-item" role="button" tabindex="0" aria-expanded="false">
+                    <div class="faq-question">O que é a Ibbra Academy? <i class="fas fa-plus" aria-hidden="true"></i></div>
+                    <div class="faq-answer"><p>É a maior plataforma de streaming focada em planejamento financeiro fiduciário do Brasil.</p></div>
+                </div>
+                <div class="faq-item" role="button" tabindex="0" aria-expanded="false">
+                    <div class="faq-question">Qual é o valor do investimento na Ibbra Academy? <i class="fas fa-plus" aria-hidden="true"></i></div>
+                    <div class="faq-answer"><p>Planos a partir de R$ 49,90/mês, sem taxas escondidas.</p></div>
+                </div>
+                <div class="faq-item" role="button" tabindex="0" aria-expanded="false">
+                    <div class="faq-question">Como faço para cancelar? <i class="fas fa-plus" aria-hidden="true"></i></div>
+                    <div class="faq-answer"><p>Você pode cancelar a qualquer momento com apenas um clique dentro da plataforma.</p></div>
+                </div>
+            </div>
+
+            <div class="final-cta">
+                <p>Pronto para começar? Digite o seu e-mail para criar ou reiniciar a sua assinatura.</p>
+                <form class="cta-mini-form" id="cta-form">
+                    <input type="email" class="cta-mini-input" placeholder="O seu endereço de e-mail" required>
+                    <button type="submit" class="cta-mini-btn">Começar Agora ></button>
+                </form>
+            </div>
+        </section>
+    </main>
 
     <footer class="site-footer">
         <p>Dúvidas? Entre em contato: <a href="mailto:contato@ibbraacademy.com.br">contato@ibbraacademy.com.br</a></p>
         <p class="footer-copy">Ibbra Academy © 2026. Todos os direitos reservados. Transformando a educação financeira.</p>
     </footer>
+
+    <script>
+        // FAQ Accordion with keyboard support
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => toggleFaq(item));
+            item.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleFaq(item);
+                }
+            });
+        });
+
+        function toggleFaq(item) {
+            item.classList.toggle('active');
+            item.setAttribute('aria-expanded', item.classList.contains('active'));
+        }
+
+        // Form submission
+        document.getElementById('cta-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            console.log('Email capturado:', email);
+            // TODO: Integre com seu backend/serviço de pagamento
+            alert('Redirecionando para checkout...');
+            // window.location.href = `/api/checkout?email=${encodeURIComponent(email)}`;
+        });
+    </script>
 
 </body>
 </html>
