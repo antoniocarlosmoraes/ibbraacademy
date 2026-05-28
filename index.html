@@ -207,6 +207,216 @@
             opacity: 0.9;
         }
 
+        /* 6-PILAR CAROUSEL SECTION */
+        .pillars-section {
+            padding: 80px 5%;
+            background: linear-gradient(180deg, var(--branco) 0%, #f9f7f4 100%);
+            position: relative;
+        }
+
+        .pillars-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .pillars-header h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--azul-ibbra);
+        }
+
+        .pillars-header p {
+            font-size: 1.1rem;
+            color: var(--cinza-texto);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Carousel Container */
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            margin: 0 -5%;
+            padding: 0 5%;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-slide {
+            flex: 0 0 calc(33.333% - 17px);
+            min-width: calc(33.333% - 17px);
+            scroll-snap-align: start;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pillar-card {
+            background: var(--branco);
+            border: 1px solid var(--cinza-borda);
+            border-radius: 16px;
+            overflow: hidden;
+            height: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+            border-color: var(--azul-highlight);
+        }
+
+        .pillar-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--azul-ibbra) 0%, var(--azul-highlight) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            color: var(--branco);
+            font-size: 4rem;
+        }
+
+        .pillar-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .pillar-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--vermelho-ibbra);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .pillar-content {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pillar-content h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 1.3rem;
+            color: var(--azul-ibbra);
+            margin-bottom: 10px;
+        }
+
+        .pillar-content p {
+            font-size: 0.95rem;
+            color: var(--cinza-texto);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        .pillar-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 0.85rem;
+            padding-top: 15px;
+            border-top: 1px solid var(--cinza-borda);
+        }
+
+        .pillar-stat {
+            flex: 1;
+            text-align: center;
+            color: var(--azul-highlight);
+            font-weight: 600;
+        }
+
+        /* Carousel Navigation */
+        .carousel-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .carousel-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--azul-ibbra);
+            color: var(--branco);
+            border: 2px solid var(--azul-ibbra);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: var(--azul-highlight);
+            border-color: var(--azul-highlight);
+            transform: scale(1.1);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Carousel Dots */
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--cinza-borda);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--azul-highlight);
+            width: 30px;
+            border-radius: 5px;
+        }
+
         /* SEÇÃO DE PREÇOS */
         .pricing-section { 
             padding: 80px 5%; 
@@ -430,6 +640,13 @@
         }
 
         /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            .carousel-slide {
+                flex: 0 0 calc(50% - 13px);
+                min-width: calc(50% - 13px);
+            }
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .pricing-title { font-size: 1.8rem; }
@@ -464,6 +681,25 @@
             .hero-form-wrapper {
                 padding: 20px;
             }
+
+            .carousel-slide {
+                flex: 0 0 100%;
+                min-width: 100%;
+            }
+
+            .pillars-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .carousel-controls {
+                gap: 10px;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -472,6 +708,7 @@
     <header>
         <div class="logo">Ibbra Academy</div>
         <nav id="nav-menu">
+            <a href="#pillars">6 Pilares</a>
             <a href="#pricing">Planos</a>
             <a href="#faq">FAQ</a>
             <a href="mailto:contato@ibbraacademy.com.br">Contato</a>
@@ -532,6 +769,145 @@
                 <p>Reembolso integral se não estiver satisfeito</p>
             </div>
         </div>
+    </section>
+
+    <!-- 6-Pillar Carousel Section -->
+    <section class="pillars-section" id="pillars">
+        <div class="pillars-header">
+            <h2>Os 6 Pilares da Riqueza</h2>
+            <p>Domine os fundamentos do planejamento financeiro fiduciário com nossos 6 cursos transformadores</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="carousel-track">
+                <!-- Pilar 1 -->
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image">
+                            <i class="fas fa-piggy-bank"></i>
+                            <div class="pillar-badge">Essencial</div>
+                        </div>
+                        <div class="pillar-content">
+                            <h3>Economia Consciente</h3>
+                            <p>Aprenda a estruturar uma poupança estratégica e eliminar desperdícios financeiros. O alicerce da riqueza começa aqui.</p>
+                            <div class="pillar-stats">
+                                <div class="pillar-stat">12h</div>
+                                <div class="pillar-stat">8 aulas</div>
+                                <div class="pillar-stat">98% Relevante</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 2 -->
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="pillar-badge">Intermediário</div>
+                        </div>
+                        <div class="pillar-content">
+                            <h3>Investimentos Inteligentes</h3>
+                            <p>Entenda os mercados financeiros e construa uma carteira de investimentos alinhada aos seus objetivos de longo prazo.</p>
+                            <div class="pillar-stats">
+                                <div class="pillar-stat">15h</div>
+                                <div class="pillar-stat">10 aulas</div>
+                                <div class="pillar-stat">Crucial</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 3 -->
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image">
+                            <i class="fas fa-home"></i>
+                            <div class="pillar-badge">Intermediário</div>
+                        </div>
+                        <div class="pillar-content">
+                            <h3>Imóveis e Alavancagem</h3>
+                            <p>Domine o mercado imobiliário e use a alavancagem de forma segura para multiplicar seu patrimônio.</p>
+                            <div class="pillar-stats">
+                                <div class="pillar-stat">14h</div>
+                                <div class="pillar-stat">9 aulas</div>
+                                <div class="pillar-stat">95% Relevante</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 4 -->
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <div class="pillar-badge">Avançado</div>
+                        </div>
+                        <div class="pillar-content">
+                            <h3>Tributação Estratégica</h3>
+                            <p>Otimize seus impostos legalmente através de estruturas tributárias eficientes e planejamento fiscal inteligente.</p>
+                            <div class="pillar-stats">
+                                <div class="pillar-stat">16h</div>
+                                <div class="pillar-stat">11 aulas</div>
+                                <div class="pillar-stat">Masterclass</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 5 -->
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image">
+                            <i class="fas fa-briefcase"></i>
+                            <div class="pillar-badge">Avançado</div>
+                        </div>
+                        <div class="pillar-content">
+                            <h3>Gestão Patrimonial</h3>
+                            <p>Implemente uma abordagem holística para gerenciar e potencializar seu patrimônio total com eficiência.</p>
+                            <div class="pillar-stats">
+                                <div class="pillar-stat">18h</div>
+                                <div class="pillar-stat">12 aulas</div>
+                                <div class="pillar-stat">Masterclass</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 6 -->
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image">
+                            <i class="fas fa-crown"></i>
+                            <div class="pillar-badge">Elite</div>
+                        </div>
+                        <div class="pillar-content">
+                            <h3>Legado e Sucessão</h3>
+                            <p>Aprenda a estruturar seu legado familiar e garantir a transferência bem-sucedida do patrimônio para gerações futuras.</p>
+                            <div class="pillar-stats">
+                                <div class="pillar-stat">14h</div>
+                                <div class="pillar-stat">9 aulas</div>
+                                <div class="pillar-stat">Masterclass</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="carousel-controls">
+            <button class="carousel-btn" id="prev-btn" aria-label="Slide anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-btn" id="next-btn" aria-label="Próximo slide">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Carousel Dots -->
+        <div class="carousel-dots" id="carousel-dots"></div>
     </section>
 
     <main>
@@ -640,6 +1016,80 @@
                 navMenu.classList.remove('active');
                 menuToggle.setAttribute('aria-expanded', false);
             });
+        });
+
+        // Carousel Functionality
+        const carouselTrack = document.getElementById('carousel-track');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dotsContainer = document.getElementById('carousel-dots');
+        
+        let currentIndex = 0;
+        const slidesToShow = window.innerWidth > 1024 ? 3 : (window.innerWidth > 768 ? 2 : 1);
+        const slideWidth = slides[0].offsetWidth;
+        const gap = 25;
+
+        // Create dots
+        const totalDots = Math.ceil(slides.length / slidesToShow);
+        for (let i = 0; i < totalDots; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateCarousel() {
+            const scrollAmount = currentIndex * (slideWidth + gap);
+            carouselTrack.scrollLeft = scrollAmount;
+            updateDots();
+            updateButtons();
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function updateButtons() {
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex >= totalDots - 1;
+        }
+
+        function goToSlide(index) {
+            currentIndex = Math.max(0, Math.min(index, totalDots - 1));
+            updateCarousel();
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < totalDots - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextBtn.click();
+            if (e.key === 'ArrowLeft') prevBtn.click();
+        });
+
+        // Initialize
+        updateButtons();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            updateCarousel();
         });
 
         // FAQ Accordion with keyboard support
