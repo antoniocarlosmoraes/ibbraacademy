@@ -17,6 +17,7 @@
             --branco: #ffffff;
             --cinza-borda: #cccccc;
             --cinza-texto: #555555;
+            --verde-sucesso: #00a86b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -44,27 +45,167 @@
 
         .logo { font-family: "Playfair Display", serif; font-size: 1.5rem; font-weight: 700; }
 
-        nav a { color: var(--branco); text-decoration: none; margin-left: 2rem; transition: 0.3s; }
+        nav { display: flex; gap: 2rem; align-items: center; }
+        nav a { color: var(--branco); text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
         nav a:hover { color: var(--azul-highlight); }
 
+        .nav-entrar { 
+            background: var(--vermelho-ibbra); 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            transition: 0.3s;
+        }
+        .nav-entrar:hover { background: #ff6a3d; }
+
+        .menu-toggle { display: none; color: var(--branco); font-size: 1.5rem; cursor: pointer; background: none; border: none; }
+
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 1rem; }
-            nav { display: flex; gap: 1rem; }
-            nav a { margin-left: 0; }
+            header { flex-direction: row; gap: 0; }
+            nav { display: none; flex-direction: column; gap: 1rem; position: absolute; top: 100%; left: 0; right: 0; background: var(--azul-ibbra); padding: 1rem 5%; }
+            nav.active { display: flex; }
+            nav a { margin: 0; }
+            .menu-toggle { display: block; }
         }
 
         /* HERO SECTION */
         .hero {
             background: linear-gradient(135deg, var(--azul-ibbra) 0%, var(--azul-highlight) 100%);
             color: var(--branco);
-            padding: 100px 5%;
+            padding: 80px 5% 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 { 
+            font-family: "Playfair Display", serif; 
+            font-size: 3.5rem; 
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero > p { 
+            font-size: 1.2rem; 
+            margin-bottom: 2rem; 
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        /* HERO EMAIL FORM */
+        .hero-form-wrapper {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .hero-form-wrapper p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .hero-form {
+            display: flex;
+            gap: 0;
+            width: 100%;
+        }
+
+        .hero-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--azul-ibbra);
+        }
+
+        .hero-form input::placeholder {
+            color: #ccc;
+        }
+
+        .hero-form input:focus {
+            outline: 2px solid var(--azul-highlight);
+            outline-offset: -2px;
+        }
+
+        .hero-form button {
+            padding: 15px 30px;
+            background: var(--vermelho-ibbra);
+            color: white;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .hero-form button:hover {
+            background: #ff6a3d;
+            transform: translateY(-2px);
+        }
+
+        /* SOCIAL PROOF BANNER */
+        .social-proof-banner {
+            background: var(--azul-highlight);
+            color: var(--branco);
+            padding: 25px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            align-items: center;
+            margin: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .proof-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
             text-align: center;
         }
 
-        .hero h1 { font-family: "Playfair Display", serif; font-size: 3rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95; }
-        .hero-cta { background: var(--vermelho-ibbra); color: white; padding: 15px 40px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; transition: 0.3s; }
-        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,70,20,0.3); }
+        .proof-icon {
+            font-size: 2rem;
+            color: var(--verde-sucesso);
+        }
+
+        .proof-text h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .proof-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
 
         /* SEÇÃO DE PREÇOS */
         .pricing-section { 
@@ -97,7 +238,7 @@
             display: flex; 
             flex-direction: column;
             justify-content: space-between;
-            min-height: 530px; /* Leve aumento para dar respiro aos botões */
+            min-height: 530px;
         }
 
         .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
@@ -172,7 +313,7 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
-            margin-top: auto; /* Garante alinhamento perfeito no fundo */
+            margin-top: auto;
         }
 
         .btn-pricing:hover { opacity: 0.9; transform: translateY(-2px); }
@@ -225,7 +366,7 @@
         }
 
         .faq-item.active { border-color: var(--azul-highlight); }
-        .faq-item.active .faq-answer { max-height: 500px; padding-bottom: 20px; } /* Ajustado para evitar cortes */
+        .faq-item.active .faq-answer { max-height: 500px; padding-bottom: 20px; }
 
         .faq-item.active .faq-question i { transform: rotate(45deg); }
 
@@ -288,9 +429,20 @@
             opacity: 0.7; 
         }
 
+        /* RESPONSIVIDADE */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .pricing-title { font-size: 1.8rem; }
+            
+            .hero-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero-form input,
+            .hero-form button {
+                border-radius: 6px;
+            }
             
             .cta-mini-form { 
                 flex-direction: column; 
@@ -303,6 +455,15 @@
             }
 
             .pricing-card.featured { transform: scale(1); }
+
+            .social-proof-banner {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .hero-form-wrapper {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -310,17 +471,67 @@
 
     <header>
         <div class="logo">Ibbra Academy</div>
-        <nav>
+        <nav id="nav-menu">
             <a href="#pricing">Planos</a>
             <a href="#faq">FAQ</a>
             <a href="mailto:contato@ibbraacademy.com.br">Contato</a>
+            <a href="login.html" class="nav-entrar">Entrar</a>
         </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
     <section class="hero">
-        <h1>Sua Liberdade Financeira Começa Aqui</h1>
-        <p>Aprenda planejamento financeiro fiduciário com os melhores especialistas do Brasil</p>
-        <a href="#pricing" class="hero-cta">Escolha o seu Plano</a>
+        <div class="hero-content">
+            <h1>Sua Liberdade Financeira Começa Aqui</h1>
+            <p>Aprenda planejamento financeiro fiduciário com os melhores especialistas do Brasil</p>
+            
+            <!-- Email Capture Form -->
+            <div class="hero-form-wrapper">
+                <p>Comece sua jornada gratuitamente</p>
+                <form class="hero-form" id="hero-form">
+                    <input 
+                        type="email" 
+                        placeholder="Digite seu endereço de e-mail" 
+                        required
+                        aria-label="Endereço de e-mail"
+                    >
+                    <button type="submit">Começar Agora</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Banner -->
+    <section class="social-proof-banner">
+        <div class="proof-item">
+            <div class="proof-icon">
+                <i class="fas fa-certificate"></i>
+            </div>
+            <div class="proof-text">
+                <h4>Profissionais Certificados</h4>
+                <p>Especialistas com credencial CFP® e experiência comprovada</p>
+            </div>
+        </div>
+        <div class="proof-item">
+            <div class="proof-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="proof-text">
+                <h4>Acesso Multiplataforma</h4>
+                <p>Estude no computador, tablet ou smartphone</p>
+            </div>
+        </div>
+        <div class="proof-item">
+            <div class="proof-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="proof-text">
+                <h4>Garantia de 7 Dias</h4>
+                <p>Reembolso integral se não estiver satisfeito</p>
+            </div>
+        </div>
     </section>
 
     <main>
@@ -413,6 +624,24 @@
     </footer>
 
     <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const isActive = navMenu.classList.contains('active');
+            menuToggle.setAttribute('aria-expanded', isActive);
+        });
+
+        // Close menu when a link is clicked
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', false);
+            });
+        });
+
         // FAQ Accordion with keyboard support
         document.querySelectorAll('.faq-item').forEach(item => {
             item.addEventListener('click', () => toggleFaq(item));
@@ -429,12 +658,22 @@
             item.setAttribute('aria-expanded', item.classList.contains('active'));
         }
 
-        // Form submission
+        // Hero Form submission
+        document.getElementById('hero-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            console.log('Email capturado (Hero):', email);
+            // Redirect to checkout page
+            window.open('checkout.html?email=' + encodeURIComponent(email), '_blank');
+        });
+
+        // Final CTA Form submission
         document.getElementById('cta-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = e.target.querySelector('input[type="email"]').value;
-            console.log('Email capturado:', email);
-            alert('Redirecionando para checkout...');
+            console.log('Email capturado (CTA):', email);
+            // Redirect to checkout page
+            window.open('checkout.html?email=' + encodeURIComponent(email), '_blank');
         });
     </script>
 
