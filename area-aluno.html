@@ -3,212 +3,483 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibbra Academy - Sala de Aula</title>
+    <meta name="description" content="Ibbra Academy - Sua plataforma de planejamento financeiro fiduciário">
+    <title>Ibbra Academy - A sua Liberdade Financeira</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
-    
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
         
         :root {
-            --azul-ibbra: #011e40;
-            --bege-ibbra: #eae1dc;
-            --azul-destaque: #005cb9;
+            --azul-ibbra: #011E41;
+            --azul-highlight: #005cb9;
+            --bege: #E6E6EE;
+            --vermelho-ibbra: #E50914; /* Tom vermelho Netflix adaptado */
             --branco: #ffffff;
-            --texto-suave: #555555;
+            --fundo-dark: #080808;
+            --cinza-borda: rgba(255, 255, 255, 0.1);
+            --cinza-texto: #b3b3b3;
+            --verde-sucesso: #46d369;
+            --glass: rgba(20, 20, 20, 0.7);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bege-ibbra);
-            color: var(--azul-ibbra);
-            overflow-x: hidden;
+        body { 
+            font-family: "Montserrat", sans-serif; 
+            background-color: var(--fundo-dark); 
+            color: var(--branco); 
+            overflow-x: hidden; 
         }
 
-        /* NAVBAR PREMIUM */
-        .navbar {
+        /* NAVBAR - NETFLIX STYLE */
+        header {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background-color: var(--azul-ibbra);
-            position: fixed;
+            position: sticky;
             top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 100;
         }
 
-        .nav-left { display: flex; align-items: center; }
-        .logo { height: 35px; margin-right: 40px; cursor: pointer; filter: brightness(0) invert(1); }
-        
-        .navbar nav a {
-            color: var(--bege-ibbra);
-            text-decoration: none;
-            margin-right: 25px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: 0.3s;
+        .logo { 
+            font-family: "Playfair Display", serif; 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: var(--branco);
+            letter-spacing: 1px;
         }
-        .navbar nav a:hover, .navbar nav a.active { color: var(--branco); font-weight: 700; }
 
-        .nav-right { display: flex; align-items: center; gap: 20px; }
-        .btn-sair { color: var(--bege-ibbra); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+        nav { display: flex; gap: 2rem; align-items: center; }
+        nav a { color: var(--cinza-texto); text-decoration: none; transition: 0.3s ease; font-size: 0.9rem; font-weight: 500; }
+        nav a:hover { color: var(--branco); }
 
-        /* HERO BANNER - ESTILO ACADÊMICO */
-        .hero-container {
-            height: 70vh;
-            margin-top: 75px;
-            background: linear-gradient(135deg, rgba(1, 30, 64, 0.95) 0%, rgba(1, 30, 64, 0.8) 100%), 
-                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+        .nav-entrar { 
+            background: var(--vermelho-ibbra); 
+            color: var(--branco) !important;
+            padding: 8px 18px; 
+            border-radius: 4px; 
+            font-weight: 600;
+        }
+        .nav-entrar:hover { background: #b81d24; transform: scale(1.02); }
+
+        .menu-toggle { display: none; color: var(--branco); font-size: 1.5rem; cursor: pointer; background: none; border: none; }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(to top, var(--fundo-dark) 0%, rgba(1, 30, 65, 0.4) 60%, rgba(0,0,0,0.8) 100%),
+                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop') no-repeat center center/cover;
+            min-height: 85vh;
             display: flex;
             align-items: center;
-            padding: 0 8%;
-            color: var(--bege-ibbra);
+            justify-content: center;
+            padding: 0 5%;
+            text-align: center;
         }
 
-        .hero-content { max-width: 800px; }
-        .welcome-text { font-size: 1.5rem; margin-bottom: 10px; opacity: 0.9; }
-        #nome-aluno { font-weight: 700; color: var(--branco); text-transform: capitalize; }
-        
-        .destaque-titulo {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            line-height: 1.1;
+        .hero-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .hero h1 { 
+            font-family: "Playfair Display", serif; 
+            font-size: 4rem; 
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .hero > p { 
+            font-size: 1.3rem; 
+            margin-bottom: 2.5rem; 
+            color: var(--bege);
+            line-height: 1.6;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        /* CAPTURA EMAIL */
+        .hero-form-wrapper {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid var(--cinza-borda);
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .hero-form-wrapper p {
+            font-size: 1.1rem;
             margin-bottom: 20px;
             color: var(--branco);
         }
 
-        .descricao {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 600px;
+        .hero-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
         }
 
-        .buttons { display: flex; gap: 15px; }
-        .btn-play {
-            background-color: var(--bege-ibbra);
-            color: var(--azul-ibbra);
-            border: none;
-            padding: 15px 30px;
-            font-size: 1rem;
-            font-weight: 700;
+        .hero-form input {
+            flex: 1;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0, 0, 0, 0.6);
             border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--branco);
+        }
+
+        .hero-form input:focus {
+            outline: 2px solid var(--azul-highlight);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-form button {
+            padding: 16px 36px;
+            background: var(--vermelho-ibbra);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-play:hover { background-color: var(--branco); transform: translateY(-3px); }
-
-        /* SEÇÕES DE CURSOS */
-        .section-cursos { padding: 60px 8% 20px; }
-        .section-cursos h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--azul-ibbra);
-            padding-bottom: 10px;
-            display: inline-block;
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
-        .grid-cursos {
+        .hero-form button:hover {
+            background: #b81d24;
+            transform: scale(1.05);
+        }
+
+        /* BANNER PROVA SOCIAL */
+        .social-proof-banner {
+            background: var(--azul-ibbra);
+            border-top: 4px solid var(--azul-highlight);
+            padding: 40px 5%;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
         }
 
-        .card-curso {
-            background-color: var(--branco);
+        .proof-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(1, 30, 64, 0.08);
-            transition: 0.3s;
-            cursor: pointer;
-            border: 1px solid rgba(1, 30, 64, 0.05);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .card-curso:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(1, 30, 64, 0.15); }
+        .proof-icon { font-size: 2.2rem; color: var(--azul-highlight); }
+        .proof-text h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--branco); }
+        .proof-text p { font-size: 0.9rem; color: var(--cinza-texto); }
 
-        .card-img {
-            height: 160px;
-            background-color: var(--azul-ibbra);
+        /* CAROUSEL 6 PILARES */
+        .pillars-section { padding: 80px 5%; background: var(--fundo-dark); }
+        .pillars-header { text-align: left; margin-bottom: 40px; }
+        .pillars-header h2 { font-family: "Playfair Display", serif; font-size: 2.5rem; margin-bottom: 10px; }
+        .pillars-header p { color: var(--cinza-texto); font-size: 1.1rem; }
+
+        .carousel-wrapper { position: relative; overflow: visible; }
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+            scrollbar-width: none;
+        }
+        .carousel-track::-webkit-scrollbar { display: none; }
+
+        .carousel-slide { flex: 0 0 calc(25% - 15px); min-width: calc(25% - 15px); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        .carousel-slide:hover { transform: scale(1.05); z-index: 2; }
+
+        .pillar-card {
+            background: #141414;
+            border-radius: 6px;
+            overflow: hidden;
+            height: 100%;
+            border: 1px solid var(--cinza-borda);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+
+        .pillar-image {
+            height: 150px;
+            background: linear-gradient(45deg, var(--azul-ibbra), var(--azul-highlight));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--bege-ibbra);
             font-size: 3rem;
+            position: relative;
         }
 
-        .card-body { padding: 20px; }
-        .card-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--azul-destaque); margin-bottom: 8px; display: block; }
-        .card-titulo { font-size: 1.1rem; font-weight: 700; color: var(--azul-ibbra); }
+        .pillar-badge {
+            position: absolute; top: 12px; left: 12px;
+            background: var(--azul-highlight); font-size: 0.65rem;
+            padding: 4px 8px; border-radius: 2px; font-weight: bold; text-transform: uppercase;
+        }
+
+        .pillar-content { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;}
+        .pillar-content h3 { font-size: 1.2rem; margin-bottom: 10px; font-family: "Montserrat", sans-serif; }
+        .pillar-content p { font-size: 0.85rem; color: var(--cinza-texto); line-height: 1.5; margin-bottom: 15px; }
+
+        .pillar-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--azul-highlight); font-weight: 600; }
+
+        .carousel-controls { position: absolute; top: -55px; right: 0; display: flex; gap: 10px; }
+        .carousel-btn {
+            background: rgba(40,40,40,0.8); color: var(--branco); border: none;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .carousel-btn:hover { background: var(--branco); color: var(--fundo-dark); }
+
+        /* PREÇOS / ASSINATURAS */
+        .pricing-section { padding: 80px 5%; background: #0f0f0f; text-align: center; }
+        .pricing-title { font-family: "Playfair Display", serif; font-size: 2.8rem; margin-bottom: 50px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1100px; margin: auto; }
+        
+        .pricing-card { 
+            background: #181818; border: 1px solid var(--cinza-borda); padding: 40px 30px; border-radius: 8px;
+            display: flex; flex-direction: column; justify-content: space-between; min-height: 550px; transition: 0.3s;
+        }
+        .pricing-card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-5px); }
+        .pricing-card.featured { border: 2px solid var(--azul-highlight); background: linear-gradient(180deg, #181818 0%, rgba(1, 30, 65, 0.2) 100%); }
+
+        .pricing-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
+        .pricing-card .price { font-size: 3rem; font-weight: 800; color: var(--branco); margin: 20px 0; }
+        .pricing-card .price span { font-size: 1rem; color: var(--cinza-texto); }
+
+        .pricing-features { list-style: none; text-align: left; margin: 30px 0; }
+        .pricing-features li { margin-bottom: 15px; font-size: 0.95rem; color: var(--bege); display: flex; align-items: center; gap: 10px; }
+        .pricing-features li.disabled { color: #555; }
+
+        .btn-pricing {
+            width: 100%; padding: 16px; border-radius: 4px; font-weight: bold; font-size: 1rem;
+            text-decoration: none; text-align: center; cursor: pointer; transition: 0.3s; border: none;
+        }
+        .btn-essential { background: #333; color: white; }
+        .btn-pro { background: var(--vermelho-ibbra); color: white; }
+        .btn-vip { background: var(--azul-highlight); color: white; }
+        .btn-pricing:hover { filter: brightness(1.2); transform: scale(1.02); }
+
+        /* FAQ & FOOTER */
+        .faq-section { padding: 80px 5%; background: var(--fundo-dark); text-align: center; }
+        .faq-container { max-width: 800px; margin: auto; text-align: left; }
+        .faq-item { background: #141414; border: 1px solid var(--cinza-borda); border-radius: 4px; margin-bottom: 12px; cursor: pointer; }
+        .faq-question { padding: 22px 30px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.2rem; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease; padding: 0 30px; color: var(--cinza-texto); line-height: 1.6; }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 25px; }
+
+        .site-footer { background: #000; color: #555; padding: 50px 5%; text-align: center; font-size: 0.85rem; border-top: 1px solid var(--cinza-borda); }
+        .site-footer a { color: var(--cinza-texto); text-decoration: none; margin: 0 10px; }
+
+        @media (max-width: 1024px) { .carousel-slide { flex: 0 0 calc(50% - 10px); min-width: calc(50% - 10px); } }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero-form { flex-direction: column; }
+            .carousel-slide { flex: 0 0 100%; min-width: 100%; }
+            nav { display: none; }
+            .menu-toggle { display: block; }
+        }
     </style>
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="nav-left">
-            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy" class="logo">
-            <nav>
-                <a href="area-aluno.html" class="active">Início</a>
-                <a href="#">Cursos</a>
-                <a href="lista.html">Minha Lista</a>
-                <a href="radar-conhecimento.html">Radar</a>
-                <a href="recompensas.html">Loja VIP</a>
-            </nav>
-        </div>
-        <div class="nav-right">
-            <a href="index.html" class="btn-sair"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a>
-        </div>
+    <header>
+        <div class="logo">IBBRA ACADEMY</div>
+        <nav id="nav-menu">
+            <a href="#pillars">6 Pilares</a>
+            <a href="#pricing">Planos</a>
+            <a href="#faq">FAQ</a>
+            <a href="login.html" class="nav-entrar">Entrar</a>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
     </header>
 
-    <main>
-        <section class="hero-container">
-            <div class="hero-content">
-                <p class="welcome-text">Seja bem-vindo, <span id="nome-aluno">Estudante</span></p>
-                <h1 class="destaque-titulo">Masterclass:<br>Liberdade Financeira</h1>
-                <p class="descricao">
-                    Aprenda as estratégias de alocação de ativos e blindagem patrimonial utilizadas pelas maiores famílias do Brasil para perpetuar riqueza.
-                </p>
-                <div class="buttons">
-                    <button class="btn-play">
-                        <i class="fas fa-play"></i> &nbsp; Começar Aula
-                    </button>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Sua Liberdade Financeira Começa Aqui</h1>
+            <p>Aprenda planejamento financeiro fiduciário na maior estrutura de streaming educacional do Brasil.</p>
+            <div class="hero-form-wrapper">
+                <p>Pronto para dominar seu patrimônio? Digite seu e-mail para começar.</p>
+                <form class="hero-form" id="hero-form">
+                    <input type="email" placeholder="Endereço de e-mail" required>
+                    <button type="submit">Vamos Lá ></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-proof-banner">
+        <div class="proof-item">
+            <div class="proof-icon"><i class="fas fa-certificate"></i></div>
+            <div class="proof-text">
+                <h4>Profissionais Certificados</h4>
+                <p>Especialistas com credencial CFP® mercadológica.</p>
+            </div>
+        </div>
+        <div class="proof-item">
+            <div class="proof-icon"><i class="fas fa-play-circle"></i></div>
+            <div class="proof-text">
+                <h4>Modo Cinema Imersivo</h4>
+                <p>Experiência de streaming adaptada ao estudo.</p>
+            </div>
+        </div>
+        <div class="proof-item">
+            <div class="proof-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="proof-text">
+                <h4>Foco Fiduciário Alinhado</h4>
+                <p>Sem conflito de interesses. Você em 1º lugar.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pillars-section" id="pillars">
+        <div class="pillars-header">
+            <h2>Os 6 Pilares da Riqueza</h2>
+            <p>Sua trilha principal baseada em metodologias globais de Wealth Management.</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn" id="next-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="carousel-track" id="carousel-track">
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image"><i class="fas fa-piggy-bank"></i><div class="pillar-badge">Nível 1</div></div>
+                        <div class="pillar-content">
+                            <h3>Economia Consciente</h3>
+                            <p>Estruturação de fluxo de caixa operacional e eliminação de pontos cegos financeiros.</p>
+                            <div class="pillar-stats"><span>12 Horas</span><span>8 Aulas</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image"><i class="fas fa-chart-line"></i><div class="pillar-badge">Nível 2</div></div>
+                        <div class="pillar-content">
+                            <h3>Investimentos Inteligentes</h3>
+                            <p>Montagem de portfólio diversificado utilizando a teoria moderna de carteiras.</p>
+                            <div class="pillar-stats"><span>15 Horas</span><span>10 Aulas</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image"><i class="fas fa-home"></i><div class="pillar-badge">Nível 2</div></div>
+                        <div class="pillar-content">
+                            <h3>Imóveis & Alavancagem</h3>
+                            <p>Análise estratégica de ativos reais e uso seguro do crédito inteligente.</p>
+                            <div class="pillar-stats"><span>14 Horas</span><span>9 Aulas</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="pillar-card">
+                        <div class="pillar-image"><i class="fas fa-file-invoice-dollar"></i><div class="pillar-badge">Avançado</div></div>
+                        <div class="pillar-content">
+                            <h3>Tributação Estratégica</h3>
+                            <p>Planejamento fiscal voltado para a otimização legal do Imposto de Renda.</p>
+                            <div class="pillar-stats"><span>16 Horas</span><span>11 Aulas</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section-cursos">
-            <h3>Sua Trilha de Conhecimento</h3>
-            <div class="grid-cursos">
-                <div class="card-curso">
-                    <div class="card-img"><i class="fas fa-piggy-bank"></i></div>
-                    <div class="card-body">
-                        <span class="card-tag">Pilar 1</span>
-                        <h4 class="card-titulo">Gestão de Caixa e Orçamento</h4>
-                    </div>
+    <section id="pricing" class="pricing-section">
+        <h2 class="pricing-title">Escolha o seu plano de acesso</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div>
+                    <h3>Essential</h3>
+                    <div class="price">R$ 49,90<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Acesso aos 6 Pilares Básicos</li>
+                        <li><i class="fas fa-check"></i> Player de Vídeo Modo Cinema</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Calculadoras do Radar</li>
+                    </ul>
                 </div>
-                <div class="card-curso">
-                    <div class="card-img"><i class="fas fa-shield-virus"></i></div>
-                    <div class="card-body">
-                        <span class="card-tag">Pilar 2</span>
-                        <h4 class="card-titulo">Gestão de Riscos e Seguros</h4>
-                    </div>
-                </div>
-                <div class="card-curso">
-                    <div class="card-img"><i class="fas fa-chart-pie"></i></div>
-                    <div class="card-body">
-                        <span class="card-tag">Pilar 3</span>
-                        <h4 class="card-titulo">Alocação de Ativos Financeiros</h4>
-                    </div>
-                </div>
+                <button class="btn-pricing btn-essential">Assinar Essential</button>
             </div>
-        </section>
-    </main>
+            <div class="pricing-card featured">
+                <div>
+                    <h3>Pro</h3>
+                    <div class="price">R$ 119,90<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Tudo do plano Essential</li>
+                        <li><i class="fas fa-check"></i> Radar com 8 Calculadoras Extra</li>
+                        <li><i class="fas fa-check"></i> Simulador FIRE de Aposentadoria</li>
+                    </ul>
+                </div>
+                <button class="btn-pricing btn-pro">Garantir Acesso Pro</button>
+            </div>
+            <div class="pricing-card">
+                <div>
+                    <h3>VIP</h3>
+                    <div class="price">R$ 299,90<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Tudo do plano Pro</li>
+                        <li><i class="fas fa-check"></i> Acompanhamento com Consultor CFP®</li>
+                        <li><i class="fas fa-check"></i> Loja de Recompensas Exclusiva</li>
+                    </ul>
+                </div>
+                <button class="btn-pricing btn-vip">Tornar-se VIP</button>
+            </div>
+        </div>
+    </section>
 
-    <script src="area-aluno.js"></script>
+    <section id="faq" class="faq-section">
+        <h2 class="pricing-title">Perguntas Frequentes</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">Como funciona a assinatura? <i class="fas fa-plus"></i></div>
+                <div class="faq-answer"><p>Igual à Netflix. Você paga o valor mensal fixo e tem acesso total por streaming a todas as aulas do seu nível contratado.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Posso cancelar quando quiser? <i class="fas fa-plus"></i></div>
+                <div class="faq-answer"><p>Sim, o cancelamento é feito de forma autônoma pelo painel de configurações da sua conta, sem burocracias.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <p>Ibbra Academy © 2026. Todos os direitos reservados. Foco Fiduciário e Patrimonial.</p>
+    </footer>
+
+    <script>
+        // Funcionalidades JS Básicas de Slide e FAQ
+        const track = document.getElementById('carousel-track');
+        const next = document.getElementById('next-btn');
+        const prev = document.getElementById('prev-btn');
+        
+        next.addEventListener('click', () => { track.scrollLeft += 300; });
+        prev.addEventListener('click', () => { track.scrollLeft -= 300; });
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => { item.classList.toggle('active'); });
+        });
+
+        document.getElementById('hero-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            window.location.href = 'checkout.html?email=' + encodeURIComponent(email);
+        });
+    </script>
 </body>
 </html>
