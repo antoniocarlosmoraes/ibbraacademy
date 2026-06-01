@@ -10,1122 +10,476 @@
         @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
         
         :root {
-            --azul-ibbra: #011e40;
+            --azul-ibbra: #011E41;
             --azul-highlight: #005cb9;
-            --creme-ibbra: #eae1dc;
-            --vermelho-ibbra: #ff4614;
+            --bege: #E6E6EE;
+            --vermelho-ibbra: #E50914; /* Tom vermelho Netflix adaptado */
             --branco: #ffffff;
-            --cinza-borda: #cccccc;
-            --cinza-texto: #555555;
-            --verde-sucesso: #00a86b;
+            --fundo-dark: #080808;
+            --cinza-borda: rgba(255, 255, 255, 0.1);
+            --cinza-texto: #b3b3b3;
+            --verde-sucesso: #46d369;
+            --glass: rgba(20, 20, 20, 0.7);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { 
             font-family: "Montserrat", sans-serif; 
-            background-color: var(--creme-ibbra); 
-            color: var(--azul-ibbra); 
+            background-color: var(--fundo-dark); 
+            color: var(--branco); 
             overflow-x: hidden; 
         }
 
-        /* HEADER/NAVBAR */
+        /* NAVBAR - NETFLIX STYLE */
         header {
-            background-color: var(--azul-ibbra);
-            color: var(--branco);
-            padding: 1rem 5%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .logo { font-family: "Playfair Display", serif; font-size: 1.5rem; font-weight: 700; }
+        .logo { 
+            font-family: "Playfair Display", serif; 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: var(--branco);
+            letter-spacing: 1px;
+        }
 
         nav { display: flex; gap: 2rem; align-items: center; }
-        nav a { color: var(--branco); text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
-        nav a:hover { color: var(--azul-highlight); }
+        nav a { color: var(--cinza-texto); text-decoration: none; transition: 0.3s ease; font-size: 0.9rem; font-weight: 500; }
+        nav a:hover { color: var(--branco); }
 
         .nav-entrar { 
             background: var(--vermelho-ibbra); 
-            padding: 10px 20px; 
-            border-radius: 6px; 
-            transition: 0.3s;
+            color: var(--branco) !important;
+            padding: 8px 18px; 
+            border-radius: 4px; 
+            font-weight: 600;
         }
-        .nav-entrar:hover { background: #ff6a3d; }
+        .nav-entrar:hover { background: #b81d24; transform: scale(1.02); }
 
         .menu-toggle { display: none; color: var(--branco); font-size: 1.5rem; cursor: pointer; background: none; border: none; }
 
-        @media (max-width: 768px) {
-            header { flex-direction: row; gap: 0; }
-            nav { display: none; flex-direction: column; gap: 1rem; position: absolute; top: 100%; left: 0; right: 0; background: var(--azul-ibbra); padding: 1rem 5%; }
-            nav.active { display: flex; }
-            nav a { margin: 0; }
-            .menu-toggle { display: block; }
-        }
-
         /* HERO SECTION */
         .hero {
-            background: linear-gradient(135deg, var(--azul-ibbra) 0%, var(--azul-highlight) 100%);
-            color: var(--branco);
-            padding: 80px 5% 60px;
+            background: linear-gradient(to top, var(--fundo-dark) 0%, rgba(1, 30, 65, 0.4) 60%, rgba(0,0,0,0.8) 100%),
+                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop') no-repeat center center/cover;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
         }
 
         .hero h1 { 
             font-family: "Playfair Display", serif; 
-            font-size: 3.5rem; 
-            margin-bottom: 1rem;
-            line-height: 1.2;
+            font-size: 4rem; 
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
         .hero > p { 
-            font-size: 1.2rem; 
-            margin-bottom: 2rem; 
-            opacity: 0.95;
+            font-size: 1.3rem; 
+            margin-bottom: 2.5rem; 
+            color: var(--bege);
             line-height: 1.6;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
-        /* HERO EMAIL FORM */
+        /* CAPTURA EMAIL */
         .hero-form-wrapper {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 500px;
-            margin: 30px auto;
+            padding: 40px;
+            border: 1px solid var(--cinza-borda);
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .hero-form-wrapper p {
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            opacity: 0.9;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--branco);
         }
 
         .hero-form {
             display: flex;
-            gap: 0;
+            gap: 10px;
             width: 100%;
         }
 
         .hero-form input {
             flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 6px 0 0 6px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 4px;
             font-family: inherit;
             font-size: 1rem;
-            color: var(--azul-ibbra);
-        }
-
-        .hero-form input::placeholder {
-            color: #ccc;
+            color: var(--branco);
         }
 
         .hero-form input:focus {
             outline: 2px solid var(--azul-highlight);
-            outline-offset: -2px;
+            background: rgba(0, 0, 0, 0.8);
         }
 
         .hero-form button {
-            padding: 15px 30px;
+            padding: 16px 36px;
             background: var(--vermelho-ibbra);
             color: white;
             border: none;
-            border-radius: 0 6px 6px 0;
+            border-radius: 4px;
             font-weight: bold;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             white-space: nowrap;
         }
 
         .hero-form button:hover {
-            background: #ff6a3d;
-            transform: translateY(-2px);
+            background: #b81d24;
+            transform: scale(1.05);
         }
 
-        /* SOCIAL PROOF BANNER */
+        /* BANNER PROVA SOCIAL */
         .social-proof-banner {
-            background: var(--azul-highlight);
-            color: var(--branco);
-            padding: 25px 5%;
+            background: var(--azul-ibbra);
+            border-top: 4px solid var(--azul-highlight);
+            padding: 40px 5%;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            align-items: center;
-            margin: 0;
-            position: relative;
-            z-index: 10;
         }
 
         .proof-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            justify-content: center;
-            text-align: center;
+            gap: 20px;
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .proof-icon {
-            font-size: 2rem;
-            color: var(--verde-sucesso);
-        }
+        .proof-icon { font-size: 2.2rem; color: var(--azul-highlight); }
+        .proof-text h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--branco); }
+        .proof-text p { font-size: 0.9rem; color: var(--cinza-texto); }
 
-        .proof-text h4 {
-            font-size: 1rem;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
+        /* CAROUSEL 6 PILARES */
+        .pillars-section { padding: 80px 5%; background: var(--fundo-dark); }
+        .pillars-header { text-align: left; margin-bottom: 40px; }
+        .pillars-header h2 { font-family: "Playfair Display", serif; font-size: 2.5rem; margin-bottom: 10px; }
+        .pillars-header p { color: var(--cinza-texto); font-size: 1.1rem; }
 
-        .proof-text p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-
-        /* 6-PILAR CAROUSEL SECTION */
-        .pillars-section {
-            padding: 80px 5%;
-            background: linear-gradient(180deg, var(--branco) 0%, #f9f7f4 100%);
-            position: relative;
-        }
-
-        .pillars-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .pillars-header h2 {
-            font-family: "Playfair Display", serif;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--azul-ibbra);
-        }
-
-        .pillars-header p {
-            font-size: 1.1rem;
-            color: var(--cinza-texto);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* Carousel Container */
-        .carousel-wrapper {
-            position: relative;
-            overflow: hidden;
-            margin: 0 -5%;
-            padding: 0 5%;
-        }
-
+        .carousel-wrapper { position: relative; overflow: visible; }
         .carousel-track {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             overflow-x: auto;
             scroll-behavior: smooth;
             padding: 20px 0;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        .carousel-track::-webkit-scrollbar { display: none; }
 
-        .carousel-track::-webkit-scrollbar {
-            display: none;
-        }
-
-        .carousel-slide {
-            flex: 0 0 calc(33.333% - 17px);
-            min-width: calc(33.333% - 17px);
-            scroll-snap-align: start;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+        .carousel-slide { flex: 0 0 calc(25% - 15px); min-width: calc(25% - 15px); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        .carousel-slide:hover { transform: scale(1.05); z-index: 2; }
 
         .pillar-card {
-            background: var(--branco);
-            border: 1px solid var(--cinza-borda);
-            border-radius: 16px;
+            background: #141414;
+            border-radius: 6px;
             overflow: hidden;
             height: 100%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border: 1px solid var(--cinza-borda);
             display: flex;
             flex-direction: column;
-        }
-
-        .pillar-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
-            border-color: var(--azul-highlight);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
 
         .pillar-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, var(--azul-ibbra) 0%, var(--azul-highlight) 100%);
+            height: 150px;
+            background: linear-gradient(45deg, var(--azul-ibbra), var(--azul-highlight));
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 3rem;
             position: relative;
-            overflow: hidden;
-            color: var(--branco);
-            font-size: 4rem;
-        }
-
-        .pillar-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(30%, -30%);
         }
 
         .pillar-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--vermelho-ibbra);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            z-index: 2;
+            position: absolute; top: 12px; left: 12px;
+            background: var(--azul-highlight); font-size: 0.65rem;
+            padding: 4px 8px; border-radius: 2px; font-weight: bold; text-transform: uppercase;
         }
 
-        .pillar-content {
-            padding: 25px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+        .pillar-content { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;}
+        .pillar-content h3 { font-size: 1.2rem; margin-bottom: 10px; font-family: "Montserrat", sans-serif; }
+        .pillar-content p { font-size: 0.85rem; color: var(--cinza-texto); line-height: 1.5; margin-bottom: 15px; }
 
-        .pillar-content h3 {
-            font-family: "Playfair Display", serif;
-            font-size: 1.3rem;
-            color: var(--azul-ibbra);
-            margin-bottom: 10px;
-        }
+        .pillar-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--azul-highlight); font-weight: 600; }
 
-        .pillar-content p {
-            font-size: 0.95rem;
-            color: var(--cinza-texto);
-            line-height: 1.6;
-            margin-bottom: 15px;
-            flex: 1;
-        }
-
-        .pillar-stats {
-            display: flex;
-            gap: 10px;
-            font-size: 0.85rem;
-            padding-top: 15px;
-            border-top: 1px solid var(--cinza-borda);
-        }
-
-        .pillar-stat {
-            flex: 1;
-            text-align: center;
-            color: var(--azul-highlight);
-            font-weight: 600;
-        }
-
-        /* Carousel Navigation */
-        .carousel-controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 40px;
-        }
-
+        .carousel-controls { position: absolute; top: -55px; right: 0; display: flex; gap: 10px; }
         .carousel-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--azul-ibbra);
-            color: var(--branco);
-            border: 2px solid var(--azul-ibbra);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            background: rgba(40,40,40,0.8); color: var(--branco); border: none;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
+        .carousel-btn:hover { background: var(--branco); color: var(--fundo-dark); }
 
-        .carousel-btn:hover {
-            background: var(--azul-highlight);
-            border-color: var(--azul-highlight);
-            transform: scale(1.1);
-        }
-
-        .carousel-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Carousel Dots */
-        .carousel-dots {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--cinza-borda);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
-            background: var(--azul-highlight);
-            width: 30px;
-            border-radius: 5px;
-        }
-
-        /* SEÇÃO DE PREÇOS */
-        .pricing-section { 
-            padding: 80px 5%; 
-            background-color: #f5f0ed; 
-            text-align: center; 
-        }
-
-        .pricing-title { 
-            font-family: "Playfair Display", serif; 
-            font-size: 2.5rem; 
-            margin-bottom: 50px; 
-        }
-
-        .pricing-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-            max-width: 1100px; 
-            margin: auto; 
-        }
+        /* PREÇOS / ASSINATURAS */
+        .pricing-section { padding: 80px 5%; background: #0f0f0f; text-align: center; }
+        .pricing-title { font-family: "Playfair Display", serif; font-size: 2.8rem; margin-bottom: 50px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1100px; margin: auto; }
         
         .pricing-card { 
-            background: var(--branco); 
-            border: 1px solid var(--cinza-borda); 
-            padding: 40px 20px; 
-            border-radius: 12px; 
-            position: relative; 
-            transition: 0.3s; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 530px;
+            background: #181818; border: 1px solid var(--cinza-borda); padding: 40px 30px; border-radius: 8px;
+            display: flex; flex-direction: column; justify-content: space-between; min-height: 550px; transition: 0.3s;
         }
+        .pricing-card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-5px); }
+        .pricing-card.featured { border: 2px solid var(--azul-highlight); background: linear-gradient(180deg, #181818 0%, rgba(1, 30, 65, 0.2) 100%); }
 
-        .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .pricing-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
+        .pricing-card .price { font-size: 3rem; font-weight: 800; color: var(--branco); margin: 20px 0; }
+        .pricing-card .price span { font-size: 1rem; color: var(--cinza-texto); }
 
-        .pricing-card.featured { 
-            border: 2px solid var(--azul-highlight); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            transform: scale(1.02);
-        }
-        
-        .featured-badge { 
-            position: absolute; 
-            top: -15px; 
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--azul-highlight); 
-            color: white; 
-            padding: 5px 15px; 
-            border-radius: 20px; 
-            font-size: 0.7rem; 
-            font-weight: bold; 
-            text-transform: uppercase;
-        }
-        
-        .pricing-card h3 { 
-            font-family: "Playfair Display", serif; 
-            font-size: 2rem; 
-            margin: 0; 
-        }
+        .pricing-features { list-style: none; text-align: left; margin: 30px 0; }
+        .pricing-features li { margin-bottom: 15px; font-size: 0.95rem; color: var(--bege); display: flex; align-items: center; gap: 10px; }
+        .pricing-features li.disabled { color: #555; }
 
-        .pricing-card .price { 
-            font-size: 2.5rem; 
-            font-weight: 800; 
-            color: var(--azul-highlight); 
-            margin: 15px 0; 
+        .btn-pricing {
+            width: 100%; padding: 16px; border-radius: 4px; font-weight: bold; font-size: 1rem;
+            text-decoration: none; text-align: center; cursor: pointer; transition: 0.3s; border: none;
         }
-
-        .pricing-card .price span { 
-            font-size: 1rem; 
-            color: var(--cinza-texto); 
-            font-weight: normal; 
-        }
-        
-        .pricing-features { 
-            list-style: none; 
-            padding: 0; 
-            text-align: left; 
-            margin: 20px 0; 
-            width: 100%; 
-        }
-
-        .pricing-features li { 
-            margin-bottom: 12px; 
-            font-size: 0.9rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-        }
-
-        .pricing-features li.disabled { 
-            color: #bbb; 
-        }
-        
-        .btn-pricing { 
-            width: 100%; 
-            padding: 15px; 
-            border-radius: 6px; 
-            font-weight: bold; 
-            text-decoration: none; 
-            text-align: center; 
-            transition: 0.3s; 
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: auto;
-        }
-
-        .btn-pricing:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        .btn-essential { background: var(--azul-highlight); color: white; }
+        .btn-essential { background: #333; color: white; }
         .btn-pro { background: var(--vermelho-ibbra); color: white; }
         .btn-vip { background: var(--azul-highlight); color: white; }
+        .btn-pricing:hover { filter: brightness(1.2); transform: scale(1.02); }
 
-        /* SEÇÃO FAQ */
-        .faq-section { 
-            padding: 80px 5%; 
-            background-color: var(--creme-ibbra); 
-            text-align: center; 
-        }
+        /* FAQ & FOOTER */
+        .faq-section { padding: 80px 5%; background: var(--fundo-dark); text-align: center; }
+        .faq-container { max-width: 800px; margin: auto; text-align: left; }
+        .faq-item { background: #141414; border: 1px solid var(--cinza-borda); border-radius: 4px; margin-bottom: 12px; cursor: pointer; }
+        .faq-question { padding: 22px 30px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.2rem; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease; padding: 0 30px; color: var(--cinza-texto); line-height: 1.6; }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 25px; }
 
-        .faq-container { 
-            max-width: 800px; 
-            margin: auto; 
-            text-align: left; 
-        }
+        .site-footer { background: #000; color: #555; padding: 50px 5%; text-align: center; font-size: 0.85rem; border-top: 1px solid var(--cinza-borda); }
+        .site-footer a { color: var(--cinza-texto); text-decoration: none; margin: 0 10px; }
 
-        .faq-item { 
-            background: white; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
-            margin-bottom: 10px; 
-            cursor: pointer; 
-            transition: 0.3s; 
-        }
-
-        .faq-item:focus-within { outline: 2px solid var(--azul-highlight); }
-
-        .faq-question { 
-            padding: 20px 25px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-weight: bold; 
-            font-size: 1.1rem;
-            user-select: none;
-        }
-
-        .faq-answer { 
-            max-height: 0; 
-            overflow: hidden; 
-            transition: 0.3s ease; 
-            padding: 0 25px; 
-            color: var(--cinza-texto); 
-            line-height: 1.6; 
-        }
-
-        .faq-item.active { border-color: var(--azul-highlight); }
-        .faq-item.active .faq-answer { max-height: 500px; padding-bottom: 20px; }
-
-        .faq-item.active .faq-question i { transform: rotate(45deg); }
-
-        /* FINAL CTA */
-        .final-cta { 
-            margin-top: 50px; 
-            font-size: 0.9rem; 
-        }
-
-        .cta-mini-form { 
-            display: flex; 
-            justify-content: center; 
-            gap: 0; 
-            max-width: 600px; 
-            margin: 20px auto; 
-        }
-
-        .cta-mini-input { 
-            padding: 15px; 
-            border: 1px solid #ddd; 
-            border-radius: 6px 0 0 6px; 
-            width: 60%; 
-            font-family: inherit;
-        }
-
-        .cta-mini-input:focus { outline: none; border-color: var(--azul-highlight); }
-
-        .cta-mini-btn { 
-            background: var(--vermelho-ibbra); 
-            color: white; 
-            border: none; 
-            padding: 15px 25px; 
-            border-radius: 0 6px 6px 0; 
-            font-weight: bold; 
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .cta-mini-btn:hover { background: #ff6a3d; }
-
-        /* RODAPÉ */
-        .site-footer { 
-            background-color: #011e40; 
-            color: #ffffff; 
-            padding: 40px 5%; 
-            text-align: center; 
-            font-size: 0.8rem; 
-        }
-
-        .site-footer a { 
-            color: var(--azul-highlight); 
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .site-footer a:hover { text-decoration: underline; }
-
-        .footer-copy { 
-            margin-top: 15px; 
-            opacity: 0.7; 
-        }
-
-        /* RESPONSIVIDADE */
-        @media (max-width: 1024px) {
-            .carousel-slide {
-                flex: 0 0 calc(50% - 13px);
-                min-width: calc(50% - 13px);
-            }
-        }
-
+        @media (max-width: 1024px) { .carousel-slide { flex: 0 0 calc(50% - 10px); min-width: calc(50% - 10px); } }
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .pricing-title { font-size: 1.8rem; }
-            
-            .hero-form {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .hero-form input,
-            .hero-form button {
-                border-radius: 6px;
-            }
-            
-            .cta-mini-form { 
-                flex-direction: column; 
-                gap: 10px; 
-            }
-            
-            .cta-mini-input, .cta-mini-btn { 
-                border-radius: 6px; 
-                width: 100%; 
-            }
-
-            .pricing-card.featured { transform: scale(1); }
-
-            .social-proof-banner {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .hero-form-wrapper {
-                padding: 20px;
-            }
-
-            .carousel-slide {
-                flex: 0 0 100%;
-                min-width: 100%;
-            }
-
-            .pillars-header h2 {
-                font-size: 1.8rem;
-            }
-
-            .carousel-controls {
-                gap: 10px;
-            }
-
-            .carousel-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-form { flex-direction: column; }
+            .carousel-slide { flex: 0 0 100%; min-width: 100%; }
+            nav { display: none; }
+            .menu-toggle { display: block; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">Ibbra Academy</div>
+        <div class="logo">IBBRA ACADEMY</div>
         <nav id="nav-menu">
             <a href="#pillars">6 Pilares</a>
             <a href="#pricing">Planos</a>
             <a href="#faq">FAQ</a>
-            <a href="mailto:contato@ibbraacademy.com.br">Contato</a>
             <a href="login.html" class="nav-entrar">Entrar</a>
         </nav>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-            <i class="fas fa-bars"></i>
-        </button>
+        <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
     </header>
 
     <section class="hero">
         <div class="hero-content">
             <h1>Sua Liberdade Financeira Começa Aqui</h1>
-            <p>Aprenda planejamento financeiro fiduciário com os melhores especialistas do Brasil</p>
-            
-            <!-- Email Capture Form -->
+            <p>Aprenda planejamento financeiro fiduciário na maior estrutura de streaming educacional do Brasil.</p>
             <div class="hero-form-wrapper">
-                <p>Comece sua jornada gratuitamente</p>
+                <p>Pronto para dominar seu patrimônio? Digite seu e-mail para começar.</p>
                 <form class="hero-form" id="hero-form">
-                    <input 
-                        type="email" 
-                        placeholder="Digite seu endereço de e-mail" 
-                        required
-                        aria-label="Endereço de e-mail"
-                    >
-                    <button type="submit">Começar Agora</button>
+                    <input type="email" placeholder="Endereço de e-mail" required>
+                    <button type="submit">Vamos Lá ></button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Social Proof Banner -->
     <section class="social-proof-banner">
         <div class="proof-item">
-            <div class="proof-icon">
-                <i class="fas fa-certificate"></i>
-            </div>
+            <div class="proof-icon"><i class="fas fa-certificate"></i></div>
             <div class="proof-text">
                 <h4>Profissionais Certificados</h4>
-                <p>Especialistas com credencial CFP® e experiência comprovada</p>
+                <p>Especialistas com credencial CFP® mercadológica.</p>
             </div>
         </div>
         <div class="proof-item">
-            <div class="proof-icon">
-                <i class="fas fa-mobile-alt"></i>
-            </div>
+            <div class="proof-icon"><i class="fas fa-play-circle"></i></div>
             <div class="proof-text">
-                <h4>Acesso Multiplataforma</h4>
-                <p>Estude no computador, tablet ou smartphone</p>
+                <h4>Modo Cinema Imersivo</h4>
+                <p>Experiência de streaming adaptada ao estudo.</p>
             </div>
         </div>
         <div class="proof-item">
-            <div class="proof-icon">
-                <i class="fas fa-shield-alt"></i>
-            </div>
+            <div class="proof-icon"><i class="fas fa-shield-alt"></i></div>
             <div class="proof-text">
-                <h4>Garantia de 7 Dias</h4>
-                <p>Reembolso integral se não estiver satisfeito</p>
+                <h4>Foco Fiduciário Alinhado</h4>
+                <p>Sem conflito de interesses. Você em 1º lugar.</p>
             </div>
         </div>
     </section>
 
-    <!-- 6-Pillar Carousel Section -->
     <section class="pillars-section" id="pillars">
         <div class="pillars-header">
             <h2>Os 6 Pilares da Riqueza</h2>
-            <p>Domine os fundamentos do planejamento financeiro fiduciário com nossos 6 cursos transformadores</p>
+            <p>Sua trilha principal baseada em metodologias globais de Wealth Management.</p>
         </div>
 
         <div class="carousel-wrapper">
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn" id="next-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
             <div class="carousel-track" id="carousel-track">
-                <!-- Pilar 1 -->
                 <div class="carousel-slide">
                     <div class="pillar-card">
-                        <div class="pillar-image">
-                            <i class="fas fa-piggy-bank"></i>
-                            <div class="pillar-badge">Essencial</div>
-                        </div>
+                        <div class="pillar-image"><i class="fas fa-piggy-bank"></i><div class="pillar-badge">Nível 1</div></div>
                         <div class="pillar-content">
                             <h3>Economia Consciente</h3>
-                            <p>Aprenda a estruturar uma poupança estratégica e eliminar desperdícios financeiros. O alicerce da riqueza começa aqui.</p>
-                            <div class="pillar-stats">
-                                <div class="pillar-stat">12h</div>
-                                <div class="pillar-stat">8 aulas</div>
-                                <div class="pillar-stat">98% Relevante</div>
-                            </div>
+                            <p>Estruturação de fluxo de caixa operacional e eliminação de pontos cegos financeiros.</p>
+                            <div class="pillar-stats"><span>12 Horas</span><span>8 Aulas</span></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Pilar 2 -->
                 <div class="carousel-slide">
                     <div class="pillar-card">
-                        <div class="pillar-image">
-                            <i class="fas fa-chart-line"></i>
-                            <div class="pillar-badge">Intermediário</div>
-                        </div>
+                        <div class="pillar-image"><i class="fas fa-chart-line"></i><div class="pillar-badge">Nível 2</div></div>
                         <div class="pillar-content">
                             <h3>Investimentos Inteligentes</h3>
-                            <p>Entenda os mercados financeiros e construa uma carteira de investimentos alinhada aos seus objetivos de longo prazo.</p>
-                            <div class="pillar-stats">
-                                <div class="pillar-stat">15h</div>
-                                <div class="pillar-stat">10 aulas</div>
-                                <div class="pillar-stat">Crucial</div>
-                            </div>
+                            <p>Montagem de portfólio diversificado utilizando a teoria moderna de carteiras.</p>
+                            <div class="pillar-stats"><span>15 Horas</span><span>10 Aulas</span></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Pilar 3 -->
                 <div class="carousel-slide">
                     <div class="pillar-card">
-                        <div class="pillar-image">
-                            <i class="fas fa-home"></i>
-                            <div class="pillar-badge">Intermediário</div>
-                        </div>
+                        <div class="pillar-image"><i class="fas fa-home"></i><div class="pillar-badge">Nível 2</div></div>
                         <div class="pillar-content">
-                            <h3>Imóveis e Alavancagem</h3>
-                            <p>Domine o mercado imobiliário e use a alavancagem de forma segura para multiplicar seu patrimônio.</p>
-                            <div class="pillar-stats">
-                                <div class="pillar-stat">14h</div>
-                                <div class="pillar-stat">9 aulas</div>
-                                <div class="pillar-stat">95% Relevante</div>
-                            </div>
+                            <h3>Imóveis & Alavancagem</h3>
+                            <p>Análise estratégica de ativos reais e uso seguro do crédito inteligente.</p>
+                            <div class="pillar-stats"><span>14 Horas</span><span>9 Aulas</span></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Pilar 4 -->
                 <div class="carousel-slide">
                     <div class="pillar-card">
-                        <div class="pillar-image">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                            <div class="pillar-badge">Avançado</div>
-                        </div>
+                        <div class="pillar-image"><i class="fas fa-file-invoice-dollar"></i><div class="pillar-badge">Avançado</div></div>
                         <div class="pillar-content">
                             <h3>Tributação Estratégica</h3>
-                            <p>Otimize seus impostos legalmente através de estruturas tributárias eficientes e planejamento fiscal inteligente.</p>
-                            <div class="pillar-stats">
-                                <div class="pillar-stat">16h</div>
-                                <div class="pillar-stat">11 aulas</div>
-                                <div class="pillar-stat">Masterclass</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pilar 5 -->
-                <div class="carousel-slide">
-                    <div class="pillar-card">
-                        <div class="pillar-image">
-                            <i class="fas fa-briefcase"></i>
-                            <div class="pillar-badge">Avançado</div>
-                        </div>
-                        <div class="pillar-content">
-                            <h3>Gestão Patrimonial</h3>
-                            <p>Implemente uma abordagem holística para gerenciar e potencializar seu patrimônio total com eficiência.</p>
-                            <div class="pillar-stats">
-                                <div class="pillar-stat">18h</div>
-                                <div class="pillar-stat">12 aulas</div>
-                                <div class="pillar-stat">Masterclass</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pilar 6 -->
-                <div class="carousel-slide">
-                    <div class="pillar-card">
-                        <div class="pillar-image">
-                            <i class="fas fa-crown"></i>
-                            <div class="pillar-badge">Elite</div>
-                        </div>
-                        <div class="pillar-content">
-                            <h3>Legado e Sucessão</h3>
-                            <p>Aprenda a estruturar seu legado familiar e garantir a transferência bem-sucedida do patrimônio para gerações futuras.</p>
-                            <div class="pillar-stats">
-                                <div class="pillar-stat">14h</div>
-                                <div class="pillar-stat">9 aulas</div>
-                                <div class="pillar-stat">Masterclass</div>
-                            </div>
+                            <p>Planejamento fiscal voltado para a otimização legal do Imposto de Renda.</p>
+                            <div class="pillar-stats"><span>16 Horas</span><span>11 Aulas</span></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Navigation Controls -->
-        <div class="carousel-controls">
-            <button class="carousel-btn" id="prev-btn" aria-label="Slide anterior">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="carousel-btn" id="next-btn" aria-label="Próximo slide">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-
-        <!-- Carousel Dots -->
-        <div class="carousel-dots" id="carousel-dots"></div>
     </section>
 
-    <main>
-        <section id="pricing" class="pricing-section">
-            <h2 class="pricing-title">Escolha o seu nível de acesso</h2>
-            <div class="pricing-grid">
-                
-                <div class="pricing-card">
-                    <div>
-                        <h3>Essential</h3>
-                        <p style="font-size: 0.8rem; color: #777;">Para quem quer começar sozinho</p>
-                        <div class="price">R$ 49,90<span>/mês</span></div>
-                        <ul class="pricing-features">
-                            <li>✔️ Acesso Completo aos 6 Pilares</li>
-                            <li>✔️ Sala de Aula Modo Cinema</li>
-                            <li>✔️ Cadernos de Anotação</li>
-                            <li class="disabled">❌ Radar Financeiro (Calculadoras)</li>
-                            <li class="disabled">❌ Consultor Fiduciário (FA)</li>
-                        </ul>
-                    </div>
-                    <a href="#checkout" class="btn-pricing btn-essential">Começar Essential</a>
+    <section id="pricing" class="pricing-section">
+        <h2 class="pricing-title">Escolha o seu plano de acesso</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div>
+                    <h3>Essential</h3>
+                    <div class="price">R$ 49,90<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Acesso aos 6 Pilares Básicos</li>
+                        <li><i class="fas fa-check"></i> Player de Vídeo Modo Cinema</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Calculadoras do Radar</li>
+                    </ul>
                 </div>
-
-                <div class="pricing-card featured">
-                    <div class="featured-badge">Mais Popular</div>
-                    <div>
-                        <h3>Pro</h3>
-                        <p style="font-size: 0.8rem; color: #777;">O seu Family Office Digital</p>
-                        <div class="price">R$ 119,90<span>/mês</span></div>
-                        <ul class="pricing-features">
-                            <li>✔️ Tudo do plano Essential</li>
-                            <li>✔️ <strong>Radar Financeiro (8 Calculadoras)</strong></li>
-                            <li>✔️ Hack da Amortização</li>
-                            <li>✔️ Simulador de Aposentadoria (FIRE)</li>
-                            <li class="disabled">❌ Consultor Fiduciário (FA)</li>
-                        </ul>
-                    </div>
-                    <a href="#checkout" class="btn-pricing btn-pro">Viver de Renda</a>
-                </div>
-
-                <div class="pricing-card">
-                    <div>
-                        <h3>VIP</h3>
-                        <p style="font-size: 0.8rem; color: #777;">Consultoria e Alta Renda</p>
-                        <div class="price">R$ 299,90<span>/mês</span></div>
-                        <ul class="pricing-features">
-                            <li>✔️ Tudo do plano Pro</li>
-                            <li>✔️ <strong>Consultor Fiduciário CFP®</strong></li>
-                            <li>✔️ Suporte VIP e Direto</li>
-                            <li>✔️ Loja de Recompensas</li>
-                            <li>✔️ Trilha Personalizada</li>
-                        </ul>
-                    </div>
-                    <a href="#checkout" class="btn-pricing btn-vip">Acesso VIP</a>
-                </div>
-
+                <button class="btn-pricing btn-essential">Assinar Essential</button>
             </div>
-        </section>
-
-        <section id="faq" class="faq-section">
-            <h2 class="pricing-title">Perguntas Frequentes</h2>
-            <div class="faq-container">
-                <div class="faq-item" role="button" tabindex="0" aria-expanded="false">
-                    <div class="faq-question">O que é a Ibbra Academy? <i class="fas fa-plus" aria-hidden="true"></i></div>
-                    <div class="faq-answer"><p>É a maior plataforma de streaming focada em planejamento financeiro fiduciário do Brasil.</p></div>
+            <div class="pricing-card featured">
+                <div>
+                    <h3>Pro</h3>
+                    <div class="price">R$ 119,90<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Tudo do plano Essential</li>
+                        <li><i class="fas fa-check"></i> Radar com 8 Calculadoras Extra</li>
+                        <li><i class="fas fa-check"></i> Simulador FIRE de Aposentadoria</li>
+                    </ul>
                 </div>
-                <div class="faq-item" role="button" tabindex="0" aria-expanded="false">
-                    <div class="faq-question">Qual é o valor do investimento na Ibbra Academy? <i class="fas fa-plus" aria-hidden="true"></i></div>
-                    <div class="faq-answer"><p>Planos a partir de R$ 49,90/mês, sem taxas escondidas.</p></div>
-                </div>
-                <div class="faq-item" role="button" tabindex="0" aria-expanded="false">
-                    <div class="faq-question">Como faço para cancelar? <i class="fas fa-plus" aria-hidden="true"></i></div>
-                    <div class="faq-answer"><p>Você pode cancelar a qualquer momento com apenas um clique dentro da plataforma.</p></div>
-                </div>
+                <button class="btn-pricing btn-pro">Garantir Acesso Pro</button>
             </div>
-
-            <div class="final-cta">
-                <p>Pronto para começar? Digite o seu e-mail para criar ou reiniciar a sua assinatura.</p>
-                <form class="cta-mini-form" id="cta-form">
-                    <input type="email" class="cta-mini-input" placeholder="O seu endereço de e-mail" required>
-                    <button type="submit" class="cta-mini-btn">Começar Agora ></button>
-                </form>
+            <div class="pricing-card">
+                <div>
+                    <h3>VIP</h3>
+                    <div class="price">R$ 299,90<span>/mês</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Tudo do plano Pro</li>
+                        <li><i class="fas fa-check"></i> Acompanhamento com Consultor CFP®</li>
+                        <li><i class="fas fa-check"></i> Loja de Recompensas Exclusiva</li>
+                    </ul>
+                </div>
+                <button class="btn-pricing btn-vip">Tornar-se VIP</button>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <h2 class="pricing-title">Perguntas Frequentes</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">Como funciona a assinatura? <i class="fas fa-plus"></i></div>
+                <div class="faq-answer"><p>Igual à Netflix. Você paga o valor mensal fixo e tem acesso total por streaming a todas as aulas do seu nível contratado.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Posso cancelar quando quiser? <i class="fas fa-plus"></i></div>
+                <div class="faq-answer"><p>Sim, o cancelamento é feito de forma autônoma pelo painel de configurações da sua conta, sem burocracias.</p></div>
+            </div>
+        </div>
+    </section>
 
     <footer class="site-footer">
-        <p>Dúvidas? Entre em contato: <a href="mailto:contato@ibbraacademy.com.br">contato@ibbraacademy.com.br</a></p>
-        <p class="footer-copy">Ibbra Academy © 2026. Todos os direitos reservados. Transformando a educação financeira.</p>
+        <p>Ibbra Academy © 2026. Todos os direitos reservados. Foco Fiduciário e Patrimonial.</p>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.getElementById('menu-toggle');
-        const navMenu = document.getElementById('nav-menu');
-
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            const isActive = navMenu.classList.contains('active');
-            menuToggle.setAttribute('aria-expanded', isActive);
-        });
-
-        // Close menu when a link is clicked
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', false);
-            });
-        });
-
-        // Carousel Functionality
-        const carouselTrack = document.getElementById('carousel-track');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const slides = document.querySelectorAll('.carousel-slide');
-        const dotsContainer = document.getElementById('carousel-dots');
+        // Funcionalidades JS Básicas de Slide e FAQ
+        const track = document.getElementById('carousel-track');
+        const next = document.getElementById('next-btn');
+        const prev = document.getElementById('prev-btn');
         
-        let currentIndex = 0;
-        const slidesToShow = window.innerWidth > 1024 ? 3 : (window.innerWidth > 768 ? 2 : 1);
-        const slideWidth = slides[0].offsetWidth;
-        const gap = 25;
+        next.addEventListener('click', () => { track.scrollLeft += 300; });
+        prev.addEventListener('click', () => { track.scrollLeft -= 300; });
 
-        // Create dots
-        const totalDots = Math.ceil(slides.length / slidesToShow);
-        for (let i = 0; i < totalDots; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-
-        function updateCarousel() {
-            const scrollAmount = currentIndex * (slideWidth + gap);
-            carouselTrack.scrollLeft = scrollAmount;
-            updateDots();
-            updateButtons();
-        }
-
-        function updateDots() {
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-        }
-
-        function updateButtons() {
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex >= totalDots - 1;
-        }
-
-        function goToSlide(index) {
-            currentIndex = Math.max(0, Math.min(index, totalDots - 1));
-            updateCarousel();
-        }
-
-        nextBtn.addEventListener('click', () => {
-            if (currentIndex < totalDots - 1) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') nextBtn.click();
-            if (e.key === 'ArrowLeft') prevBtn.click();
-        });
-
-        // Initialize
-        updateButtons();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            updateCarousel();
-        });
-
-        // FAQ Accordion with keyboard support
         document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => toggleFaq(item));
-            item.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleFaq(item);
-                }
-            });
+            item.addEventListener('click', () => { item.classList.toggle('active'); });
         });
 
-        function toggleFaq(item) {
-            item.classList.toggle('active');
-            item.setAttribute('aria-expanded', item.classList.contains('active'));
-        }
-
-        // Hero Form submission
         document.getElementById('hero-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-            console.log('Email capturado (Hero):', email);
-            // Redirect to checkout page
-            window.open('checkout.html?email=' + encodeURIComponent(email), '_blank');
-        });
-
-        // Final CTA Form submission
-        document.getElementById('cta-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-            console.log('Email capturado (CTA):', email);
-            // Redirect to checkout page
-            window.open('checkout.html?email=' + encodeURIComponent(email), '_blank');
+            const email = e.target.querySelector('input').value;
+            window.location.href = 'checkout.html?email=' + encodeURIComponent(email);
         });
     </script>
-
 </body>
 </html>
