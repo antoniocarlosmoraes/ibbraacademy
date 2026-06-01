@@ -3,252 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibbra Academy - Sala de Aula</title>
+    <title>Ibbra Academy - Sala de Aula Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
-    
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap");
         
         :root {
-            --azul-ibbra: #011e40;
-            --bege-ibbra: #eae1dc;
-            --azul-destaque: #005cb9;
+            --azul-ibbra: #011E41;
+            --azul-highlight: #005cb9;
+            --fundo-dark: #080808;
+            --bege: #E6E6EE;
             --branco: #ffffff;
-            --preto-video: #0a0a0a;
+            --cinza-card: #141414;
+            --vermelho-ibbra: #E50914;
+            --glass: rgba(20, 20, 20, 0.7);
+            --borda-glass: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--bege-ibbra);
-            color: var(--azul-ibbra);
+            background-color: var(--fundo-dark);
+            color: var(--branco);
+            overflow-x: hidden;
+            padding-top: 80px;
         }
 
-        /* NAVBAR REDUZIDA PARA FOCO */
+        /* BARRA SUPERIOR (NAVBAR) */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
-            background-color: var(--azul-ibbra);
-            color: var(--bege-ibbra);
-            position: sticky;
+            padding: 15px 4%;
+            background-color: rgba(8, 8, 8, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--borda-glass);
+            position: fixed;
             top: 0;
+            width: 100%;
             z-index: 1000;
         }
+        .navbar .voltar {
+            color: var(--bege);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .navbar .voltar:hover { color: var(--branco); }
+        .logo-sala { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: bold; }
 
-        .logo-back { display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none; color: inherit; }
-        .logo-back img { height: 25px; filter: brightness(0) invert(1); }
-
-        /* LAYOUT SALA DE AULA */
-        .main-aula {
-            display: grid;
-            grid-template-columns: 1fr 350px; /* Video e Lista de aulas */
-            height: calc(100vh - 65px);
+        /* AREA DO CINEMA */
+        .cinema-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 4%;
         }
 
-        /* LADO ESQUERDO: PLAYER E DESCRIÇÃO */
-        .content-area {
-            overflow-y: auto;
-            background-color: var(--preto-video);
-            padding-bottom: 50px;
-        }
-
-        .video-wrapper {
+        /* PLAYER DE VÍDEO (REPRESENTAÇÃO) */
+        .video-player-wrapper {
             width: 100%;
             aspect-ratio: 16 / 9;
-            background-color: #000;
-            position: relative;
-        }
-
-        .video-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .aula-info {
-            padding: 40px 8%;
-            background-color: var(--bege-ibbra);
-            border-radius: 30px 30px 0 0;
-            margin-top: -20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .aula-titulo {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-        }
-
-        .aula-tags { display: flex; gap: 10px; margin-bottom: 25px; }
-        .tag {
-            background-color: rgba(1, 30, 64, 0.1);
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .aula-desc {
-            line-height: 1.7;
-            color: #444;
-            margin-bottom: 30px;
-        }
-
-        .materiais-box {
-            background-color: var(--branco);
-            padding: 25px;
+            background: linear-gradient(135deg, #021124 0%, #000 100%);
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .material-item {
+            border: 1px solid var(--borda-glass);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            text-decoration: none;
-            color: var(--azul-ibbra);
-            font-weight: 600;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            margin-bottom: 25px;
         }
-        .material-item:last-child { border: none; }
-        .material-item i { color: var(--azul-destaque); }
-
-        /* LADO DIREITO: PLAYLIST */
-        .sidebar-playlist {
-            background-color: var(--branco);
-            border-left: 1px solid rgba(1, 30, 64, 0.1);
-            overflow-y: auto;
-            padding: 20px;
+        .video-player-wrapper i.fa-play-circle {
+            font-size: 5rem;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: 0.3s ease;
         }
-
-        .sidebar-titulo {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .video-player-wrapper i.fa-play-circle:hover {
+            transform: scale(1.1);
+            color: var(--branco);
+        }
+        .video-title {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--bege);
         }
 
-        .item-aula {
-            display: flex;
-            gap: 12px;
-            padding: 12px;
-            border-radius: 6px;
+        /* BOTÃO PARA TESTAR O DESBLOQUEIO DO QUIZ */
+        .simular-video-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 14px;
+            font-size: 0.75rem;
+            border-radius: 4px;
             cursor: pointer;
             transition: 0.3s;
-            margin-bottom: 8px;
-            background-color: #f9f9f9;
         }
+        .simular-video-btn:hover { background: var(--azul-highlight); }
 
-        .item-aula:hover { background-color: rgba(1, 30, 64, 0.05); }
-        .item-aula.active { background-color: var(--azul-ibbra); color: var(--bege-ibbra); }
-
-        .thumb-min {
-            width: 80px;
-            height: 45px;
-            background-color: #ddd;
-            border-radius: 4px;
+        /* ESTRUTURA DE ABAS (ANOTAÇÕES / DÚVIDAS / QUIZ) */
+        .tabs-container {
+            background: var(--cinza-card);
+            border: 1px solid var(--borda-glass);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+        
+        .tabs-menu {
+            display: flex;
+            background: #0d0d0d;
+            border-bottom: 1px solid var(--borda-glass);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 18px;
+            background: none;
+            border: none;
+            color: #888;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            gap: 10px;
+        }
+        .tab-btn:hover { color: var(--branco); background: rgba(255,255,255,0.02); }
+        .tab-btn.active {
+            color: var(--branco);
+            border-bottom: 3px solid var(--azul-highlight);
+            background: var(--cinza-card);
         }
 
-        .aula-meta h5 { font-size: 0.85rem; margin-bottom: 3px; }
-        .aula-meta span { font-size: 0.7rem; opacity: 0.7; }
-
-        @media (max-width: 1000px) {
-            .main-aula { grid-template-columns: 1fr; height: auto; }
-            .sidebar-playlist { height: 400px; }
+        .tab-content {
+            padding: 30px;
+            display: none;
         }
+        .tab-content.active { display: block; }
+
+        /* 1. ESPAÇO DE ANOTAÇÕES */
+        .anotacoes-textarea {
+            width: 100%;
+            height: 150px;
+            background: #0a0a0a;
+            border: 1px solid var(--borda-glass);
+            border-radius: 6px;
+            color: var(--branco);
+            padding: 15px;
+            font-family: inherit;
+            resize: none;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .anotacoes-textarea:focus { outline: 1px solid var(--azul-highlight); }
+        
+        .btn-acao {
+            background: var(--azul-highlight);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-acao:hover { filter: brightness(1.2); }
+
+        /* 2. ESPAÇO DE DÚVIDAS + CHAT */
+        .duvidas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-download-conversa {
+            background: transparent;
+            color: var(--bege);
+            border: 1px solid var(--borda-glass);
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-download-conversa:hover {
+            background: var(--branco);
+            color: #080808;
+        }
+        
+        .chat-container {
+            background: #0a0a0a;
+            border: 1px solid var(--borda-glass);
+            border-radius: 6px;
+            padding: 15px;
+            height: 220px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        .chat-message { margin-bottom: 15px; font-size: 0.9rem; line-height: 1.4; }
+        .chat-message.aluno .autor { color: var(--azul-highlight); font-weight: bold; }
+        .chat-message.suporte .autor { color: #00a86b; font-weight: bold; }
+        
+        .chat-input-wrapper { display: flex; gap: 10px; }
+        .chat-input {
+            flex: 1; background: #0a0a0a; border: 1px solid var(--borda-glass);
+            border-radius: 4px; padding: 12px; color: white; font-family: inherit;
+        }
+
+        /* 3. ESPAÇO DO QUIZ (SISTEMA DE TRAVA) */
+        .quiz-bloqueado {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        .quiz-bloqueado i { font-size: 3.5rem; margin-bottom: 15px; color: #555; }
+
+        .quiz-desbloqueado { display: none; }
+        .quiz-pergunta { font-size: 1.2rem; font-weight: 600; margin-bottom: 25px; color: var(--bege); }
+        
+        .quiz-opcao {
+            background: #1f1f1f;
+            border: 1px solid var(--borda-glass);
+            border-radius: 6px;
+            padding: 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .quiz-opcao:hover { background: #2a2a2b; border-color: var(--azul-highlight); transform: scale(1.01); }
     </style>
 </head>
 <body>
 
     <header class="navbar">
-        <a href="area-aluno.html" class="logo-back">
-            <i class="fas fa-chevron-left"></i>
-            <img src="https://i.postimg.cc/NGQzKHsz/ibbra-academy2.png" alt="Ibbra Academy">
-            <span>Voltar ao Início</span>
-        </a>
-        <div class="user-status">
-            <span style="font-size: 0.8rem; opacity: 0.8;">Módulo 1: Fundamentos</span>
-        </div>
+        <a href="area-aluno.html" class="voltar"><i class="fas fa-arrow-left"></i> Voltar para as Trilhas</a>
+        <div class="logo-sala">Trilha 1 • Economia Consciente</div>
+        <div></div> 
     </header>
 
-    <main class="main-aula">
-        <section class="content-area">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-            </div>
-
-            <div class="aula-info">
-                <div class="aula-tags">
-                    <span class="tag">Pilar 1</span>
-                    <span class="tag">Intermediário</span>
-                </div>
-                <h1 class="aula-titulo">Gestão de Caixa e Liquidez</h1>
-                <p class="aula-desc">
-                    Nesta aula, exploramos a diferença entre lucro e caixa, e como as maiores holdings familiares estruturam suas reservas para aproveitar oportunidades em momentos de crise. Entenda os conceitos de liquidez imediata vs. estratégica.
-                </p>
-
-                <div class="materiais-box">
-                    <h4 style="margin-bottom: 15px;"><i class="fas fa-paperclip"></i> Materiais de Apoio</h4>
-                    <a href="#" class="material-item">
-                        <span>Planilha de Fluxo de Caixa VIP.xlsx</span>
-                        <i class="fas fa-download"></i>
-                    </a>
-                    <a href="#" class="material-item">
-                        <span>Guia de Alocação de Liquidez.pdf</span>
-                        <i class="fas fa-download"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <aside class="sidebar-playlist">
-            <h4 class="sidebar-titulo"><i class="fas fa-list-ul"></i> Conteúdo do Curso</h4>
+    <main class="cinema-container">
+        
+        <div class="video-player-wrapper">
+            <i class="fas fa-play-circle"></i>
+            <p class="video-title">Módulo 1: Montando o Fluxo de Caixa Operacional Patrimonial</p>
             
-            <div class="item-aula active">
-                <div class="thumb-min"><i class="fas fa-play"></i></div>
-                <div class="aula-meta">
-                    <h5>1. Introdução ao Pilar 1</h5>
-                    <span>12:45</span>
+            <button class="simular-video-btn" onclick="desbloquearQuiz()">
+                <i class="fas fa-forward"></i> Simular Fim do Vídeo
+            </button>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs-menu">
+                <button class="tab-btn active" onclick="alterarAba(event, 'anotacoes')">
+                    <i class="fas fa-edit"></i> Minhas Anotações
+                </button>
+                <button class="tab-btn" onclick="alterarAba(event, 'duvidas')">
+                    <i class="fas fa-comments"></i> Central de Dúvidas
+                </button>
+                <button class="tab-btn" id="menu-quiz-aba" onclick="alterarAba(event, 'quiz')">
+                    <i class="fas fa-lock" id="icone-trava-quiz"></i> Quiz de Fixação
+                </button>
+            </div>
+
+            <div id="anotacoes" class="tab-content active">
+                <textarea class="anotacoes-textarea" id="campo-anotacoes" placeholder="Suas anotações ficam salvas aqui. Digite seus insights importantes sobre a aula patrimonial..."></textarea>
+                <button class="btn-acao" onclick="alert('Anotações salvas com sucesso no seu painel!')">Salvar Bloco de Notas</button>
+            </div>
+
+            <div id="duvidas" class="tab-content">
+                <div class="duvidas-header">
+                    <p style="color: var(--bege); font-size: 0.95rem;">Suporte direto via Especialistas CFP® da Ibbra</p>
+                    
+                    <button class="btn-download-conversa" onclick="fazerDownloadConversa()">
+                        <i class="fas fa-cloud-download-alt"></i> Baixar Conversa Inteira (.txt)
+                    </button>
+                </div>
+
+                <div class="chat-container" id="janela-chat">
+                    <div class="chat-message suporte">
+                        <span class="autor">Consultor Ibbra:</span> Olá! Deixe aqui sua dúvida sobre a estrutura orçamentária da aula que responderemos em instantes.
+                    </div>
+                    <div class="chat-message aluno">
+                        <span class="autor">Você (Aluno):</span> Para calcular o fluxo de caixa operacional, eu devo considerar o rendimento líquido dos fundos exclusivos ou reaplicar direto?
+                    </div>
+                </div>
+
+                <div class="chat-input-wrapper">
+                    <input type="text" class="chat-input" id="mensagem-chat" placeholder="Escreva sua dúvida técnica...">
+                    <button class="btn-acao" onclick="adicionarMensagemChat()">Enviar</button>
                 </div>
             </div>
 
-            <div class="item-aula">
-                <div class="thumb-min"><i class="fas fa-play"></i></div>
-                <div class="aula-meta">
-                    <h5>2. Fluxo de Caixa Familiar</h5>
-                    <span>24:10</span>
+            <div id="quiz" class="tab-content">
+                <div class="quiz-bloqueado" id="tela-quiz-travada">
+                    <i class="fas fa-lock"></i>
+                    <h3>Quiz Bloqueado</h3>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #888;">Por motivos pedagógicos, você precisa concluir o vídeo da aula acima para liberar o Quiz e ganhar seus pontos na plataforma.</p>
                 </div>
-            </div>
 
-            <div class="item-aula">
-                <div class="thumb-min"><i class="fas fa-lock"></i></div>
-                <div class="aula-meta">
-                    <h5>3. Blindagem de Reservas</h5>
-                    <span>Próxima aula</span>
+                <div class="quiz-desbloqueado" id="tela-quiz-liberada">
+                    <p class="quiz-pergunta">1. Qual o foco principal da abordagem de Orçamento Fiduciário na Ibbra Academy?</p>
+                    
+                    <div class="quiz-opcao" onclick="alert('Opção Errada. O foco fiduciário elimina taxas embutidas.')">
+                        <input type="radio" name="pergunta1"> <span>A) Maximizar a compra de produtos bancários tradicionais para bater metas.</span>
+                    </div>
+                    
+                    <div class="quiz-opcao" onclick="alert('Excelente! Você domina o conceito Ibbra.')">
+                        <input type="radio" name="pergunta1"> <span>B) Identificar e mitigar gargalos fiscais, reduzindo o custo de carregamento do patrimônio familiar.</span>
+                    </div>
+                    
+                    <div class="quiz-opcao" onclick="alert('Opção Errada. O orçamento visa sustentabilidade e herança.')">
+                        <input type="radio" name="pergunta1"> <span>C) Cortar 100% dos investimentos em renda variável para travar em poupança comum.</span>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="item-aula">
-                <div class="thumb-min"><i class="fas fa-lock"></i></div>
-                <div class="aula-meta">
-                    <h5>4. Quiz de Certificação</h5>
-                    <span>Exame</span>
-                </div>
-            </div>
-        </aside>
     </main>
 
+    <script>
+        // Troca de Abas Tradicional
+        function alterarAba(event, nomeAba) {
+            document.querySelectorAll('.tab-content').forEach(conteudo => conteudo.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(botao => botao.classList.remove('active'));
+            
+            document.getElementById(nomeAba).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Adiciona mensagens no painel de dúvidas
+        function adicionarMensagemChat() {
+            const input = document.getElementById('mensagem-chat');
+            if (input.value.trim() !== "") {
+                const painelChat = document.getElementById('janela-chat');
+                painelChat.innerHTML += `<div class="chat-message aluno"><span class="autor">Você (Aluno):</span> ${input.value}</div>`;
+                input.value = "";
+                painelChat.scrollTop = painelChat.scrollHeight; // Rola o chat para baixo
+            }
+        }
+
+        // LÓGICA PEDIDADA: Download da conversa inteira do Chat em .txt
+        function fazerDownloadConversa() {
+            const boxChat = document.getElementById('janela-chat');
+            const textoLimpo = boxChat.innerText; // Captura todas as mensagens em texto limpo
+            
+            // Cria o arquivo invisível de download
+            const blob = new Blob([textoLimpo], { type: "text/plain;charset=utf-8" });
+            const linkDownload = document.createElement("a");
+            linkDownload.href = URL.createObjectURL(blob);
+            linkDownload.download = "historico_duvidas_aula_ibbra.txt";
+            linkDownload.click(); // Dispara o clique de download
+        }
+
+        // LÓGICA PEDIDADA: Desbloquear o Quiz quando o vídeo acaba
+        function desbloquearQuiz() {
+            // Esconde aviso de bloqueado e mostra o Quiz real
+            document.getElementById('tela-quiz-travada').style.display = 'none';
+            document.getElementById('tela-quiz-liberada').style.display = 'block';
+            
+            // Transforma o visual do cadeado em um Check verde de sucesso
+            const icone = document.getElementById('icone-trava-quiz');
+            icone.classList.remove('fa-lock');
+            icone.classList.add('fa-check-circle');
+            icone.style.color = '#00a86b';
+            
+            alert('Parabéns! Aula concluída. O Quiz de fixação está liberado para você!');
+        }
+    </script>
 </body>
 </html>
